@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/ip-location-time-zone-structure.json",
+  "name": "TimeZone",
+  "description": "Timezone information for the geographic location of the IP.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "IANA timezone identifier.",
+      "example": "Europe/Stockholm"
+    },
+    "offset": {
+      "type": "float",
+      "description": "UTC offset in hours (without DST).",
+      "example": 1
+    },
+    "offset_with_dst": {
+      "type": "float",
+      "description": "Current UTC offset in hours, accounting for DST if active. Same as\n`offset` when DST is not in effect.\n",
+      "example": 1
+    },
+    "current_time": {
+      "type": "string",
+      "description": "Current local time at the IP's location. Observed formats include\n`YYYY-MM-DDTHH:mm:ss\u00b1ZZZZ` and `YYYY-MM-DD HH:mm:ss.SSS\u00b1ZZZZ`.\n",
+      "example": "2026-02-13 09:19:24.410+0100"
+    },
+    "current_time_unix": {
+      "type": "float",
+      "description": "Current time as a Unix timestamp with millisecond precision.",
+      "example": 1770970764.41
+    },
+    "current_tz_abbreviation": {
+      "type": "string",
+      "description": "Abbreviation of the timezone currently in effect (may be standard or DST).\n",
+      "example": "CET"
+    },
+    "current_tz_full_name": {
+      "type": "string",
+      "description": "Full name of the timezone currently in effect.",
+      "example": "Central European Standard Time"
+    },
+    "standard_tz_abbreviation": {
+      "type": "string",
+      "description": "Abbreviation of the standard (non-DST) timezone.",
+      "example": "CET"
+    },
+    "standard_tz_full_name": {
+      "type": "string",
+      "description": "Full name of the standard (non-DST) timezone.",
+      "example": "Central European Standard Time"
+    },
+    "is_dst": {
+      "type": "boolean",
+      "description": "Whether Daylight Saving Time is currently active.",
+      "example": false
+    },
+    "dst_savings": {
+      "type": "float",
+      "description": "DST offset in hours applied on top of the standard offset when DST is\nactive. `0` means no DST shift (either DST is not active or does not exist).\n",
+      "example": 0
+    },
+    "dst_exists": {
+      "type": "boolean",
+      "description": "Whether this timezone observes Daylight Saving Time at all.",
+      "example": true
+    },
+    "dst_tz_abbreviation": {
+      "type": "string",
+      "description": "Abbreviation of the DST timezone. Empty string if DST is not observed.\n",
+      "example": "CEST"
+    },
+    "dst_tz_full_name": {
+      "type": "string",
+      "description": "Full name of the DST timezone. Empty string if DST is not observed.\n",
+      "example": "Central European Summer Time"
+    },
+    "dst_start": {
+      "description": "Start DST transition details. When `dst_exists` is `false`, this is\nreturned as an empty object with no properties.\n",
+      "oneOf": [
+        {
+          "type": "object",
+          "description": "Details about a DST transition (start or end). Only present when `dst_exists`\nis `true`. When `dst_exists` is `false`, `dst_start` and `dst_end` are\nreturned as empty objects with no properties.\n",
+          "properties": {
+            "utc_time": {
+              "type": "string",
+              "description": "UTC time of the transition, formatted as `YYYY-MM-DD TIME HH:mm`.",
+              "example": "2026-03-29 TIME 01:00"
+            },
+            "duration": {
+              "type": "string",
+              "description": "Clock shift direction and amount (e.g. `+1.00H` for spring forward,\n`-1.00H` for fall back).\n",
+              "example": "+1.00H"
+            },
+            "gap": {
+              "type": "boolean",
+              "description": "Whether this transition creates a gap in local time (clocks jump forward).\n`true` for DST start, `false` for DST end.\n",
+              "example": true
+            },
+            "date_time_after": {
+              "type": "string",
+              "description": "Local time immediately after the transition.",
+              "example": "2026-03-29 TIME 03:00"
+            },
+            "date_time_before": {
+              "type": "string",
+              "description": "Local time immediately before the transition.",
+              "example": "2026-03-29 TIME 02:00"
+            },
+            "overlap": {
+              "type": "boolean",
+              "description": "Whether this transition creates an overlap in local time (clocks fall back,\nso the same local time occurs twice). `true` for DST end, `false` for DST\nstart.\n",
+              "example": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "maxProperties": 0
+        }
+      ]
+    },
+    "dst_end": {
+      "description": "End DST transition details. When `dst_exists` is `false`, this is\nreturned as an empty object with no properties.\n",
+      "oneOf": [
+        {
+          "type": "object",
+          "description": "Details about a DST transition (start or end). Only present when `dst_exists`\nis `true`. When `dst_exists` is `false`, `dst_start` and `dst_end` are\nreturned as empty objects with no properties.\n",
+          "properties": {
+            "utc_time": {
+              "type": "string",
+              "description": "UTC time of the transition, formatted as `YYYY-MM-DD TIME HH:mm`.",
+              "example": "2026-03-29 TIME 01:00"
+            },
+            "duration": {
+              "type": "string",
+              "description": "Clock shift direction and amount (e.g. `+1.00H` for spring forward,\n`-1.00H` for fall back).\n",
+              "example": "+1.00H"
+            },
+            "gap": {
+              "type": "boolean",
+              "description": "Whether this transition creates a gap in local time (clocks jump forward).\n`true` for DST start, `false` for DST end.\n",
+              "example": true
+            },
+            "date_time_after": {
+              "type": "string",
+              "description": "Local time immediately after the transition.",
+              "example": "2026-03-29 TIME 03:00"
+            },
+            "date_time_before": {
+              "type": "string",
+              "description": "Local time immediately before the transition.",
+              "example": "2026-03-29 TIME 02:00"
+            },
+            "overlap": {
+              "type": "boolean",
+              "description": "Whether this transition creates an overlap in local time (clocks fall back,\nso the same local time occurs twice). `true` for DST end, `false` for DST\nstart.\n",
+              "example": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "maxProperties": 0
+        }
+      ]
+    }
+  }
+}

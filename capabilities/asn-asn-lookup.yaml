@@ -1,0 +1,115 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IPGeolocation.io — ASN Lookup
+  description: 'IPGeolocation.io ASN Lookup. 1 operation. Lead operation: ASN lookup. Self-contained Naftiko capability covering one IPGeolocation.io business surface.'
+  tags:
+  - IPGeolocation
+  - IP Intelligence
+  - ASN Lookup
+  created: '2026-05-29'
+  modified: '2026-05-29'
+binds:
+- namespace: env
+  keys:
+    IPGEOLOCATION_API_KEY: IPGEOLOCATION_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: asn-asn-lookup
+    baseUri: https://api.ipgeolocation.io
+    description: IPGeolocation.io — ASN Lookup business capability. Self-contained, no shared references.
+    authentication:
+      type: apikey
+      key: apiKey
+      value: '{{env.IPGEOLOCATION_API_KEY}}'
+      placement: query
+    resources:
+    - name: asn
+      path: /v3/asn
+      operations:
+      - name: lookupASN
+        method: GET
+        description: ASN lookup
+        inputParameters:
+        - name: ip
+          in: query
+          type: string
+          required: false
+          description: An IPv4 address or IPv6 address to look up. When omitted, the API
+        - name: asn
+          in: query
+          type: string
+          required: false
+          description: An Autonomous System Number (ASN) to look up.
+        - name: include
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of optional data modules to add to the response. These are
+        - name: fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of fields or objects to return. Everything else is omitted.
+        - name: excludes
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of fields or objects to remove from the response.
+        - name: output
+          in: query
+          type: string
+          required: false
+          description: Desired response format. Defaults to `json` if not specified. You can also
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: asn-asn-lookup-rest
+    port: 8080
+    description: REST adapter for IPGeolocation.io — ASN Lookup. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/asn
+      name: asn
+      description: REST surface for /v3/asn.
+      operations:
+      - method: GET
+        name: lookupASN
+        description: ASN lookup
+        call: asn-asn-lookup.lookupASN
+        with:
+          ip: rest.ip
+          asn: rest.asn
+          include: rest.include
+          fields: rest.fields
+          excludes: rest.excludes
+          output: rest.output
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: asn-asn-lookup-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for IPGeolocation.io — ASN Lookup. One tool per consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: asn-lookup
+      description: ASN lookup
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: asn-asn-lookup.lookupASN
+      with:
+        ip: tools.ip
+        asn: tools.asn
+        include: tools.include
+        fields: tools.fields
+        excludes: tools.excludes
+        output: tools.output
+      outputParameters:
+      - type: object
+        mapping: $.

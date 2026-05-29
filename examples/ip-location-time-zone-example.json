@@ -1,0 +1,18 @@
+{
+  "name": "Europe/Stockholm",
+  "offset": 1,
+  "offset_with_dst": 1,
+  "current_time": "2026-02-13 09:19:24.410+0100",
+  "current_time_unix": 1770970764.41,
+  "current_tz_abbreviation": "CET",
+  "current_tz_full_name": "Central European Standard Time",
+  "standard_tz_abbreviation": "CET",
+  "standard_tz_full_name": "Central European Standard Time",
+  "is_dst": false,
+  "dst_savings": 0,
+  "dst_exists": true,
+  "dst_tz_abbreviation": "CEST",
+  "dst_tz_full_name": "Central European Summer Time",
+  "dst_start": "sample-string",
+  "dst_end": "sample-string"
+}

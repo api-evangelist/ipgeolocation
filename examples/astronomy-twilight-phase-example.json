@@ -1,0 +1,12 @@
+{
+  "astronomical_twilight_begin": "04:49",
+  "astronomical_twilight_end": "05:21",
+  "nautical_twilight_begin": "05:21",
+  "nautical_twilight_end": "05:53",
+  "civil_twilight_begin": "05:53",
+  "civil_twilight_end": "06:20",
+  "blue_hour_begin": "05:42",
+  "blue_hour_end": "06:03",
+  "golden_hour_begin": "06:03",
+  "golden_hour_end": "06:57"
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/timezone-dsttransition-structure.json",
+  "name": "DSTTransition",
+  "description": "Represents a daylight saving time transition event including the\nmoment when DST begins or ends.\n",
+  "type": "object",
+  "properties": {
+    "utc_time": {
+      "type": "string",
+      "description": "UTC timestamp when the DST transition occurs.",
+      "example": "2025-03-09 TIME 10"
+    },
+    "duration": {
+      "type": "string",
+      "description": "Time change applied during the transition.",
+      "example": "+1H"
+    },
+    "gap": {
+      "type": "boolean",
+      "description": "Indicates whether an hour is skipped during the transition."
+    },
+    "date_time_after": {
+      "type": "string",
+      "description": "Local date and time immediately after the DST change.",
+      "example": "2025-03-09 TIME 03"
+    },
+    "date_time_before": {
+      "type": "string",
+      "description": "Local date and time immediately before the DST change.",
+      "example": "2025-03-09 TIME 02"
+    },
+    "overlap": {
+      "type": "boolean",
+      "description": "Indicates whether clock time overlaps during the transition."
+    }
+  }
+}

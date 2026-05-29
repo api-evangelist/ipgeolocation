@@ -1,0 +1,110 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ipgeo": "https://ipgeolocation.io/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "BulkSecurityErrorItem": "ipgeo:BulkSecurityErrorItem",
+    "BulkSecurityRequest": "ipgeo:BulkSecurityRequest",
+    "BulkSecurityResponseItem": "ipgeo:BulkSecurityResponseItem",
+    "BulkSecuritySuccessItem": "ipgeo:BulkSecuritySuccessItem",
+    "IpSecurityResponse": "ipgeo:IpSecurityResponse",
+    "Security": "ipgeo:Security",
+    "cloud_provider_name": {
+      "@id": "ipgeo:cloud_provider_name",
+      "@type": "xsd:string"
+    },
+    "ip": {
+      "@id": "ipgeo:ip",
+      "@type": "xsd:string"
+    },
+    "ips": {
+      "@id": "ipgeo:ips",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "is_anonymous": {
+      "@id": "ipgeo:is_anonymous",
+      "@type": "xsd:boolean"
+    },
+    "is_bot": {
+      "@id": "ipgeo:is_bot",
+      "@type": "xsd:boolean"
+    },
+    "is_cloud_provider": {
+      "@id": "ipgeo:is_cloud_provider",
+      "@type": "xsd:boolean"
+    },
+    "is_known_attacker": {
+      "@id": "ipgeo:is_known_attacker",
+      "@type": "xsd:boolean"
+    },
+    "is_proxy": {
+      "@id": "ipgeo:is_proxy",
+      "@type": "xsd:boolean"
+    },
+    "is_relay": {
+      "@id": "ipgeo:is_relay",
+      "@type": "xsd:boolean"
+    },
+    "is_residential_proxy": {
+      "@id": "ipgeo:is_residential_proxy",
+      "@type": "xsd:boolean"
+    },
+    "is_spam": {
+      "@id": "ipgeo:is_spam",
+      "@type": "xsd:boolean"
+    },
+    "is_tor": {
+      "@id": "ipgeo:is_tor",
+      "@type": "xsd:boolean"
+    },
+    "is_vpn": {
+      "@id": "ipgeo:is_vpn",
+      "@type": "xsd:boolean"
+    },
+    "message": {
+      "@id": "ipgeo:message",
+      "@type": "xsd:string"
+    },
+    "proxy_confidence_score": {
+      "@id": "ipgeo:proxy_confidence_score",
+      "@type": "xsd:decimal"
+    },
+    "proxy_last_seen": {
+      "@id": "ipgeo:proxy_last_seen",
+      "@type": "xsd:string"
+    },
+    "proxy_provider_names": {
+      "@id": "ipgeo:proxy_provider_names",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "relay_provider_name": {
+      "@id": "ipgeo:relay_provider_name",
+      "@type": "xsd:string"
+    },
+    "security": {
+      "@id": "ipgeo:security",
+      "@type": "@id"
+    },
+    "threat_score": {
+      "@id": "ipgeo:threat_score",
+      "@type": "xsd:decimal"
+    },
+    "vpn_confidence_score": {
+      "@id": "ipgeo:vpn_confidence_score",
+      "@type": "xsd:decimal"
+    },
+    "vpn_last_seen": {
+      "@id": "ipgeo:vpn_last_seen",
+      "@type": "xsd:string"
+    },
+    "vpn_provider_names": {
+      "@id": "ipgeo:vpn_provider_names",
+      "@container": "@set",
+      "@type": "xsd:string"
+    }
+  }
+}

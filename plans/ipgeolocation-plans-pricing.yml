@@ -1,0 +1,295 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: IPGeolocation.io
+providerId: ipgeolocation
+created: '2026-05-29'
+modified: '2026-05-29'
+reconciled: true
+tags:
+  - IP Geolocation
+  - IP Intelligence
+  - Threat Intelligence
+  - Geocoding
+  - Tiered Subscription
+description: >-
+  IPGeolocation.io uses a tiered monthly subscription model with seven
+  published tiers (Free, Starter, Plus, Pro, Business, Premium, Enterprise)
+  plus separate "Get a Quote" database (MMDB) plans (Geo Standard, Geo
+  Advance, Security Pro). API tiers are scoped by monthly request quota with
+  per-block overage pricing; paid tiers do not enforce per-second, per-minute,
+  per-hour, or per-day limits. Annual billing yields approximately two
+  months free across all paid API tiers. Quotas are shared across all seven
+  products (IP Geolocation, IP Security, ASN, Abuse, Timezone, Astronomy,
+  User Agent) — every API call against any endpoint consumes one credit.
+sources:
+  - https://ipgeolocation.io/pricing.html
+  - https://ipgeolocation.io/db-pricing.html
+  - https://ipgeolocation.io/documentation
+plans:
+  - id: ipgeolocation-free
+    name: Free
+    type: freemium
+    description: 1,000 credits per day, lifetime — for evaluation and hobby use.
+    entries:
+      - label: Daily API credits (free tier)
+        name: api_credits_free
+        type: quota
+        metric: request
+        limit: 1000
+        timeFrame: day
+        geo: global
+        unit: 1
+        price: '$0'
+        userMultiplied: false
+    elements:
+      - name: All 7 APIs (IP Geolocation, Security, ASN, Abuse, Timezone, Astronomy, User Agent)
+      - name: HTTPS endpoints
+      - name: Country, region, city, latitude/longitude
+      - name: Currency, timezone basics
+      - name: ASN lookup
+      - name: No bulk endpoints
+      - name: No overages (hard cap)
+  - id: ipgeolocation-starter
+    name: Starter
+    type: subscription
+    description: 150,000 requests/month with overage and full feature set.
+    entries:
+      - label: Monthly API requests (Starter)
+        name: api_requests_starter
+        type: subscription
+        metric: request
+        limit: 150000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$19/month (or $190/year — ~$16/month effective)'
+        userMultiplied: false
+      - label: Overage block (Starter)
+        name: overage_starter
+        type: metered
+        metric: request
+        limit: 25000
+        timeFrame: month
+        geo: global
+        unit: 25000
+        price: '$5 per 25,000 requests'
+        userMultiplied: false
+    elements:
+      - name: All 7 APIs
+      - name: Bulk endpoints (IP, Security, User Agent)
+      - name: Domain and hostname lookup
+      - name: Company data
+      - name: Security signals (VPN/proxy/Tor/threat)
+      - name: Abuse contact data
+      - name: No per-minute / per-hour / per-day limits
+  - id: ipgeolocation-plus
+    name: Plus
+    type: subscription
+    description: 500,000 requests/month — most-popular tier.
+    entries:
+      - label: Monthly API requests (Plus)
+        name: api_requests_plus
+        type: subscription
+        metric: request
+        limit: 500000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$49/month (or $490/year — ~$41/month effective)'
+        userMultiplied: false
+      - label: Overage block (Plus)
+        name: overage_plus
+        type: metered
+        metric: request
+        limit: 40000
+        timeFrame: month
+        geo: global
+        unit: 40000
+        price: '$5 per 40,000 requests'
+        userMultiplied: false
+    elements:
+      - name: Full feature set (all 7 APIs, bulk, security, abuse)
+  - id: ipgeolocation-pro
+    name: Pro
+    type: subscription
+    description: 1,000,000 requests/month.
+    entries:
+      - label: Monthly API requests (Pro)
+        name: api_requests_pro
+        type: subscription
+        metric: request
+        limit: 1000000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$79/month (or $790/year — ~$66/month effective)'
+        userMultiplied: false
+      - label: Overage block (Pro)
+        name: overage_pro
+        type: metered
+        metric: request
+        limit: 50000
+        timeFrame: month
+        geo: global
+        unit: 50000
+        price: '$5 per 50,000 requests'
+        userMultiplied: false
+    elements:
+      - name: Full feature set
+  - id: ipgeolocation-business
+    name: Business
+    type: subscription
+    description: 2,000,000 requests/month.
+    entries:
+      - label: Monthly API requests (Business)
+        name: api_requests_business
+        type: subscription
+        metric: request
+        limit: 2000000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$129/month (or $1,290/year — ~$108/month effective)'
+        userMultiplied: false
+      - label: Overage block (Business)
+        name: overage_business
+        type: metered
+        metric: request
+        limit: 65000
+        timeFrame: month
+        geo: global
+        unit: 65000
+        price: '$5 per 65,000 requests'
+        userMultiplied: false
+    elements:
+      - name: Full feature set
+  - id: ipgeolocation-premium
+    name: Premium
+    type: subscription
+    description: 5,000,000 requests/month.
+    entries:
+      - label: Monthly API requests (Premium)
+        name: api_requests_premium
+        type: subscription
+        metric: request
+        limit: 5000000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$249/month (or $2,490/year — ~$208/month effective)'
+        userMultiplied: false
+      - label: Overage block (Premium)
+        name: overage_premium
+        type: metered
+        metric: request
+        limit: 85000
+        timeFrame: month
+        geo: global
+        unit: 85000
+        price: '$5 per 85,000 requests'
+        userMultiplied: false
+    elements:
+      - name: Full feature set
+  - id: ipgeolocation-enterprise
+    name: Enterprise
+    type: enterprise
+    description: Custom volume, SLA, and overage terms — contact sales.
+    entries:
+      - label: Monthly API requests (Enterprise)
+        name: api_requests_enterprise
+        type: subscription
+        metric: request
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: 'custom'
+        userMultiplied: false
+      - label: Custom overage
+        name: overage_enterprise
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: 'custom'
+        userMultiplied: false
+    elements:
+      - name: Custom volume and SLA
+      - name: Dedicated account manager
+      - name: Premium support
+  - id: ipgeolocation-geo-standard-db
+    name: Geo Standard (MMDB Database)
+    type: enterprise
+    description: >-
+      Downloadable MMDB database for IP-to-Country, City, and ISP lookups.
+      Custom-quote pricing with personalized onboarding and a 99.99% uptime
+      SLA on the download surface.
+    entries:
+      - label: Geo Standard MMDB licence
+        name: mmdb_geo_standard
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: 'custom / get a quote'
+        userMultiplied: false
+    elements:
+      - name: IP to Country / City / ISP MMDB
+      - name: Geo Standard Bundle I (City + ISP)
+      - name: 99.99% uptime SLA
+      - name: Personalized onboarding
+      - name: Email support
+  - id: ipgeolocation-geo-advance-db
+    name: Geo Advance (MMDB Database)
+    type: enterprise
+    description: >-
+      Downloadable MMDB databases covering City, ASN, Company, Whois, and
+      Abuse Contact with multi-bundle composition and a dedicated account
+      manager.
+    entries:
+      - label: Geo Advance MMDB licence
+        name: mmdb_geo_advance
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: 'custom / get a quote'
+        userMultiplied: false
+    elements:
+      - name: All dataset options — City, ASN, Company, Whois, Abuse Contact
+      - name: Multi-dataset bundles
+      - name: Domain lists, DNS records, hosted domains
+      - name: Dedicated account manager
+      - name: 99.99% uptime SLA
+      - name: Personalized onboarding
+  - id: ipgeolocation-security-pro-db
+    name: Security Pro (MMDB Database)
+    type: enterprise
+    description: >-
+      Threat-intelligence MMDB databases — VPN/proxy/Tor/bot detection,
+      residential proxies, and hosting identification.
+    entries:
+      - label: Security Pro MMDB licence
+        name: mmdb_security_pro
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: 'custom / get a quote'
+        userMultiplied: false
+    elements:
+      - name: VPN / Proxy / Tor / Bot detection MMDB
+      - name: Residential proxy detection
+      - name: IP hosting identification
+      - name: Three security bundles with geolocation combinations
+      - name: Dedicated account manager
+      - name: 99.99% uptime SLA

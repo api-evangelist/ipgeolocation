@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/astronomy-astronomy-time-series-entry-structure.json",
+  "name": "AstronomyTimeSeriesEntry",
+  "description": "Astronomical data for a single calendar day within the time series\nresponse.\n\nContains event times for sunrise, sunset, moonrise, moonset,\ntwilight phases, solar noon, and day length.\n\nNote: Real-time positional data (sun/moon altitude, azimuth,\ndistance, parallactic angle, illumination percentage, and moon\nangle) is not included in time series entries.\n",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "description": "The calendar date for this entry, in `yyyy-MM-dd` format.",
+      "example": "2026-03-18"
+    },
+    "mid_night": {
+      "type": "string",
+      "description": "Astronomical midnight (nadir) for the given date.",
+      "example": "00:06"
+    },
+    "night_end": {
+      "type": "string",
+      "description": "End of night / start of astronomical twilight in the morning.",
+      "example": "04:49"
+    },
+    "morning": {
+      "type": "object",
+      "description": "Twilight phase times for either the morning (pre-sunrise) or evening\n(post-sunset) period.\n\nIncludes astronomical, nautical, and civil twilight windows, as well\nas blue hour and golden hour windows commonly used in photography.\n\nAll times are in `HH:mm` format by default. When the `time_zone`\nparameter is provided, times are returned as full date-time values\nin `yyyy-MM-dd HH:mm` format.\n",
+      "properties": {
+        "astronomical_twilight_begin": {
+          "type": "string",
+          "description": "Start of astronomical twilight. In the morning, this marks the\nend of night; in the evening, this marks the start of night sky.\n",
+          "example": "04:49"
+        },
+        "astronomical_twilight_end": {
+          "type": "string",
+          "description": "End of astronomical twilight.",
+          "example": "05:21"
+        },
+        "nautical_twilight_begin": {
+          "type": "string",
+          "description": "Start of nautical twilight, when the horizon first becomes visible.\n",
+          "example": "05:21"
+        },
+        "nautical_twilight_end": {
+          "type": "string",
+          "description": "End of nautical twilight.",
+          "example": "05:53"
+        },
+        "civil_twilight_begin": {
+          "type": "string",
+          "description": "Start of civil twilight, when there is enough light for outdoor\nactivities without artificial lighting.\n",
+          "example": "05:53"
+        },
+        "civil_twilight_end": {
+          "type": "string",
+          "description": "End of civil twilight.",
+          "example": "06:20"
+        },
+        "blue_hour_begin": {
+          "type": "string",
+          "description": "Start of the blue hour, a period of soft diffused light with a\nblue color tone.\n",
+          "example": "05:42"
+        },
+        "blue_hour_end": {
+          "type": "string",
+          "description": "End of the blue hour.",
+          "example": "06:03"
+        },
+        "golden_hour_begin": {
+          "type": "string",
+          "description": "Start of the golden hour, a period of warm low-angle light\nfavored by photographers.\n",
+          "example": "06:03"
+        },
+        "golden_hour_end": {
+          "type": "string",
+          "description": "End of the golden hour.",
+          "example": "06:57"
+        }
+      }
+    },
+    "sunrise": {
+      "type": "string",
+      "description": "Time at which the sun rises, in `HH:mm` format. Returns `\"-:-\"`\nif the sun does not rise on this date.\n",
+      "example": "06:20"
+    },
+    "sunset": {
+      "type": "string",
+      "description": "Time at which the sun sets, in `HH:mm` format. Returns `\"-:-\"`\nif the sun does not set on this date.\n",
+      "example": "19:00"
+    },
+    "evening": {
+      "type": "object",
+      "description": "Twilight phase times for either the morning (pre-sunrise) or evening\n(post-sunset) period.\n\nIncludes astronomical, nautical, and civil twilight windows, as well\nas blue hour and golden hour windows commonly used in photography.\n\nAll times are in `HH:mm` format by default. When the `time_zone`\nparameter is provided, times are returned as full date-time values\nin `yyyy-MM-dd HH:mm` format.\n",
+      "properties": {
+        "astronomical_twilight_begin": {
+          "type": "string",
+          "description": "Start of astronomical twilight. In the morning, this marks the\nend of night; in the evening, this marks the start of night sky.\n",
+          "example": "04:49"
+        },
+        "astronomical_twilight_end": {
+          "type": "string",
+          "description": "End of astronomical twilight.",
+          "example": "05:21"
+        },
+        "nautical_twilight_begin": {
+          "type": "string",
+          "description": "Start of nautical twilight, when the horizon first becomes visible.\n",
+          "example": "05:21"
+        },
+        "nautical_twilight_end": {
+          "type": "string",
+          "description": "End of nautical twilight.",
+          "example": "05:53"
+        },
+        "civil_twilight_begin": {
+          "type": "string",
+          "description": "Start of civil twilight, when there is enough light for outdoor\nactivities without artificial lighting.\n",
+          "example": "05:53"
+        },
+        "civil_twilight_end": {
+          "type": "string",
+          "description": "End of civil twilight.",
+          "example": "06:20"
+        },
+        "blue_hour_begin": {
+          "type": "string",
+          "description": "Start of the blue hour, a period of soft diffused light with a\nblue color tone.\n",
+          "example": "05:42"
+        },
+        "blue_hour_end": {
+          "type": "string",
+          "description": "End of the blue hour.",
+          "example": "06:03"
+        },
+        "golden_hour_begin": {
+          "type": "string",
+          "description": "Start of the golden hour, a period of warm low-angle light\nfavored by photographers.\n",
+          "example": "06:03"
+        },
+        "golden_hour_end": {
+          "type": "string",
+          "description": "End of the golden hour.",
+          "example": "06:57"
+        }
+      }
+    },
+    "night_begin": {
+      "type": "string",
+      "description": "Start of night / end of astronomical twilight in the evening.",
+      "example": "20:31"
+    },
+    "sun_status": {
+      "type": "string",
+      "description": "Current state of the sun relative to the horizon. See\n`AstronomyData.sun_status` for possible values.\n",
+      "example": "-"
+    },
+    "solar_noon": {
+      "type": "string",
+      "description": "Time when the sun is at its highest point in the sky.",
+      "example": "12:40"
+    },
+    "day_length": {
+      "type": "string",
+      "description": "Total daylight duration from sunrise to sunset, in `HH:mm` format.",
+      "example": "12:40"
+    },
+    "moon_phase": {
+      "type": "string",
+      "description": "The phase of the moon on this date.",
+      "enum": [
+        "NEW_MOON",
+        "WAXING_CRESCENT",
+        "FIRST_QUARTER",
+        "WAXING_GIBBOUS",
+        "FULL_MOON",
+        "WANING_GIBBOUS",
+        "LAST_QUARTER",
+        "WANING_CRESCENT"
+      ],
+      "example": "WAXING_CRESCENT"
+    },
+    "moonrise": {
+      "type": "string",
+      "description": "Time at which the moon rises, in `HH:mm` format. Returns `\"-:-\"`\nif the moon does not rise on this date.\n",
+      "example": "08:45"
+    },
+    "moonset": {
+      "type": "string",
+      "description": "Time at which the moon sets, in `HH:mm` format. Returns `\"-:-\"`\nif the moon does not set on this date.\n",
+      "example": "22:10"
+    },
+    "moon_status": {
+      "type": "string",
+      "description": "Current state of the moon relative to the horizon. See\n`AstronomyData.moon_status` for possible values.\n",
+      "example": "-"
+    }
+  }
+}

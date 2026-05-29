@@ -1,0 +1,26 @@
+{
+  "user_agent_string": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9",
+  "name": "Safari",
+  "type": "Browser",
+  "version": "9.0.2",
+  "version_major": "9",
+  "device": {
+    "name": "Apple Macintosh",
+    "type": "Desktop",
+    "brand": "Apple",
+    "cpu": "Intel"
+  },
+  "engine": {
+    "name": "AppleWebKit",
+    "type": "Browser",
+    "version": "601.3.9",
+    "version_major": "601"
+  },
+  "operating_system": {
+    "name": "Mac OS",
+    "type": "Desktop",
+    "version": "10.11.2",
+    "version_major": "10.11",
+    "build": "??"
+  }
+}

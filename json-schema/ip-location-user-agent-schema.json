@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/ip-location-user-agent-schema.json",
+  "title": "UserAgent",
+  "description": "Parsed User-Agent information. Only returned when `include=user_agent` or\n`include=*` is used. The API parses the `User-Agent` header from the request.\nFor server-side usage, forward your visitor's User-Agent string in the header.\n",
+  "type": "object",
+  "properties": {
+    "user_agent_string": {
+      "type": "string",
+      "description": "The raw User-Agent string that was parsed.",
+      "example": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"
+    },
+    "name": {
+      "type": "string",
+      "description": "Detected browser or client name.",
+      "example": "Edge"
+    },
+    "type": {
+      "type": "string",
+      "description": "Client type classification. Common values: `Browser`, `Robot`,\n`Mobile Browser`, `Library`.\n",
+      "example": "Browser"
+    },
+    "version": {
+      "type": "string",
+      "description": "Full version string of the detected client.",
+      "example": "143"
+    },
+    "version_major": {
+      "type": "string",
+      "description": "Major version number of the detected client.",
+      "example": "143"
+    },
+    "device": {
+      "type": "object",
+      "description": "Device information extracted from the User-Agent string.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Device name or model.",
+          "example": "Linux Desktop"
+        },
+        "type": {
+          "type": "string",
+          "description": "Device type. Common values: `Desktop`, `Smartphone`, `Tablet`, `Robot`,\n`Smart TV`.\n",
+          "example": "Desktop"
+        },
+        "brand": {
+          "type": "string",
+          "description": "Device manufacturer or brand. `Unknown` if not detectable.",
+          "example": "Unknown"
+        },
+        "cpu": {
+          "type": "string",
+          "description": "CPU architecture if detectable (e.g. `Intel x86_64`, `ARM`). `Unknown` otherwise.",
+          "example": "Intel x86_64"
+        }
+      }
+    },
+    "engine": {
+      "type": "object",
+      "description": "Rendering engine information extracted from the User-Agent string.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Engine name (e.g. `Blink`, `Gecko`, `WebKit`).",
+          "example": "Blink"
+        },
+        "type": {
+          "type": "string",
+          "description": "Engine classification. Typically matches the client type.",
+          "example": "Browser"
+        },
+        "version": {
+          "type": "string",
+          "description": "Full version of the rendering engine.",
+          "example": "143"
+        },
+        "version_major": {
+          "type": "string",
+          "description": "Major version of the rendering engine.",
+          "example": "143"
+        }
+      }
+    },
+    "operating_system": {
+      "type": "object",
+      "description": "Operating system information extracted from the User-Agent string.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "OS name (e.g. `Windows`, `macOS`, `Linux`, `Android`, `iOS`, `Cloud`).",
+          "example": "Linux"
+        },
+        "type": {
+          "type": "string",
+          "description": "OS type. Common values: `Desktop`, `Mobile`, `Tablet`, `Cloud`.\n",
+          "example": "Desktop"
+        },
+        "version": {
+          "type": "string",
+          "description": "OS version. `??` when the version cannot be determined.",
+          "example": "??"
+        },
+        "version_major": {
+          "type": "string",
+          "description": "OS major version. `??` when the version cannot be determined.",
+          "example": "??"
+        },
+        "build": {
+          "type": "string",
+          "description": "OS build number. `??` when the build cannot be determined.",
+          "example": "??"
+        }
+      }
+    }
+  }
+}

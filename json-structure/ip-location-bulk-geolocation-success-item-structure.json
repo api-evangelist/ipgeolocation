@@ -1,0 +1,735 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/ip-location-bulk-geolocation-success-item-structure.json",
+  "name": "BulkGeolocationSuccessItem",
+  "description": "BulkGeolocationSuccessItem schema from IPGeolocation.io: IPGeolocation API",
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "description": "The resolved IP address for this bulk entry. For direct IPv4/IPv6 input,\nthis matches the submitted value (normalized). For domain input, this is\nthe resolved A/AAAA IP.\n",
+      "example": "8.8.8.8"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Present only when the submitted `ips` entry was a domain name.\nContains the original domain input exactly as submitted.\n",
+      "example": "ipgeolocation.io"
+    },
+    "hostname": {
+      "type": "string",
+      "description": "Reverse-DNS hostname for the IP. Only present when one of the hostname\n`include` options is used.\n",
+      "example": "dns.google"
+    },
+    "location": {
+      "type": "object",
+      "description": "Geographic location data for the IP address.",
+      "properties": {
+        "continent_code": {
+          "type": "string",
+          "description": "Two-letter continent code (e.g. `EU`, `NA`, `AS`).",
+          "example": "EU"
+        },
+        "continent_name": {
+          "type": "string",
+          "description": "Full continent name.",
+          "example": "Europe"
+        },
+        "country_code2": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code.",
+          "example": "SE"
+        },
+        "country_code3": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-3 country code.",
+          "example": "SWE"
+        },
+        "country_name": {
+          "type": "string",
+          "description": "Common country name.",
+          "example": "Sweden"
+        },
+        "country_name_official": {
+          "type": "string",
+          "description": "Official country name as recognized by the UN.",
+          "example": "Kingdom of Sweden"
+        },
+        "country_capital": {
+          "type": "string",
+          "description": "Capital city of the country.",
+          "example": "Stockholm"
+        },
+        "state_prov": {
+          "type": "string",
+          "description": "State, province, or top-level administrative region.",
+          "example": "Stockholms l\u00e4n"
+        },
+        "state_code": {
+          "type": "string",
+          "description": "ISO 3166-2 state or province code.",
+          "example": "SE-AB"
+        },
+        "district": {
+          "type": "string",
+          "description": "District, county, or second-level administrative division.",
+          "example": "Stockholm"
+        },
+        "city": {
+          "type": "string",
+          "description": "City name.",
+          "example": "Stockholm"
+        },
+        "locality": {
+          "type": "string",
+          "description": "Locality or neighborhood. May be the same as `city`. Only present when\n`include=geo_accuracy` or `include=*` is used.\n",
+          "example": "Stockholm"
+        },
+        "accuracy_radius": {
+          "type": "string",
+          "description": "Estimated accuracy radius in kilometers around `latitude` and `longitude`.\nOnly present when `include=geo_accuracy` or `include=*` is used.\n",
+          "example": "4.395"
+        },
+        "confidence": {
+          "type": "string",
+          "description": "Confidence level for the accuracy radius. Possible values: `high`, `medium`,\n`low`. Only present when `include=geo_accuracy` or `include=*` is used.\n",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "example": "high"
+        },
+        "dma_code": {
+          "type": "string",
+          "description": "Nielsen Designated Market Area code. Only populated for US-based IPs.\nPresent when `include=dma_code` or `include=*` is used. Empty string for\nnon-US IPs.\n",
+          "example": "504"
+        },
+        "zipcode": {
+          "type": "string",
+          "description": "Postal or ZIP code.",
+          "example": "164 40"
+        },
+        "latitude": {
+          "type": "string",
+          "description": "Latitude in decimal degrees (WGS 84).",
+          "example": "59.40510"
+        },
+        "longitude": {
+          "type": "string",
+          "description": "Longitude in decimal degrees (WGS 84).",
+          "example": "17.95510"
+        },
+        "is_eu": {
+          "type": "boolean",
+          "description": "Whether the country is a member of the European Union.",
+          "example": true
+        },
+        "country_flag": {
+          "type": "uri",
+          "description": "URL to a 64x64 PNG of the country flag.",
+          "example": "https://ipgeolocation.io/static/flags/se_64.png"
+        },
+        "geoname_id": {
+          "type": "string",
+          "description": "GeoNames identifier for the location.",
+          "example": "9972319"
+        },
+        "country_emoji": {
+          "type": "string",
+          "description": "Unicode flag emoji for the country.",
+          "example": "\ud83c\uddf8\ud83c\uddea"
+        }
+      }
+    },
+    "country_metadata": {
+      "type": "object",
+      "description": "Telephone, TLD, and language information for the country.",
+      "properties": {
+        "calling_code": {
+          "type": "string",
+          "description": "International dialing code with leading `+`.",
+          "example": "+46"
+        },
+        "tld": {
+          "type": "string",
+          "description": "Country-code top-level domain.",
+          "example": ".se"
+        },
+        "languages": {
+          "type": "array",
+          "description": "IETF language tags spoken in the country, ordered by prevalence.\n",
+          "items": {
+            "type": "string"
+          },
+          "examples": [
+            "sv-SE",
+            "se",
+            "sma",
+            "fi-SE"
+          ]
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "description": "Network routing information for the IP. Included by default on paid plans.\nNot available on the free plan.\n",
+      "properties": {
+        "connection_type": {
+          "type": "string",
+          "description": "Type of network connection for this IP. Known values: `DSL`, `Cable`,\n`Fiber`, `Mobile`, `Wireless`, `Dial-Up/ISDN`, `Satellite`. Empty string\nwhen the type cannot be determined.\n",
+          "example": ""
+        },
+        "route": {
+          "type": "string",
+          "description": "BGP route prefix in CIDR notation.",
+          "example": "91.128.0.0/14"
+        },
+        "is_anycast": {
+          "type": "boolean",
+          "description": "Whether the IP is part of an anycast network.",
+          "example": false
+        }
+      }
+    },
+    "currency": {
+      "type": "object",
+      "description": "Local currency of the country where the IP is located.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "ISO 4217 currency code.",
+          "example": "SEK"
+        },
+        "name": {
+          "type": "string",
+          "description": "Currency name.",
+          "example": "Swedish Krona"
+        },
+        "symbol": {
+          "type": "string",
+          "description": "Currency symbol.",
+          "example": "kr"
+        }
+      }
+    },
+    "asn": {
+      "type": "object",
+      "description": "Autonomous System Number details for the IP. Free plans receive `as_number`,\n`organization`, and `country` only. Paid plans also receive `type`, `domain`,\n`date_allocated`, and `rir`.\n",
+      "properties": {
+        "as_number": {
+          "type": "string",
+          "description": "AS number prefixed with `AS` (e.g. `AS1257`).",
+          "example": "AS1257"
+        },
+        "organization": {
+          "type": "string",
+          "description": "Name of the organization that owns the ASN.",
+          "example": "Tele2 Sverige AB"
+        },
+        "country": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country where the ASN is registered.",
+          "example": "SE"
+        },
+        "type": {
+          "type": "string",
+          "description": "Organization type. Values: `ISP`, `HOSTING`, `BUSINESS`, `EDUCATION`,\n`GOVERNMENT`. Paid plans only.\n",
+          "example": "ISP"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Primary domain of the ASN holder. Paid plans only.",
+          "example": "tele2.com"
+        },
+        "date_allocated": {
+          "type": "string",
+          "description": "Date when the ASN was allocated, in `YYYY-MM-DD` format (e.g.\n`2024-12-13`). Paid plans only.\n",
+          "example": "2024-12-13"
+        },
+        "rir": {
+          "type": "string",
+          "description": "Regional Internet Registry (RIR) that allocated the ASN. Possible values include `RIPE`, `ARIN`, `APNIC`, `LACNIC`, `AFRINIC`, etc.\n",
+          "example": "RIPE"
+        }
+      }
+    },
+    "company": {
+      "type": "object",
+      "description": "Company or organization operating the IP range. Included by default on paid\nplans. Not available on the free plan.\n",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Company or organization name.",
+          "example": "Tele2 Sverige AB"
+        },
+        "type": {
+          "type": "string",
+          "description": "Company category. Documented values: `ISP`, `HOSTING`, `BUSINESS`,\n`EDUCATION`, `GOVERNMENT`. All uppercase, consistent with `asn.type`.\nMay be an empty string when the company type cannot be determined.\n",
+          "example": "ISP"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Primary domain of the company.",
+          "example": "tele2.com"
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "description": "Threat intelligence and anonymization signals for the IP. Only returned when\n`include=security` or `include=*` is used. Costs 2 additional credits.\n",
+      "properties": {
+        "threat_score": {
+          "type": "double",
+          "description": "Overall threat score from 0 (clean) to 100 (high risk). Aggregated from\nall the individual signals below.\n",
+          "minimum": 0,
+          "maximum": 100,
+          "example": 80
+        },
+        "is_tor": {
+          "type": "boolean",
+          "description": "Whether the IP is a known Tor exit node.",
+          "example": false
+        },
+        "is_proxy": {
+          "type": "boolean",
+          "description": "Whether the IP belongs to a known proxy service.",
+          "example": true
+        },
+        "proxy_provider_names": {
+          "type": "array",
+          "description": "Names of proxy providers associated with this IP, if any.",
+          "items": {
+            "type": "string"
+          },
+          "examples": [
+            "Zyte Proxy"
+          ]
+        },
+        "proxy_confidence_score": {
+          "type": "double",
+          "description": "Confidence that this IP is a proxy, from 0 to 100. Only meaningful when\n`is_proxy` is `true`.\n",
+          "minimum": 0,
+          "maximum": 100,
+          "example": 90
+        },
+        "proxy_last_seen": {
+          "type": "string",
+          "description": "Date when this IP was last observed acting as a proxy, in `YYYY-MM-DD`\nformat. Empty string if never seen.\n",
+          "example": "2025-12-12"
+        },
+        "is_residential_proxy": {
+          "type": "boolean",
+          "description": "Whether the IP is a known residential proxy.",
+          "example": true
+        },
+        "is_vpn": {
+          "type": "boolean",
+          "description": "Whether the IP belongs to a known VPN provider.",
+          "example": true
+        },
+        "vpn_provider_names": {
+          "type": "array",
+          "description": "Names of VPN providers associated with this IP, if any.",
+          "items": {
+            "type": "string"
+          },
+          "examples": [
+            "Nord VPN"
+          ]
+        },
+        "vpn_confidence_score": {
+          "type": "double",
+          "description": "Confidence that this IP is a VPN endpoint, from 0 to 100. Only meaningful\nwhen `is_vpn` is `true`.\n",
+          "minimum": 0,
+          "maximum": 100,
+          "example": 90
+        },
+        "vpn_last_seen": {
+          "type": "string",
+          "description": "Date when this IP was last observed as a VPN endpoint, in `YYYY-MM-DD`\nformat. Empty string if never seen.\n",
+          "example": "2026-01-19"
+        },
+        "is_relay": {
+          "type": "boolean",
+          "description": "Whether the IP is part of a known relay network (e.g. iCloud Private Relay).",
+          "example": false
+        },
+        "relay_provider_name": {
+          "type": "string",
+          "description": "Name of the relay provider, if any. Empty string if not a relay.",
+          "example": ""
+        },
+        "is_anonymous": {
+          "type": "boolean",
+          "description": "Whether the IP is associated with any anonymization method (VPN, proxy,\nTor, or relay).\n",
+          "example": true
+        },
+        "is_known_attacker": {
+          "type": "boolean",
+          "description": "Whether the IP has been flagged in known attacker or threat feeds.",
+          "example": true
+        },
+        "is_bot": {
+          "type": "boolean",
+          "description": "Whether the IP is associated with known bot activity.",
+          "example": false
+        },
+        "is_spam": {
+          "type": "boolean",
+          "description": "Whether the IP is listed in spam databases.",
+          "example": false
+        },
+        "is_cloud_provider": {
+          "type": "boolean",
+          "description": "Whether the IP belongs to a cloud hosting or data center provider.",
+          "example": true
+        },
+        "cloud_provider_name": {
+          "type": "string",
+          "description": "Name of the cloud provider, if applicable. Empty string otherwise.",
+          "example": "Packethub S.A."
+        }
+      }
+    },
+    "abuse": {
+      "type": "object",
+      "description": "Abuse contact information for the network that owns this IP. Only returned when\n`include=abuse` or `include=*` is used. Costs 1 additional credit.\n",
+      "properties": {
+        "route": {
+          "type": "string",
+          "description": "BGP route prefix this abuse contact is responsible for, in CIDR notation.",
+          "example": "91.128.0.0/14"
+        },
+        "country": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country of the abuse contact. May be empty.",
+          "example": "SE"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the abuse contact person or team.",
+          "example": "Swipnet Staff"
+        },
+        "organization": {
+          "type": "string",
+          "description": "Organization name of the abuse contact. May be empty.",
+          "example": ""
+        },
+        "kind": {
+          "type": "string",
+          "description": "Contact type from registry data. Values include `group`, `individual`.\n",
+          "example": "group"
+        },
+        "address": {
+          "type": "string",
+          "description": "Postal address of the abuse contact. Returned as a plain comma-separated string.",
+          "example": "Tele2 AB/Swedish IP Network, IP Registry, Torshamnsgatan 17 164 40 Kista SWEDEN"
+        },
+        "emails": {
+          "type": "array",
+          "description": "Email addresses for reporting abuse.",
+          "items": {
+            "type": "string",
+            "format": "email"
+          },
+          "examples": [
+            "abuse@tele2.com"
+          ]
+        },
+        "phone_numbers": {
+          "type": "array",
+          "description": "Phone numbers for the abuse contact.",
+          "items": {
+            "type": "string"
+          },
+          "examples": [
+            "+46 8 5626 42 10"
+          ]
+        }
+      }
+    },
+    "time_zone": {
+      "type": "object",
+      "description": "Timezone information for the geographic location of the IP.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "IANA timezone identifier.",
+          "example": "Europe/Stockholm"
+        },
+        "offset": {
+          "type": "float",
+          "description": "UTC offset in hours (without DST).",
+          "example": 1
+        },
+        "offset_with_dst": {
+          "type": "float",
+          "description": "Current UTC offset in hours, accounting for DST if active. Same as\n`offset` when DST is not in effect.\n",
+          "example": 1
+        },
+        "current_time": {
+          "type": "string",
+          "description": "Current local time at the IP's location. Observed formats include\n`YYYY-MM-DDTHH:mm:ss\u00b1ZZZZ` and `YYYY-MM-DD HH:mm:ss.SSS\u00b1ZZZZ`.\n",
+          "example": "2026-02-13 09:19:24.410+0100"
+        },
+        "current_time_unix": {
+          "type": "float",
+          "description": "Current time as a Unix timestamp with millisecond precision.",
+          "example": 1770970764.41
+        },
+        "current_tz_abbreviation": {
+          "type": "string",
+          "description": "Abbreviation of the timezone currently in effect (may be standard or DST).\n",
+          "example": "CET"
+        },
+        "current_tz_full_name": {
+          "type": "string",
+          "description": "Full name of the timezone currently in effect.",
+          "example": "Central European Standard Time"
+        },
+        "standard_tz_abbreviation": {
+          "type": "string",
+          "description": "Abbreviation of the standard (non-DST) timezone.",
+          "example": "CET"
+        },
+        "standard_tz_full_name": {
+          "type": "string",
+          "description": "Full name of the standard (non-DST) timezone.",
+          "example": "Central European Standard Time"
+        },
+        "is_dst": {
+          "type": "boolean",
+          "description": "Whether Daylight Saving Time is currently active.",
+          "example": false
+        },
+        "dst_savings": {
+          "type": "float",
+          "description": "DST offset in hours applied on top of the standard offset when DST is\nactive. `0` means no DST shift (either DST is not active or does not exist).\n",
+          "example": 0
+        },
+        "dst_exists": {
+          "type": "boolean",
+          "description": "Whether this timezone observes Daylight Saving Time at all.",
+          "example": true
+        },
+        "dst_tz_abbreviation": {
+          "type": "string",
+          "description": "Abbreviation of the DST timezone. Empty string if DST is not observed.\n",
+          "example": "CEST"
+        },
+        "dst_tz_full_name": {
+          "type": "string",
+          "description": "Full name of the DST timezone. Empty string if DST is not observed.\n",
+          "example": "Central European Summer Time"
+        },
+        "dst_start": {
+          "description": "Start DST transition details. When `dst_exists` is `false`, this is\nreturned as an empty object with no properties.\n",
+          "oneOf": [
+            {
+              "type": "object",
+              "description": "Details about a DST transition (start or end). Only present when `dst_exists`\nis `true`. When `dst_exists` is `false`, `dst_start` and `dst_end` are\nreturned as empty objects with no properties.\n",
+              "properties": {
+                "utc_time": {
+                  "type": "string",
+                  "description": "UTC time of the transition, formatted as `YYYY-MM-DD TIME HH:mm`.",
+                  "example": "2026-03-29 TIME 01:00"
+                },
+                "duration": {
+                  "type": "string",
+                  "description": "Clock shift direction and amount (e.g. `+1.00H` for spring forward,\n`-1.00H` for fall back).\n",
+                  "example": "+1.00H"
+                },
+                "gap": {
+                  "type": "boolean",
+                  "description": "Whether this transition creates a gap in local time (clocks jump forward).\n`true` for DST start, `false` for DST end.\n",
+                  "example": true
+                },
+                "date_time_after": {
+                  "type": "string",
+                  "description": "Local time immediately after the transition.",
+                  "example": "2026-03-29 TIME 03:00"
+                },
+                "date_time_before": {
+                  "type": "string",
+                  "description": "Local time immediately before the transition.",
+                  "example": "2026-03-29 TIME 02:00"
+                },
+                "overlap": {
+                  "type": "boolean",
+                  "description": "Whether this transition creates an overlap in local time (clocks fall back,\nso the same local time occurs twice). `true` for DST end, `false` for DST\nstart.\n",
+                  "example": false
+                }
+              }
+            },
+            {
+              "type": "object",
+              "maxProperties": 0
+            }
+          ]
+        },
+        "dst_end": {
+          "description": "End DST transition details. When `dst_exists` is `false`, this is\nreturned as an empty object with no properties.\n",
+          "oneOf": [
+            {
+              "type": "object",
+              "description": "Details about a DST transition (start or end). Only present when `dst_exists`\nis `true`. When `dst_exists` is `false`, `dst_start` and `dst_end` are\nreturned as empty objects with no properties.\n",
+              "properties": {
+                "utc_time": {
+                  "type": "string",
+                  "description": "UTC time of the transition, formatted as `YYYY-MM-DD TIME HH:mm`.",
+                  "example": "2026-03-29 TIME 01:00"
+                },
+                "duration": {
+                  "type": "string",
+                  "description": "Clock shift direction and amount (e.g. `+1.00H` for spring forward,\n`-1.00H` for fall back).\n",
+                  "example": "+1.00H"
+                },
+                "gap": {
+                  "type": "boolean",
+                  "description": "Whether this transition creates a gap in local time (clocks jump forward).\n`true` for DST start, `false` for DST end.\n",
+                  "example": true
+                },
+                "date_time_after": {
+                  "type": "string",
+                  "description": "Local time immediately after the transition.",
+                  "example": "2026-03-29 TIME 03:00"
+                },
+                "date_time_before": {
+                  "type": "string",
+                  "description": "Local time immediately before the transition.",
+                  "example": "2026-03-29 TIME 02:00"
+                },
+                "overlap": {
+                  "type": "boolean",
+                  "description": "Whether this transition creates an overlap in local time (clocks fall back,\nso the same local time occurs twice). `true` for DST end, `false` for DST\nstart.\n",
+                  "example": false
+                }
+              }
+            },
+            {
+              "type": "object",
+              "maxProperties": 0
+            }
+          ]
+        }
+      }
+    },
+    "user_agent": {
+      "type": "object",
+      "description": "Parsed User-Agent information. Only returned when `include=user_agent` or\n`include=*` is used. The API parses the `User-Agent` header from the request.\nFor server-side usage, forward your visitor's User-Agent string in the header.\n",
+      "properties": {
+        "user_agent_string": {
+          "type": "string",
+          "description": "The raw User-Agent string that was parsed.",
+          "example": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"
+        },
+        "name": {
+          "type": "string",
+          "description": "Detected browser or client name.",
+          "example": "Edge"
+        },
+        "type": {
+          "type": "string",
+          "description": "Client type classification. Common values: `Browser`, `Robot`,\n`Mobile Browser`, `Library`.\n",
+          "example": "Browser"
+        },
+        "version": {
+          "type": "string",
+          "description": "Full version string of the detected client.",
+          "example": "143"
+        },
+        "version_major": {
+          "type": "string",
+          "description": "Major version number of the detected client.",
+          "example": "143"
+        },
+        "device": {
+          "type": "object",
+          "description": "Device information extracted from the User-Agent string.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Device name or model.",
+              "example": "Linux Desktop"
+            },
+            "type": {
+              "type": "string",
+              "description": "Device type. Common values: `Desktop`, `Smartphone`, `Tablet`, `Robot`,\n`Smart TV`.\n",
+              "example": "Desktop"
+            },
+            "brand": {
+              "type": "string",
+              "description": "Device manufacturer or brand. `Unknown` if not detectable.",
+              "example": "Unknown"
+            },
+            "cpu": {
+              "type": "string",
+              "description": "CPU architecture if detectable (e.g. `Intel x86_64`, `ARM`). `Unknown` otherwise.",
+              "example": "Intel x86_64"
+            }
+          }
+        },
+        "engine": {
+          "type": "object",
+          "description": "Rendering engine information extracted from the User-Agent string.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Engine name (e.g. `Blink`, `Gecko`, `WebKit`).",
+              "example": "Blink"
+            },
+            "type": {
+              "type": "string",
+              "description": "Engine classification. Typically matches the client type.",
+              "example": "Browser"
+            },
+            "version": {
+              "type": "string",
+              "description": "Full version of the rendering engine.",
+              "example": "143"
+            },
+            "version_major": {
+              "type": "string",
+              "description": "Major version of the rendering engine.",
+              "example": "143"
+            }
+          }
+        },
+        "operating_system": {
+          "type": "object",
+          "description": "Operating system information extracted from the User-Agent string.",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "OS name (e.g. `Windows`, `macOS`, `Linux`, `Android`, `iOS`, `Cloud`).",
+              "example": "Linux"
+            },
+            "type": {
+              "type": "string",
+              "description": "OS type. Common values: `Desktop`, `Mobile`, `Tablet`, `Cloud`.\n",
+              "example": "Desktop"
+            },
+            "version": {
+              "type": "string",
+              "description": "OS version. `??` when the version cannot be determined.",
+              "example": "??"
+            },
+            "version_major": {
+              "type": "string",
+              "description": "OS major version. `??` when the version cannot be determined.",
+              "example": "??"
+            },
+            "build": {
+              "type": "string",
+              "description": "OS build number. `??` when the build cannot be determined.",
+              "example": "??"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "ip"
+  ]
+}

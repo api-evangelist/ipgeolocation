@@ -1,0 +1,14 @@
+{
+  "type": "large_airport",
+  "name": "Hartsfield Jackson Atlanta International Airport",
+  "latitude": "33.63670",
+  "longitude": "-84.42810",
+  "elevation_ft": 1026,
+  "continent_code": "NA",
+  "country_code": "US",
+  "state_code": "US-GA",
+  "city": "Atlanta",
+  "iata_code": "ATL",
+  "icao_code": "KATL",
+  "faa_code": ""
+}

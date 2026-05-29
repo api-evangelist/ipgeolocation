@@ -1,0 +1,98 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: IPGeolocation.io
+providerId: ipgeolocation
+created: '2026-05-29'
+modified: '2026-05-29'
+reconciled: true
+tags:
+  - Rate Limiting
+  - IP Geolocation
+  - IP Intelligence
+  - Quota
+description: >-
+  IPGeolocation.io takes an unusually permissive stance on rate limits: paid
+  plans have no documented per-second, per-minute, per-hour, per-day, or
+  per-month request caps — the only ceiling is the plan's monthly credit
+  quota (with overage pricing) defined in plans/ipgeolocation-plans-pricing.yml.
+  The Free plan has a hard cap of 1,000 credits/day with no overage. All
+  limits are scoped to the API key (account). Bulk endpoints accept up to
+  50,000 entries per request. The documentation does not advertise specific
+  X-RateLimit-* headers; clients should rely on standard HTTP status codes
+  for throttling and fall back to exponential backoff on 429 / 5xx responses.
+sources:
+  - https://ipgeolocation.io/documentation
+  - https://ipgeolocation.io/pricing.html
+responseCodes:
+  quotaExceeded: 429
+  throttled: 429
+  unauthorized: 401
+  forbidden: 403
+  serverError: 500
+limits:
+  - name: Free plan daily cap
+    scope: key
+    metric: requests_per_day
+    limit: 1000
+    timeFrame: day
+    notes: Hard limit on the Free plan — no overage. Exceeding returns 429.
+  - name: Paid plan request rate
+    scope: key
+    metric: requests_per_second
+    limit: 'no documented per-second limit on paid plans'
+    notes: >-
+      IPGeolocation explicitly states there are no hourly, daily, or monthly
+      rate limits on any paid plan, and no per-minute cap on any plan. The
+      only effective ceiling is the monthly quota (with overage).
+  - name: Paid plan monthly quota
+    scope: key
+    metric: requests_per_month
+    limit: 'plan-defined (150K → 5M+); see plans/ipgeolocation-plans-pricing.yml'
+    notes: >-
+      Monthly credit quotas vary by plan: Starter 150K, Plus 500K, Pro 1M,
+      Business 2M, Premium 5M, Enterprise custom. Overage is charged per
+      block (e.g. $5 per 25K on Starter) rather than blocked.
+  - name: Bulk endpoint payload size
+    scope: key
+    metric: entries_per_request
+    limit: 50000
+    notes: >-
+      Bulk endpoints (POST /v3/ipgeo-bulk, POST /v3/security-bulk, POST
+      /v3/user-agent-bulk) accept up to 50,000 entries per request. Bulk
+      endpoints require a paid plan.
+policies:
+  - name: Hard cap on Free plan
+    description: >-
+      The Free plan's 1,000 credits/day is a hard limit — once exhausted,
+      additional requests are rejected with 429 until the next day. Free
+      plan users cannot pay overage to continue.
+  - name: Overage on paid plans
+    description: >-
+      Once a paid plan exceeds its monthly quota, IPGeolocation continues to
+      serve requests and charges an overage surcharge per block on top of the
+      monthly subscription. Requests are not throttled at quota exhaustion.
+  - name: Shared quota across all 7 APIs
+    description: >-
+      A single API key's quota is shared across all seven products
+      (IP Geolocation, IP Security, ASN, Abuse, Timezone, Astronomy, User
+      Agent). Every request to any endpoint deducts one credit.
+  - name: Retry on 429 / 5xx
+    description: >-
+      Clients should treat 429 as a soft throttling signal on paid plans
+      (rare, since no published RPS cap) and retry with exponential backoff
+      starting at 1 second, doubling up to 30 seconds, with a maximum of
+      5 retries.
+  - name: Bulk over single
+    description: >-
+      For high-volume enrichment, prefer the bulk endpoints — one request of
+      up to 50,000 entries is one HTTP call but still 50,000 credits. The
+      benefit is throughput, not cost.
+  - name: HTTPS required
+    description: >-
+      All endpoints are served over HTTPS only — including the Free plan.
+  - name: Request Origin (CORS) authentication
+    description: >-
+      For browser/client-side use, IPGeolocation supports Request Origin
+      (CORS) authentication tied to a registered domain on the dashboard.
+      This avoids embedding the API key in client code.

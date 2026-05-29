@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/abuse-abuse-lookup-response-structure.json",
+  "name": "AbuseLookupResponse",
+  "description": "Response returned by the IP Abuse Contact API.\n\nContains the queried IP address and the abuse contact information\nassociated with the network responsible for that IP.\n\nThe `ip` field is always present. The `abuse` object may be partially\npopulated depending on available registry data and field filtering.\n",
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "description": "The IP address for which abuse contact details are returned.\n",
+      "example": "1.0.0.0"
+    },
+    "abuse": {
+      "type": "object",
+      "description": "Abuse contact information for the network that owns this IP. Costs 1 credit.\n",
+      "properties": {
+        "route": {
+          "type": "string",
+          "description": "BGP route prefix this abuse contact is responsible for, in CIDR notation.",
+          "example": "91.128.0.0/14"
+        },
+        "country": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country of the abuse contact. May be empty.",
+          "example": "SE"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the abuse contact person or team.",
+          "example": "Swipnet Staff"
+        },
+        "organization": {
+          "type": "string",
+          "description": "Organization name of the abuse contact. May be empty.",
+          "example": ""
+        },
+        "kind": {
+          "type": "string",
+          "description": "Contact type from registry data. Values include `group`, `individual`.\n",
+          "example": "group"
+        },
+        "address": {
+          "type": "string",
+          "description": "Postal address of the abuse contact. Returned as a plain comma-separated string.",
+          "example": "Tele2 AB/Swedish IP Network, IP Registry, Torshamnsgatan 17 164 40 Kista SWEDEN"
+        },
+        "emails": {
+          "type": "array",
+          "description": "Email addresses for reporting abuse.",
+          "items": {
+            "type": "string",
+            "format": "email"
+          },
+          "examples": [
+            "abuse@tele2.com"
+          ]
+        },
+        "phone_numbers": {
+          "type": "array",
+          "description": "Phone numbers for the abuse contact.",
+          "items": {
+            "type": "string"
+          },
+          "examples": [
+            "+46 8 5626 42 10"
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "ip",
+    "abuse"
+  ]
+}

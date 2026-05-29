@@ -1,0 +1,303 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/astronomy-astronomy-time-series-response-structure.json",
+  "name": "AstronomyTimeSeriesResponse",
+  "description": "Response returned by the Astronomy Time Series API.\n\nContains a `location` object and an `astronomy` array where each\nelement represents astronomical data for a single day within the\nrequested date range.\n\nNote that real-time positional data (sun/moon altitude, azimuth,\ndistance, parallactic angle, illumination) is not included in time\nseries responses.\n",
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "description": "The IP address used for the astronomy lookup. Returned only when\nthe lookup is performed using the `ip` parameter or when the API\nresolves the caller's IP automatically.\n",
+      "example": "8.8.8.8"
+    },
+    "location": {
+      "type": "object",
+      "description": "Geolocation information associated with the resolved location.\n\nFor coordinate-based or location-string lookups, only basic geographic\nfields are returned (latitude, longitude, country, state, city, locality,\nelevation).\n\nFor IP-based lookups, extended fields are also returned including\ncontinent codes, country codes, district, zipcode, and other metadata.\n",
+      "properties": {
+        "location_string": {
+          "type": "string",
+          "description": "The location string provided in the request. Only present when the\n`location` query parameter was used.\n",
+          "example": "New York, USA"
+        },
+        "continent_code": {
+          "type": "string",
+          "description": "Two-letter continent code. Returned for IP-based lookups only.",
+          "example": "NA"
+        },
+        "continent_name": {
+          "type": "string",
+          "description": "Full name of the continent. Returned for IP-based lookups only.",
+          "example": "North America"
+        },
+        "country_code2": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code. Returned for IP-based lookups only.\n",
+          "example": "US"
+        },
+        "country_code3": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-3 country code. Returned for IP-based lookups only.\n",
+          "example": "USA"
+        },
+        "country_name": {
+          "type": "string",
+          "description": "Common name of the country.",
+          "example": "United States"
+        },
+        "country_name_official": {
+          "type": "string",
+          "description": "Official name of the country. Returned for IP-based lookups only.\n",
+          "example": "United States of America"
+        },
+        "is_eu": {
+          "type": "boolean",
+          "description": "Indicates whether the country is a member of the European Union.\nReturned for IP-based lookups only.\n"
+        },
+        "state_prov": {
+          "type": "string",
+          "description": "State, province, or region name.",
+          "example": "New York"
+        },
+        "state_code": {
+          "type": "string",
+          "description": "Standardized state or region code. Returned for IP-based lookups only.\n",
+          "example": "US-NY"
+        },
+        "district": {
+          "type": "string",
+          "description": "District or administrative subdivision. Returned for IP-based\nlookups only.\n",
+          "example": "Manhattan"
+        },
+        "city": {
+          "type": "string",
+          "description": "City name of the location.",
+          "example": "New York"
+        },
+        "locality": {
+          "type": "string",
+          "description": "Smaller locality or neighborhood within the city.",
+          "example": "Midtown West"
+        },
+        "zipcode": {
+          "type": "string",
+          "description": "ZIP or postal code of the location. Returned for IP-based\nlookups only.\n",
+          "example": "10001"
+        },
+        "latitude": {
+          "type": "string",
+          "format": "float",
+          "description": "Latitude coordinate of the resolved location.",
+          "example": "40.76473"
+        },
+        "longitude": {
+          "type": "string",
+          "format": "float",
+          "description": "Longitude coordinate of the resolved location.",
+          "example": "-74.00084"
+        },
+        "elevation": {
+          "type": "string",
+          "description": "Elevation above sea level at the location, in meters.",
+          "example": "9"
+        }
+      }
+    },
+    "astronomy": {
+      "type": "array",
+      "description": "Array of daily astronomical records covering the requested date\nrange. Each entry contains event times for one calendar day.\n",
+      "items": {
+        "type": "object",
+        "description": "Astronomical data for a single calendar day within the time series\nresponse.\n\nContains event times for sunrise, sunset, moonrise, moonset,\ntwilight phases, solar noon, and day length.\n\nNote: Real-time positional data (sun/moon altitude, azimuth,\ndistance, parallactic angle, illumination percentage, and moon\nangle) is not included in time series entries.\n",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The calendar date for this entry, in `yyyy-MM-dd` format.",
+            "example": "2026-03-18"
+          },
+          "mid_night": {
+            "type": "string",
+            "description": "Astronomical midnight (nadir) for the given date.",
+            "example": "00:06"
+          },
+          "night_end": {
+            "type": "string",
+            "description": "End of night / start of astronomical twilight in the morning.",
+            "example": "04:49"
+          },
+          "morning": {
+            "type": "object",
+            "description": "Twilight phase times for either the morning (pre-sunrise) or evening\n(post-sunset) period.\n\nIncludes astronomical, nautical, and civil twilight windows, as well\nas blue hour and golden hour windows commonly used in photography.\n\nAll times are in `HH:mm` format by default. When the `time_zone`\nparameter is provided, times are returned as full date-time values\nin `yyyy-MM-dd HH:mm` format.\n",
+            "properties": {
+              "astronomical_twilight_begin": {
+                "type": "string",
+                "description": "Start of astronomical twilight. In the morning, this marks the\nend of night; in the evening, this marks the start of night sky.\n",
+                "example": "04:49"
+              },
+              "astronomical_twilight_end": {
+                "type": "string",
+                "description": "End of astronomical twilight.",
+                "example": "05:21"
+              },
+              "nautical_twilight_begin": {
+                "type": "string",
+                "description": "Start of nautical twilight, when the horizon first becomes visible.\n",
+                "example": "05:21"
+              },
+              "nautical_twilight_end": {
+                "type": "string",
+                "description": "End of nautical twilight.",
+                "example": "05:53"
+              },
+              "civil_twilight_begin": {
+                "type": "string",
+                "description": "Start of civil twilight, when there is enough light for outdoor\nactivities without artificial lighting.\n",
+                "example": "05:53"
+              },
+              "civil_twilight_end": {
+                "type": "string",
+                "description": "End of civil twilight.",
+                "example": "06:20"
+              },
+              "blue_hour_begin": {
+                "type": "string",
+                "description": "Start of the blue hour, a period of soft diffused light with a\nblue color tone.\n",
+                "example": "05:42"
+              },
+              "blue_hour_end": {
+                "type": "string",
+                "description": "End of the blue hour.",
+                "example": "06:03"
+              },
+              "golden_hour_begin": {
+                "type": "string",
+                "description": "Start of the golden hour, a period of warm low-angle light\nfavored by photographers.\n",
+                "example": "06:03"
+              },
+              "golden_hour_end": {
+                "type": "string",
+                "description": "End of the golden hour.",
+                "example": "06:57"
+              }
+            }
+          },
+          "sunrise": {
+            "type": "string",
+            "description": "Time at which the sun rises, in `HH:mm` format. Returns `\"-:-\"`\nif the sun does not rise on this date.\n",
+            "example": "06:20"
+          },
+          "sunset": {
+            "type": "string",
+            "description": "Time at which the sun sets, in `HH:mm` format. Returns `\"-:-\"`\nif the sun does not set on this date.\n",
+            "example": "19:00"
+          },
+          "evening": {
+            "type": "object",
+            "description": "Twilight phase times for either the morning (pre-sunrise) or evening\n(post-sunset) period.\n\nIncludes astronomical, nautical, and civil twilight windows, as well\nas blue hour and golden hour windows commonly used in photography.\n\nAll times are in `HH:mm` format by default. When the `time_zone`\nparameter is provided, times are returned as full date-time values\nin `yyyy-MM-dd HH:mm` format.\n",
+            "properties": {
+              "astronomical_twilight_begin": {
+                "type": "string",
+                "description": "Start of astronomical twilight. In the morning, this marks the\nend of night; in the evening, this marks the start of night sky.\n",
+                "example": "04:49"
+              },
+              "astronomical_twilight_end": {
+                "type": "string",
+                "description": "End of astronomical twilight.",
+                "example": "05:21"
+              },
+              "nautical_twilight_begin": {
+                "type": "string",
+                "description": "Start of nautical twilight, when the horizon first becomes visible.\n",
+                "example": "05:21"
+              },
+              "nautical_twilight_end": {
+                "type": "string",
+                "description": "End of nautical twilight.",
+                "example": "05:53"
+              },
+              "civil_twilight_begin": {
+                "type": "string",
+                "description": "Start of civil twilight, when there is enough light for outdoor\nactivities without artificial lighting.\n",
+                "example": "05:53"
+              },
+              "civil_twilight_end": {
+                "type": "string",
+                "description": "End of civil twilight.",
+                "example": "06:20"
+              },
+              "blue_hour_begin": {
+                "type": "string",
+                "description": "Start of the blue hour, a period of soft diffused light with a\nblue color tone.\n",
+                "example": "05:42"
+              },
+              "blue_hour_end": {
+                "type": "string",
+                "description": "End of the blue hour.",
+                "example": "06:03"
+              },
+              "golden_hour_begin": {
+                "type": "string",
+                "description": "Start of the golden hour, a period of warm low-angle light\nfavored by photographers.\n",
+                "example": "06:03"
+              },
+              "golden_hour_end": {
+                "type": "string",
+                "description": "End of the golden hour.",
+                "example": "06:57"
+              }
+            }
+          },
+          "night_begin": {
+            "type": "string",
+            "description": "Start of night / end of astronomical twilight in the evening.",
+            "example": "20:31"
+          },
+          "sun_status": {
+            "type": "string",
+            "description": "Current state of the sun relative to the horizon. See\n`AstronomyData.sun_status` for possible values.\n",
+            "example": "-"
+          },
+          "solar_noon": {
+            "type": "string",
+            "description": "Time when the sun is at its highest point in the sky.",
+            "example": "12:40"
+          },
+          "day_length": {
+            "type": "string",
+            "description": "Total daylight duration from sunrise to sunset, in `HH:mm` format.",
+            "example": "12:40"
+          },
+          "moon_phase": {
+            "type": "string",
+            "description": "The phase of the moon on this date.",
+            "enum": [
+              "NEW_MOON",
+              "WAXING_CRESCENT",
+              "FIRST_QUARTER",
+              "WAXING_GIBBOUS",
+              "FULL_MOON",
+              "WANING_GIBBOUS",
+              "LAST_QUARTER",
+              "WANING_CRESCENT"
+            ],
+            "example": "WAXING_CRESCENT"
+          },
+          "moonrise": {
+            "type": "string",
+            "description": "Time at which the moon rises, in `HH:mm` format. Returns `\"-:-\"`\nif the moon does not rise on this date.\n",
+            "example": "08:45"
+          },
+          "moonset": {
+            "type": "string",
+            "description": "Time at which the moon sets, in `HH:mm` format. Returns `\"-:-\"`\nif the moon does not set on this date.\n",
+            "example": "22:10"
+          },
+          "moon_status": {
+            "type": "string",
+            "description": "Current state of the moon relative to the horizon. See\n`AstronomyData.moon_status` for possible values.\n",
+            "example": "-"
+          }
+        }
+      }
+    }
+  }
+}

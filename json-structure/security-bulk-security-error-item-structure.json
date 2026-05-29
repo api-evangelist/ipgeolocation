@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/security-bulk-security-error-item-structure.json",
+  "name": "BulkSecurityErrorItem",
+  "description": "Error object returned for an invalid entry in the bulk lookup request. Contains only\na `message` field. Note: unlike success entries, error entries do NOT include the\noriginal `ip` field, so the only way to correlate errors to inputs is by array\nindex. The response array preserves the same order as the request `ips` array.\n",
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Human-readable error for the specific bulk entry.",
+      "example": "Provided name, service or IP address 'invalid-ip' is not valid."
+    }
+  },
+  "required": [
+    "message"
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ipgeo": "https://ipgeolocation.io/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "AirportDetails": "ipgeo:AirportDetails",
+    "DSTTransition": "ipgeo:DSTTransition",
+    "Location": "ipgeo:Location",
+    "LocodeDetails": "ipgeo:LocodeDetails",
+    "TimeConversionResponse": "ipgeo:TimeConversionResponse",
+    "TimezoneLookupResponse": "ipgeo:TimezoneLookupResponse",
+    "Timezone": "ipgeo:Timezone",
+    "airport_details": {
+      "@id": "ipgeo:airport_details",
+      "@type": "@id"
+    },
+    "city": {
+      "@id": "ipgeo:city",
+      "@type": "xsd:string"
+    },
+    "continent_code": {
+      "@id": "ipgeo:continent_code",
+      "@type": "xsd:string"
+    },
+    "continent_name": {
+      "@id": "ipgeo:continent_name",
+      "@type": "xsd:string"
+    },
+    "converted_time": {
+      "@id": "ipgeo:converted_time",
+      "@type": "xsd:string"
+    },
+    "country_code": {
+      "@id": "ipgeo:country_code",
+      "@type": "xsd:string"
+    },
+    "country_code2": {
+      "@id": "ipgeo:country_code2",
+      "@type": "xsd:string"
+    },
+    "country_code3": {
+      "@id": "ipgeo:country_code3",
+      "@type": "xsd:string"
+    },
+    "country_name": {
+      "@id": "ipgeo:country_name",
+      "@type": "xsd:string"
+    },
+    "country_name_official": {
+      "@id": "ipgeo:country_name_official",
+      "@type": "xsd:string"
+    },
+    "current_time_unix": {
+      "@id": "ipgeo:current_time_unix",
+      "@type": "xsd:float"
+    },
+    "current_tz_abbreviation": {
+      "@id": "ipgeo:current_tz_abbreviation",
+      "@type": "xsd:string"
+    },
+    "current_tz_full_name": {
+      "@id": "ipgeo:current_tz_full_name",
+      "@type": "xsd:string"
+    },
+    "date": {
+      "@id": "ipgeo:date",
+      "@type": "xsd:string"
+    },
+    "date_time": {
+      "@id": "ipgeo:date_time",
+      "@type": "xsd:string"
+    },
+    "date_time_after": {
+      "@id": "ipgeo:date_time_after",
+      "@type": "xsd:string"
+    },
+    "date_time_before": {
+      "@id": "ipgeo:date_time_before",
+      "@type": "xsd:string"
+    },
+    "date_time_txt": {
+      "@id": "ipgeo:date_time_txt",
+      "@type": "xsd:string"
+    },
+    "date_time_wti": {
+      "@id": "ipgeo:date_time_wti",
+      "@type": "xsd:string"
+    },
+    "date_time_ymd": {
+      "@id": "ipgeo:date_time_ymd",
+      "@type": "xsd:string"
+    },
+    "diff_hour": {
+      "@id": "ipgeo:diff_hour",
+      "@type": "xsd:float"
+    },
+    "diff_min": {
+      "@id": "ipgeo:diff_min",
+      "@type": "xsd:decimal"
+    },
+    "district": {
+      "@id": "ipgeo:district",
+      "@type": "xsd:string"
+    },
+    "dst_end": {
+      "@id": "ipgeo:dst_end",
+      "@type": "@id"
+    },
+    "dst_exists": {
+      "@id": "ipgeo:dst_exists",
+      "@type": "xsd:boolean"
+    },
+    "dst_savings": {
+      "@id": "ipgeo:dst_savings",
+      "@type": "xsd:float"
+    },
+    "dst_start": {
+      "@id": "ipgeo:dst_start",
+      "@type": "@id"
+    },
+    "dst_tz_abbreviation": {
+      "@id": "ipgeo:dst_tz_abbreviation",
+      "@type": "xsd:string"
+    },
+    "dst_tz_full_name": {
+      "@id": "ipgeo:dst_tz_full_name",
+      "@type": "xsd:string"
+    },
+    "duration": {
+      "@id": "ipgeo:duration",
+      "@type": "xsd:string"
+    },
+    "elevation_ft": {
+      "@id": "ipgeo:elevation_ft",
+      "@type": "xsd:decimal"
+    },
+    "faa_code": {
+      "@id": "ipgeo:faa_code",
+      "@type": "xsd:string"
+    },
+    "gap": {
+      "@id": "ipgeo:gap",
+      "@type": "xsd:boolean"
+    },
+    "iata_code": {
+      "@id": "ipgeo:iata_code",
+      "@type": "xsd:string"
+    },
+    "icao_code": {
+      "@id": "ipgeo:icao_code",
+      "@type": "xsd:string"
+    },
+    "ip": {
+      "@id": "ipgeo:ip",
+      "@type": "xsd:string"
+    },
+    "is_dst": {
+      "@id": "ipgeo:is_dst",
+      "@type": "xsd:boolean"
+    },
+    "is_eu": {
+      "@id": "ipgeo:is_eu",
+      "@type": "xsd:boolean"
+    },
+    "latitude": {
+      "@id": "ipgeo:latitude",
+      "@type": "xsd:string"
+    },
+    "lo_code": {
+      "@id": "ipgeo:lo_code",
+      "@type": "xsd:string"
+    },
+    "lo_code_details": {
+      "@id": "ipgeo:lo_code_details",
+      "@type": "@id"
+    },
+    "locality": {
+      "@id": "ipgeo:locality",
+      "@type": "xsd:string"
+    },
+    "location": {
+      "@id": "ipgeo:location",
+      "@type": "@id"
+    },
+    "location_string": {
+      "@id": "ipgeo:location_string",
+      "@type": "xsd:string"
+    },
+    "location_type": {
+      "@id": "ipgeo:location_type",
+      "@type": "xsd:string"
+    },
+    "longitude": {
+      "@id": "ipgeo:longitude",
+      "@type": "xsd:string"
+    },
+    "month": {
+      "@id": "ipgeo:month",
+      "@type": "xsd:decimal"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "offset": {
+      "@id": "ipgeo:offset",
+      "@type": "xsd:string"
+    },
+    "offset_with_dst": {
+      "@id": "ipgeo:offset_with_dst",
+      "@type": "xsd:string"
+    },
+    "original_time": {
+      "@id": "ipgeo:original_time",
+      "@type": "xsd:string"
+    },
+    "overlap": {
+      "@id": "ipgeo:overlap",
+      "@type": "xsd:boolean"
+    },
+    "standard_tz_abbreviation": {
+      "@id": "ipgeo:standard_tz_abbreviation",
+      "@type": "xsd:string"
+    },
+    "standard_tz_full_name": {
+      "@id": "ipgeo:standard_tz_full_name",
+      "@type": "xsd:string"
+    },
+    "state_code": {
+      "@id": "ipgeo:state_code",
+      "@type": "xsd:string"
+    },
+    "state_prov": {
+      "@id": "ipgeo:state_prov",
+      "@type": "xsd:string"
+    },
+    "time_12": {
+      "@id": "ipgeo:time_12",
+      "@type": "xsd:string"
+    },
+    "time_24": {
+      "@id": "ipgeo:time_24",
+      "@type": "xsd:string"
+    },
+    "time_zone": {
+      "@id": "ipgeo:time_zone",
+      "@type": "@id"
+    },
+    "type": {
+      "@id": "ipgeo:type",
+      "@type": "xsd:string"
+    },
+    "utc_time": {
+      "@id": "ipgeo:utc_time",
+      "@type": "xsd:string"
+    },
+    "week": {
+      "@id": "ipgeo:week",
+      "@type": "xsd:decimal"
+    },
+    "year": {
+      "@id": "ipgeo:year",
+      "@type": "xsd:decimal"
+    },
+    "year_abbr": {
+      "@id": "ipgeo:year_abbr",
+      "@type": "xsd:string"
+    },
+    "zipcode": {
+      "@id": "ipgeo:zipcode",
+      "@type": "xsd:string"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "location_string": "London, UK",
+  "continent_code": "EU",
+  "continent_name": "Europe",
+  "country_code2": "GB",
+  "country_code3": "GBR",
+  "country_name": "United Kingdom",
+  "country_name_official": "United Kingdom of Great Britain and Northern Ireland",
+  "is_eu": false,
+  "state_prov": "England",
+  "state_code": "GB-ENG",
+  "district": "Greater London",
+  "city": "London",
+  "locality": "Westminster",
+  "zipcode": "SW1A",
+  "latitude": "51.50002",
+  "longitude": "-0.19244"
+}

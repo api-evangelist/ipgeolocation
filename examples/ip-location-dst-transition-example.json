@@ -1,0 +1,8 @@
+{
+  "utc_time": "2026-03-29 TIME 01:00",
+  "duration": "+1.00H",
+  "gap": true,
+  "date_time_after": "2026-03-29 TIME 03:00",
+  "date_time_before": "2026-03-29 TIME 02:00",
+  "overlap": false
+}

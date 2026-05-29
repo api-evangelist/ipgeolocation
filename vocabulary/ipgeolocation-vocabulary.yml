@@ -1,0 +1,370 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: IPGeolocation.io
+  description: >-
+    Unified taxonomy mapping IPGeolocation.io's operational surface (7 REST
+    APIs, 13 operations, ~47 schemas across IP Geolocation, IP Security, ASN,
+    Abuse Contact, Timezone, Astronomy, and User Agent) to the Naftiko
+    capability surface (7 self-contained capabilities, 13 MCP tools, 13 REST
+    surfaces). Tags use Title Case.
+  created: '2026-05-29'
+  modified: '2026-05-29'
+
+operational:
+  apis:
+    - name: IP Geolocation
+      namespace: ip-geolocation
+      version: '3.0'
+      baseUrl: https://api.ipgeolocation.io
+      status: active
+    - name: IP Security
+      namespace: ip-security
+      version: '3.0'
+      baseUrl: https://api.ipgeolocation.io
+      status: active
+    - name: ASN Lookup
+      namespace: asn
+      version: '3.0'
+      baseUrl: https://api.ipgeolocation.io
+      status: active
+    - name: IP Abuse Contact
+      namespace: abuse
+      version: '3.0'
+      baseUrl: https://api.ipgeolocation.io
+      status: active
+    - name: Timezone
+      namespace: timezone
+      version: '3.0'
+      baseUrl: https://api.ipgeolocation.io
+      status: active
+    - name: Astronomy
+      namespace: astronomy
+      version: '3.0'
+      baseUrl: https://api.ipgeolocation.io
+      status: active
+    - name: User Agent
+      namespace: user-agent
+      version: '3.0'
+      baseUrl: https://api.ipgeolocation.io
+      status: active
+
+  resources:
+    - name: ip-geolocation
+      api: IP Geolocation
+      actions: [lookup, bulkLookup]
+    - name: ip-security
+      api: IP Security
+      actions: [lookup, bulkLookup]
+    - name: asn
+      api: ASN Lookup
+      actions: [lookup]
+    - name: ip-abuse-contact
+      api: IP Abuse Contact
+      actions: [lookup]
+    - name: timezone
+      api: Timezone
+      actions: [lookup, convert]
+    - name: astronomy
+      api: Astronomy
+      actions: [lookup, timeSeries]
+    - name: user-agent
+      api: User Agent
+      actions: [parse, parseCustom, parseBulk]
+
+  actions:
+    - name: lookup
+      method: GET
+      pattern: read
+    - name: bulkLookup
+      method: POST
+      pattern: query
+    - name: convert
+      method: GET
+      pattern: query
+    - name: timeSeries
+      method: GET
+      pattern: query
+    - name: parse
+      method: GET
+      pattern: read
+    - name: parseCustom
+      method: POST
+      pattern: query
+    - name: parseBulk
+      method: POST
+      pattern: query
+
+  schemas:
+    core:
+      - IpGeolocationResponse
+      - IpSecurityResponse
+      - ASNLookupResponse
+      - AbuseLookupResponse
+      - TimezoneLookupResponse
+      - AstronomyLookupResponse
+      - UserAgentResponse
+    geo:
+      - Location
+      - CountryMetadata
+      - Currency
+      - Network
+    network:
+      - ASN
+      - ASNConnection
+      - Asn
+      - Company
+    security:
+      - Security
+    abuse:
+      - Abuse
+    timezone:
+      - Timezone
+      - TimeZone
+      - DSTTransition
+      - DstTransition
+      - AirportDetails
+      - LocodeDetails
+      - TimeConversionResponse
+    astronomy:
+      - AstronomyData
+      - AstronomyTimeSeriesEntry
+      - AstronomyTimeSeriesResponse
+      - TwilightPhase
+    user_agent:
+      - UserAgent
+      - UserAgentDevice
+      - UserAgentEngine
+      - UserAgentOperatingSystem
+      - Device
+      - Engine
+      - OperatingSystem
+    bulk:
+      - BulkGeolocationRequest
+      - BulkGeolocationResponseItem
+      - BulkGeolocationSuccessItem
+      - BulkGeolocationErrorItem
+      - BulkSecurityRequest
+      - BulkSecurityResponseItem
+      - BulkSecuritySuccessItem
+      - BulkSecurityErrorItem
+
+  parameters:
+    identifiers:
+      - ip
+      - asn
+      - tz
+      - iata_code
+      - icao_code
+      - lo_code
+    filters:
+      - fields
+      - excludes
+      - include
+    localization:
+      - lang
+      - output
+    geo_resolution:
+      - lat
+      - long
+      - location
+      - elevation
+    time:
+      - date
+      - dateStart
+      - dateEnd
+      - time
+      - time_zone
+    conversion:
+      - tz_from
+      - tz_to
+      - location_from
+      - location_to
+      - lat_from
+      - lat_to
+      - long_from
+      - long_to
+      - iata_from
+      - iata_to
+      - icao_from
+      - icao_to
+      - locode_from
+      - locode_to
+
+  enums:
+    output_formats: [json, xml]
+    languages: [en, de, es, fr, ja, pt-BR, ru, zh-CN, cs]
+
+  authentication:
+    schemes:
+      - name: ApiKeyAuth
+        type: apiKey
+        in: query
+        name: apiKey
+        appliesTo:
+          - IP Geolocation
+          - IP Security
+          - ASN Lookup
+          - IP Abuse Contact
+          - Timezone
+          - Astronomy
+          - User Agent
+      - name: RequestOriginAuth
+        type: cors
+        description: >-
+          Browser-side authentication tied to a registered domain on the
+          IPGeolocation dashboard. Avoids exposing the API key in client code.
+
+capability:
+  workflows:
+    - name: IPGeolocation IP Geolocation
+      file: capabilities/ip-location-ip-geolocation.yaml
+      apisCombined: [IP Geolocation]
+      tools: 2
+      personas: [Web Developer, Product Engineer, Analytics Engineer]
+      domains: [Personalization, Audience Analytics, Localization]
+    - name: IPGeolocation IP Security
+      file: capabilities/security-ip-security.yaml
+      apisCombined: [IP Security]
+      tools: 2
+      personas: [Fraud Analyst, SOC Engineer, Trust and Safety]
+      domains: [Fraud Prevention, Threat Intelligence]
+    - name: IPGeolocation ASN Lookup
+      file: capabilities/asn-asn-lookup.yaml
+      apisCombined: [ASN Lookup]
+      tools: 1
+      personas: [Network Engineer, SOC Engineer]
+      domains: [Network Intelligence, Investigation]
+    - name: IPGeolocation IP Abuse Contact
+      file: capabilities/abuse-ip-abuse-contact.yaml
+      apisCombined: [IP Abuse Contact]
+      tools: 1
+      personas: [SOC Engineer, Abuse Desk]
+      domains: [Security Operations, Takedown]
+    - name: IPGeolocation Timezone
+      file: capabilities/timezone-timezone.yaml
+      apisCombined: [Timezone]
+      tools: 2
+      personas: [Product Engineer, Scheduling Service]
+      domains: [Scheduling, Localization]
+    - name: IPGeolocation Astronomy
+      file: capabilities/astronomy-astronomy.yaml
+      apisCombined: [Astronomy]
+      tools: 2
+      personas: [Agriculture App, Lighting Automation, Observatory]
+      domains: [Astronomy, Automation]
+    - name: IPGeolocation User Agent
+      file: capabilities/user-agent-user-agent.yaml
+      apisCombined: [User Agent]
+      tools: 3
+      personas: [Analytics Engineer, Product Engineer]
+      domains: [Device Detection, Audience Analytics]
+
+  personas:
+    - id: web-developer
+      name: Web Developer
+      description: Builds personalization and geo-aware experiences.
+      workflows: [IPGeolocation IP Geolocation, IPGeolocation Timezone]
+    - id: fraud-analyst
+      name: Fraud Analyst
+      description: Scores signups, logins, and transactions for risk.
+      workflows: [IPGeolocation IP Security, IPGeolocation IP Geolocation]
+    - id: soc-engineer
+      name: SOC Engineer
+      description: Triages security incidents and routes abuse complaints.
+      workflows: [IPGeolocation IP Security, IPGeolocation ASN Lookup, IPGeolocation IP Abuse Contact]
+    - id: analytics-engineer
+      name: Analytics Engineer
+      description: Enriches event logs with geo, device, and ASN context.
+      workflows: [IPGeolocation IP Geolocation, IPGeolocation User Agent]
+    - id: scheduling-service
+      name: Scheduling Service
+      description: Resolves timezones and DST transitions.
+      workflows: [IPGeolocation Timezone]
+    - id: agriculture-app
+      name: Agriculture App
+      description: Plans crop operations around sunrise and sunset.
+      workflows: [IPGeolocation Astronomy]
+
+  domains:
+    - Personalization
+    - Audience Analytics
+    - Localization
+    - Fraud Prevention
+    - Threat Intelligence
+    - Network Intelligence
+    - Investigation
+    - Security Operations
+    - Takedown
+    - Scheduling
+    - Astronomy
+    - Automation
+    - Device Detection
+
+  namespaces:
+    consumed:
+      - ip-location-ip-geolocation
+      - security-ip-security
+      - asn-asn-lookup
+      - abuse-ip-abuse-contact
+      - timezone-timezone
+      - astronomy-astronomy
+      - user-agent-user-agent
+    rest:
+      - ip-location-ip-geolocation-rest
+      - security-ip-security-rest
+      - asn-asn-lookup-rest
+      - abuse-ip-abuse-contact-rest
+      - timezone-timezone-rest
+      - astronomy-astronomy-rest
+      - user-agent-user-agent-rest
+    mcp:
+      - ip-location-ip-geolocation-mcp
+      - security-ip-security-mcp
+      - asn-asn-lookup-mcp
+      - abuse-ip-abuse-contact-mcp
+      - timezone-timezone-mcp
+      - astronomy-astronomy-mcp
+      - user-agent-user-agent-mcp
+
+  binds:
+    - name: IPGEOLOCATION_API_KEY
+      description: IPGeolocation.io API key, set in env. Used by every capability.
+      workflows:
+        - IPGeolocation IP Geolocation
+        - IPGeolocation IP Security
+        - IPGeolocation ASN Lookup
+        - IPGeolocation IP Abuse Contact
+        - IPGeolocation Timezone
+        - IPGeolocation Astronomy
+        - IPGeolocation User Agent
+
+crossReference:
+  - resource: ip-geolocation
+    operations: [lookupIpGeolocation, bulkLookupIpGeolocation]
+    workflows: [IPGeolocation IP Geolocation]
+    personas: [Web Developer, Analytics Engineer, Fraud Analyst]
+  - resource: ip-security
+    operations: [lookupIpSecurity, bulkLookupIpSecurity]
+    workflows: [IPGeolocation IP Security]
+    personas: [Fraud Analyst, SOC Engineer]
+  - resource: asn
+    operations: [lookupASN]
+    workflows: [IPGeolocation ASN Lookup]
+    personas: [Network Engineer, SOC Engineer]
+  - resource: ip-abuse-contact
+    operations: [lookupIpAbuseContact]
+    workflows: [IPGeolocation IP Abuse Contact]
+    personas: [SOC Engineer]
+  - resource: timezone
+    operations: [lookupTimezone, convertTimezone]
+    workflows: [IPGeolocation Timezone]
+    personas: [Web Developer, Scheduling Service]
+  - resource: astronomy
+    operations: [lookupAstronomy, lookupAstronomyTimeSeries]
+    workflows: [IPGeolocation Astronomy]
+    personas: [Agriculture App, Lighting Automation]
+  - resource: user-agent
+    operations: [parseUserAgent, parseCustomUserAgent, parseUserAgentBulk]
+    workflows: [IPGeolocation User Agent]
+    personas: [Analytics Engineer]

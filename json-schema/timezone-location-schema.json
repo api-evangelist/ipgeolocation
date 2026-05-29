@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/timezone-location-schema.json",
+  "title": "Location",
+  "description": "Geolocation information associated with the requested IP address\nor location query.\n\nThis object appears when the timezone lookup is performed using\nthe `ip` or `location` parameters.\n\nIt provides geographic details such as continent, country,\nadministrative regions, and coordinates used to determine the\ncorresponding timezone.\n",
+  "type": "object",
+  "properties": {
+    "location_string": {
+      "type": "string",
+      "description": "Original location string provided in the request.",
+      "example": "London, UK"
+    },
+    "continent_code": {
+      "type": "string",
+      "description": "Two-letter continent code.",
+      "example": "EU"
+    },
+    "continent_name": {
+      "type": "string",
+      "description": "Full name of the continent.",
+      "example": "Europe"
+    },
+    "country_code2": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code.",
+      "example": "GB"
+    },
+    "country_code3": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-3 country code.",
+      "example": "GBR"
+    },
+    "country_name": {
+      "type": "string",
+      "description": "Common name of the country.",
+      "example": "United Kingdom"
+    },
+    "country_name_official": {
+      "type": "string",
+      "description": "Official name of the country.",
+      "example": "United Kingdom of Great Britain and Northern Ireland"
+    },
+    "is_eu": {
+      "type": "boolean",
+      "description": "Indicates whether the country is a member of the European Union."
+    },
+    "state_prov": {
+      "type": "string",
+      "description": "State, province, or region name.",
+      "example": "England"
+    },
+    "state_code": {
+      "type": "string",
+      "description": "Standardized state or region code.",
+      "example": "GB-ENG"
+    },
+    "district": {
+      "type": "string",
+      "description": "District or administrative subdivision.",
+      "example": "Greater London"
+    },
+    "city": {
+      "type": "string",
+      "description": "City name of the location.",
+      "example": "London"
+    },
+    "locality": {
+      "type": "string",
+      "description": "Smaller locality or neighborhood within the city.",
+      "example": "Westminster"
+    },
+    "zipcode": {
+      "type": "string",
+      "description": "ZIP or postal code of the location.",
+      "example": "SW1A"
+    },
+    "latitude": {
+      "type": "string",
+      "description": "Latitude coordinate of the location.",
+      "example": "51.50002"
+    },
+    "longitude": {
+      "type": "string",
+      "description": "Longitude coordinate of the location.",
+      "example": "-0.19244"
+    }
+  }
+}

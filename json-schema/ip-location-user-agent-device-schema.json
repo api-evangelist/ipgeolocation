@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/ip-location-user-agent-device-schema.json",
+  "title": "UserAgentDevice",
+  "description": "Device information extracted from the User-Agent string.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Device name or model.",
+      "example": "Linux Desktop"
+    },
+    "type": {
+      "type": "string",
+      "description": "Device type. Common values: `Desktop`, `Smartphone`, `Tablet`, `Robot`,\n`Smart TV`.\n",
+      "example": "Desktop"
+    },
+    "brand": {
+      "type": "string",
+      "description": "Device manufacturer or brand. `Unknown` if not detectable.",
+      "example": "Unknown"
+    },
+    "cpu": {
+      "type": "string",
+      "description": "CPU architecture if detectable (e.g. `Intel x86_64`, `ARM`). `Unknown` otherwise.",
+      "example": "Intel x86_64"
+    }
+  }
+}

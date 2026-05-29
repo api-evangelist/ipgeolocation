@@ -1,0 +1,164 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IPGeolocation.io — IP Security
+  description: 'IPGeolocation.io IP Security. 2 operations. Lead operation: Single IP security lookup. Self-contained Naftiko capability covering one IPGeolocation.io business surface.'
+  tags:
+  - IPGeolocation
+  - IP Intelligence
+  - IP Security
+  created: '2026-05-29'
+  modified: '2026-05-29'
+binds:
+- namespace: env
+  keys:
+    IPGEOLOCATION_API_KEY: IPGEOLOCATION_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: security-ip-security
+    baseUri: https://api.ipgeolocation.io
+    description: IPGeolocation.io — IP Security business capability. Self-contained, no shared references.
+    authentication:
+      type: apikey
+      key: apiKey
+      value: '{{env.IPGEOLOCATION_API_KEY}}'
+      placement: query
+    resources:
+    - name: security
+      path: /v3/security
+      operations:
+      - name: lookupIpSecurity
+        method: GET
+        description: Single IP security lookup
+        inputParameters:
+        - name: ip
+          in: query
+          type: string
+          required: false
+          description: An IPv4 address or IPv6 address to look up. When omitted, the API
+        - name: fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of fields or objects to return. Everything else is omitted.
+        - name: excludes
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of fields or objects to remove from the response. The `ip`
+        - name: output
+          in: query
+          type: string
+          required: false
+          description: Desired response format. Defaults to `json` if not specified. You can also
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: security-bulk
+      path: /v3/security-bulk
+      operations:
+      - name: bulkLookupIpSecurity
+        method: POST
+        description: Bulk IP security lookup
+        inputParameters:
+        - name: fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of fields or objects to return. Everything else is omitted.
+        - name: excludes
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of fields or objects to remove from the response. The `ip`
+        - name: output
+          in: query
+          type: string
+          required: false
+          description: Desired response format. Defaults to `json` if not specified. You can also
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: A JSON object containing an `ips` array. Each element is a string representing
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: security-ip-security-rest
+    port: 8080
+    description: REST adapter for IPGeolocation.io — IP Security. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/security
+      name: security
+      description: REST surface for /v3/security.
+      operations:
+      - method: GET
+        name: lookupIpSecurity
+        description: Single IP security lookup
+        call: security-ip-security.lookupIpSecurity
+        with:
+          ip: rest.ip
+          fields: rest.fields
+          excludes: rest.excludes
+          output: rest.output
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/security-bulk
+      name: security-bulk
+      description: REST surface for /v3/security-bulk.
+      operations:
+      - method: POST
+        name: bulkLookupIpSecurity
+        description: Bulk IP security lookup
+        call: security-ip-security.bulkLookupIpSecurity
+        with:
+          fields: rest.fields
+          excludes: rest.excludes
+          output: rest.output
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: security-ip-security-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for IPGeolocation.io — IP Security. One tool per consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: single-ip-security-lookup
+      description: Single IP security lookup
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: security-ip-security.lookupIpSecurity
+      with:
+        ip: tools.ip
+        fields: tools.fields
+        excludes: tools.excludes
+        output: tools.output
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bulk-ip-security-lookup
+      description: Bulk IP security lookup
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: security-ip-security.bulkLookupIpSecurity
+      with:
+        fields: tools.fields
+        excludes: tools.excludes
+        output: tools.output
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

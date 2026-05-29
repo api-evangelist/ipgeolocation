@@ -1,0 +1,121 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: IPGeolocation.io
+providerId: ipgeolocation
+created: '2026-05-29'
+modified: '2026-05-29'
+reconciled: true
+tags:
+  - FinOps
+  - FOCUS
+  - IP Geolocation
+  - IP Intelligence
+  - Tiered Subscription
+description: >-
+  FOCUS-aligned FinOps for IPGeolocation.io — monthly tiered subscription
+  (Starter through Premium) with a single credit meter shared across the
+  seven API products, plus per-block overage charges and custom-quoted MMDB
+  database licences.
+sources:
+  - https://ipgeolocation.io/pricing.html
+  - https://ipgeolocation.io/db-pricing.html
+  - https://ipgeolocation.io/documentation
+  - https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: IPGeolocation LLC
+serviceCategory: IP Intelligence + Geocoding
+billingModel:
+  pricingCategory: Tiered Subscription + Usage Overage
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+    - Usage
+    - Purchase
+    - Tax
+    - Refund
+    - Credit
+focusColumns:
+  ServiceName: IPGeolocation.io
+  ServiceCategory: IP Intelligence
+  ServiceSubcategory: Geocoding / Threat Intelligence / Timezone / Astronomy / User Agent
+  ProviderName: IPGeolocation.io
+  PublisherName: IPGeolocation LLC
+  InvoiceIssuerName: IPGeolocation LLC
+  BillingCurrency: USD
+  ChargeCategory: Usage
+meters:
+  - name: api_credits
+    unit: request
+    aggregation: sum
+    dimensions:
+      - api_product
+      - endpoint
+      - http_method
+      - response_code
+  - name: api_credits_overage
+    unit: request
+    aggregation: sum
+    dimensions:
+      - plan
+      - overage_block
+  - name: bulk_entries
+    unit: entry
+    aggregation: sum
+    dimensions:
+      - bulk_endpoint
+  - name: plan_subscription
+    unit: month
+    aggregation: count
+    dimensions:
+      - plan
+      - billing_cycle
+  - name: mmdb_database_licence
+    unit: month
+    aggregation: count
+    dimensions:
+      - database_tier
+      - bundle
+      - dataset
+  - name: mmdb_downloads
+    unit: download
+    aggregation: count
+    dimensions:
+      - database_tier
+      - file
+principles:
+  - name: Visibility
+    description: >-
+      Track consumption in the IPGeolocation dashboard
+      (app.ipgeolocation.io), which exposes per-day and per-month credit
+      counts, current plan quota, overage band, and per-endpoint breakdowns.
+      Surface the same data in customer FinOps tooling by polling the
+      dashboard or scraping the daily billing summary.
+  - name: Allocation
+    description: >-
+      Allocate credits by issuing one API key per team, app, or environment
+      (the dashboard supports multiple keys under one account). Tag
+      downstream usage with the API product (geo, security, asn, abuse,
+      timezone, astronomy, user-agent) and the call site so cross-charges
+      can be modeled against the shared monthly quota.
+  - name: Optimization
+    description: >-
+      Three primary levers: (1) prefer bulk endpoints over per-IP loops to
+      reduce HTTP round-trips (cost is identical but throughput improves);
+      (2) cache geolocation/ASN lookups locally — IP-to-country mappings are
+      stable enough to justify a TTL of 24h+ for personalization;
+      (3) for high-volume offline use, move to the MMDB database tier
+      (Geo Standard / Geo Advance / Security Pro) where the unit economics
+      collapse vs. per-call API pricing. Annual billing also yields roughly
+      two months free.
+  - name: Accountability
+    description: >-
+      Designate a single account owner who reviews the monthly invoice in
+      the dashboard, sets up email alerts on quota at 50/80/100%, and
+      reconciles overage charges back to the team or product that drove
+      them. Rotate API keys quarterly to enforce ownership.

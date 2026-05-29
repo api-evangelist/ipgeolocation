@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/asn-asnconnection-schema.json",
+  "title": "ASNConnection",
+  "description": "Represents a connected Autonomous System such as a peer,\nupstream provider, or downstream customer.\n",
+  "type": "object",
+  "properties": {
+    "as_number": {
+      "type": "string",
+      "description": "Autonomous System Number of the connected network.",
+      "example": "AS3356"
+    },
+    "description": {
+      "type": "string",
+      "description": "Name or description of the connected network operator.",
+      "example": "Level 3 Parent, LLC"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country code of the connected ASN.",
+      "example": "US"
+    }
+  }
+}

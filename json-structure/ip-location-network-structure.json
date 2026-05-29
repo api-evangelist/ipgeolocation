@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/ip-location-network-structure.json",
+  "name": "Network",
+  "description": "Network routing information for the IP. Included by default on paid plans.\nNot available on the free plan.\n",
+  "type": "object",
+  "properties": {
+    "connection_type": {
+      "type": "string",
+      "description": "Type of network connection for this IP. Known values: `DSL`, `Cable`,\n`Fiber`, `Mobile`, `Wireless`, `Dial-Up/ISDN`, `Satellite`. Empty string\nwhen the type cannot be determined.\n",
+      "example": ""
+    },
+    "route": {
+      "type": "string",
+      "description": "BGP route prefix in CIDR notation.",
+      "example": "91.128.0.0/14"
+    },
+    "is_anycast": {
+      "type": "boolean",
+      "description": "Whether the IP is part of an anycast network.",
+      "example": false
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/ip-location-company-structure.json",
+  "name": "Company",
+  "description": "Company or organization operating the IP range. Included by default on paid\nplans. Not available on the free plan.\n",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Company or organization name.",
+      "example": "Tele2 Sverige AB"
+    },
+    "type": {
+      "type": "string",
+      "description": "Company category. Documented values: `ISP`, `HOSTING`, `BUSINESS`,\n`EDUCATION`, `GOVERNMENT`. All uppercase, consistent with `asn.type`.\nMay be an empty string when the company type cannot be determined.\n",
+      "example": "ISP"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Primary domain of the company.",
+      "example": "tele2.com"
+    }
+  }
+}

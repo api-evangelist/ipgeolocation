@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/ip-location-country-metadata-schema.json",
+  "title": "CountryMetadata",
+  "description": "Telephone, TLD, and language information for the country.",
+  "type": "object",
+  "properties": {
+    "calling_code": {
+      "type": "string",
+      "description": "International dialing code with leading `+`.",
+      "example": "+46"
+    },
+    "tld": {
+      "type": "string",
+      "description": "Country-code top-level domain.",
+      "example": ".se"
+    },
+    "languages": {
+      "type": "array",
+      "description": "IETF language tags spoken in the country, ordered by prevalence.\n",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "sv-SE",
+        "se",
+        "sma",
+        "fi-SE"
+      ]
+    }
+  }
+}

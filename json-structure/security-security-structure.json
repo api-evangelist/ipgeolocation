@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/security-security-structure.json",
+  "name": "Security",
+  "description": "Threat intelligence and anonymization signals for the IP. Costs 2 credits.\n",
+  "type": "object",
+  "properties": {
+    "threat_score": {
+      "type": "double",
+      "description": "Overall threat score from 0 (clean) to 100 (high risk). Aggregated from\nall the individual signals below.\n",
+      "minimum": 0,
+      "maximum": 100,
+      "example": 80
+    },
+    "is_tor": {
+      "type": "boolean",
+      "description": "Whether the IP is a known Tor exit node.",
+      "example": false
+    },
+    "is_proxy": {
+      "type": "boolean",
+      "description": "Whether the IP belongs to a known proxy service.",
+      "example": true
+    },
+    "proxy_provider_names": {
+      "type": "array",
+      "description": "Names of proxy providers associated with this IP, if any.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "Zyte Proxy"
+      ]
+    },
+    "proxy_confidence_score": {
+      "type": "double",
+      "description": "Confidence that this IP is a proxy, from 0 to 100. Only meaningful when\n`is_proxy` is `true`.\n",
+      "minimum": 0,
+      "maximum": 100,
+      "example": 90
+    },
+    "proxy_last_seen": {
+      "type": "string",
+      "description": "Date when this IP was last observed acting as a proxy, in `YYYY-MM-DD`\nformat. Empty string if never seen.\n",
+      "example": "2025-12-12"
+    },
+    "is_residential_proxy": {
+      "type": "boolean",
+      "description": "Whether the IP is a known residential proxy.",
+      "example": true
+    },
+    "is_vpn": {
+      "type": "boolean",
+      "description": "Whether the IP belongs to a known VPN provider.",
+      "example": true
+    },
+    "vpn_provider_names": {
+      "type": "array",
+      "description": "Names of VPN providers associated with this IP, if any.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "Nord VPN"
+      ]
+    },
+    "vpn_confidence_score": {
+      "type": "double",
+      "description": "Confidence that this IP is a VPN endpoint, from 0 to 100. Only meaningful\nwhen `is_vpn` is `true`.\n",
+      "minimum": 0,
+      "maximum": 100,
+      "example": 90
+    },
+    "vpn_last_seen": {
+      "type": "string",
+      "description": "Date when this IP was last observed as a VPN endpoint, in `YYYY-MM-DD`\nformat. Empty string if never seen.\n",
+      "example": "2026-01-19"
+    },
+    "is_relay": {
+      "type": "boolean",
+      "description": "Whether the IP is part of a known relay network (e.g. iCloud Private Relay).",
+      "example": false
+    },
+    "relay_provider_name": {
+      "type": "string",
+      "description": "Name of the relay provider, if any. Empty string if not a relay.",
+      "example": ""
+    },
+    "is_anonymous": {
+      "type": "boolean",
+      "description": "Whether the IP is associated with any anonymization method (VPN, proxy,\nTor, or relay).\n",
+      "example": true
+    },
+    "is_known_attacker": {
+      "type": "boolean",
+      "description": "Whether the IP has been flagged in known attacker or threat feeds.",
+      "example": true
+    },
+    "is_bot": {
+      "type": "boolean",
+      "description": "Whether the IP is associated with known bot activity.",
+      "example": false
+    },
+    "is_spam": {
+      "type": "boolean",
+      "description": "Whether the IP is listed in spam databases.",
+      "example": false
+    },
+    "is_cloud_provider": {
+      "type": "boolean",
+      "description": "Whether the IP belongs to a cloud hosting or data center provider.",
+      "example": true
+    },
+    "cloud_provider_name": {
+      "type": "string",
+      "description": "Name of the cloud provider, if applicable. Empty string otherwise.",
+      "example": "Packethub S.A."
+    }
+  }
+}

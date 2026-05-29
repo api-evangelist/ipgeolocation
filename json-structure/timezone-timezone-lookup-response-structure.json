@@ -1,0 +1,402 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/timezone-timezone-lookup-response-structure.json",
+  "name": "TimezoneLookupResponse",
+  "description": "Response returned by the Timezone Lookup API.\n\nContains timezone information for the requested identifier such as a\ntimezone name, IP address, geographic coordinates, location address,\nairport code (IATA/ICAO), or UN/LOCODE.\n\nDepending on the lookup method used, additional contextual objects may\nbe returned:\n\n- `ip` appears when the lookup is performed using an IP address or when\n  no parameters are provided (caller IP lookup).\n- `location` appears when the lookup is performed using an IP address\n  or location address.\n- `airport_details` appears when the lookup is performed using\n  `iata_code` or `icao_code`.\n- `lo_code_details` appears when the lookup is performed using\n  `lo_code`.\n\nThe `time_zone` object is always present in the response.\n",
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "description": "The IP address used to determine the timezone. This field appears\nonly when the lookup is performed using an IP address or when the\nAPI resolves the caller's IP automatically.\n",
+      "example": "8.8.8.8"
+    },
+    "location": {
+      "type": "object",
+      "description": "Geolocation information associated with the requested IP address\nor location query.\n\nThis object appears when the timezone lookup is performed using\nthe `ip` or `location` parameters.\n\nIt provides geographic details such as continent, country,\nadministrative regions, and coordinates used to determine the\ncorresponding timezone.\n",
+      "properties": {
+        "location_string": {
+          "type": "string",
+          "description": "Original location string provided in the request.",
+          "example": "London, UK"
+        },
+        "continent_code": {
+          "type": "string",
+          "description": "Two-letter continent code.",
+          "example": "EU"
+        },
+        "continent_name": {
+          "type": "string",
+          "description": "Full name of the continent.",
+          "example": "Europe"
+        },
+        "country_code2": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code.",
+          "example": "GB"
+        },
+        "country_code3": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-3 country code.",
+          "example": "GBR"
+        },
+        "country_name": {
+          "type": "string",
+          "description": "Common name of the country.",
+          "example": "United Kingdom"
+        },
+        "country_name_official": {
+          "type": "string",
+          "description": "Official name of the country.",
+          "example": "United Kingdom of Great Britain and Northern Ireland"
+        },
+        "is_eu": {
+          "type": "boolean",
+          "description": "Indicates whether the country is a member of the European Union."
+        },
+        "state_prov": {
+          "type": "string",
+          "description": "State, province, or region name.",
+          "example": "England"
+        },
+        "state_code": {
+          "type": "string",
+          "description": "Standardized state or region code.",
+          "example": "GB-ENG"
+        },
+        "district": {
+          "type": "string",
+          "description": "District or administrative subdivision.",
+          "example": "Greater London"
+        },
+        "city": {
+          "type": "string",
+          "description": "City name of the location.",
+          "example": "London"
+        },
+        "locality": {
+          "type": "string",
+          "description": "Smaller locality or neighborhood within the city.",
+          "example": "Westminster"
+        },
+        "zipcode": {
+          "type": "string",
+          "description": "ZIP or postal code of the location.",
+          "example": "SW1A"
+        },
+        "latitude": {
+          "type": "string",
+          "description": "Latitude coordinate of the location.",
+          "example": "51.50002"
+        },
+        "longitude": {
+          "type": "string",
+          "description": "Longitude coordinate of the location.",
+          "example": "-0.19244"
+        }
+      }
+    },
+    "airport_details": {
+      "type": "object",
+      "description": "Airport information returned when the timezone lookup is performed\nusing `iata_code` or `icao_code`.\n\nContains metadata about the airport including its geographic\ncoordinates, country, and airport identifiers.\n",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Classification of the airport based on size and traffic.",
+          "example": "large_airport"
+        },
+        "name": {
+          "type": "string",
+          "description": "Official name of the airport.",
+          "example": "Hartsfield Jackson Atlanta International Airport"
+        },
+        "latitude": {
+          "type": "string",
+          "description": "Latitude coordinate of the airport.",
+          "example": "33.63670"
+        },
+        "longitude": {
+          "type": "string",
+          "description": "Longitude coordinate of the airport.",
+          "example": "-84.42810"
+        },
+        "elevation_ft": {
+          "type": "double",
+          "description": "Airport elevation above sea level measured in feet.",
+          "example": 1026
+        },
+        "continent_code": {
+          "type": "string",
+          "description": "Two-letter continent code where the airport is located.",
+          "example": "NA"
+        },
+        "country_code": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code.",
+          "example": "US"
+        },
+        "state_code": {
+          "type": "string",
+          "description": "State or province code where the airport is located.",
+          "example": "US-GA"
+        },
+        "city": {
+          "type": "string",
+          "description": "City served by the airport.",
+          "example": "Atlanta"
+        },
+        "iata_code": {
+          "type": "string",
+          "description": "Three-letter IATA airport identifier.",
+          "example": "ATL"
+        },
+        "icao_code": {
+          "type": "string",
+          "description": "Four-letter ICAO airport identifier.",
+          "example": "KATL"
+        },
+        "faa_code": {
+          "type": "string",
+          "description": "FAA location identifier used primarily in the United States.",
+          "example": ""
+        }
+      }
+    },
+    "lo_code_details": {
+      "type": "object",
+      "description": "City or logistics location information returned when the timezone\nlookup is performed using a UN/LOCODE.\n\nUN/LOCODE is a five-character identifier consisting of a two-letter\ncountry code followed by a three-character location identifier.\n",
+      "properties": {
+        "lo_code": {
+          "type": "string",
+          "description": "UN/LOCODE representing the city or logistics location.",
+          "example": "DEBER"
+        },
+        "city": {
+          "type": "string",
+          "description": "Name of the city associated with the UN/LOCODE.",
+          "example": "Berlin"
+        },
+        "state_code": {
+          "type": "string",
+          "description": "State or region code of the location.",
+          "example": "BE"
+        },
+        "country_code": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code.",
+          "example": "DE"
+        },
+        "country_name": {
+          "type": "string",
+          "description": "Name of the country where the location exists.",
+          "example": "Germany"
+        },
+        "location_type": {
+          "type": "string",
+          "description": "Type of facilities available at the location such as port,\nrail terminal, road terminal, airport, or postal exchange.\n",
+          "example": "Port, Rail Terminal, Road Terminal, Airport, Postal Exchange"
+        },
+        "latitude": {
+          "type": "string",
+          "description": "Latitude coordinate of the location.",
+          "example": "52.51667"
+        },
+        "longitude": {
+          "type": "string",
+          "description": "Longitude coordinate of the location.",
+          "example": "13.38333"
+        }
+      }
+    },
+    "time_zone": {
+      "type": "object",
+      "description": "Detailed timezone information for the requested location or identifier.\n\nContains timezone metadata such as UTC offset, daylight saving time (DST)\nstatus, formatted timestamps, and DST transition information.\n",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "IANA timezone identifier for the location.",
+          "example": "America/Los_Angeles"
+        },
+        "offset": {
+          "format": "float",
+          "description": "Standard timezone offset from UTC in hours.",
+          "example": -8
+        },
+        "offset_with_dst": {
+          "format": "float",
+          "description": "Timezone offset from UTC including daylight saving time.",
+          "example": -7
+        },
+        "date": {
+          "type": "string",
+          "description": "Current date in `YYYY-MM-DD` format.",
+          "example": "2025-04-24"
+        },
+        "date_time": {
+          "type": "string",
+          "description": "Current date and time in `YYYY-MM-DD HH:mm:ss` format.",
+          "example": "2025-04-24 11:30:12"
+        },
+        "date_time_txt": {
+          "type": "string",
+          "description": "Human-readable date and time string.",
+          "example": "Thursday, April 24, 2025 11:30:12"
+        },
+        "date_time_wti": {
+          "type": "string",
+          "description": "Date and time with timezone information.",
+          "example": "Thu, 24 Apr 2025 11:30:12 -0700"
+        },
+        "date_time_ymd": {
+          "type": "string",
+          "description": "ISO-8601 formatted date and time with timezone offset.",
+          "example": "2025-04-24T11:30:12-0700"
+        },
+        "current_time_unix": {
+          "type": "float",
+          "description": "Unix timestamp representing the current date and time.",
+          "example": 1745519412.353
+        },
+        "time_24": {
+          "type": "string",
+          "description": "Current local time in 24-hour format.",
+          "example": "11:30:12"
+        },
+        "time_12": {
+          "type": "string",
+          "description": "Current local time in 12-hour format.",
+          "example": "11:30:12 AM"
+        },
+        "week": {
+          "type": "double",
+          "description": "Week number of the current year.",
+          "example": 17
+        },
+        "month": {
+          "type": "double",
+          "description": "Current month number.",
+          "example": 4
+        },
+        "year": {
+          "type": "double",
+          "description": "Four-digit year.",
+          "example": 2025
+        },
+        "year_abbr": {
+          "type": "string",
+          "description": "Two-digit abbreviated year.",
+          "example": "25"
+        },
+        "current_tz_abbreviation": {
+          "type": "string",
+          "description": "Abbreviation of the timezone currently in effect.",
+          "example": "AEST"
+        },
+        "current_tz_full_name": {
+          "type": "string",
+          "description": "Full name of the timezone currently in effect.",
+          "example": "Australian Eastern Standard Time"
+        },
+        "standard_tz_abbreviation": {
+          "type": "string",
+          "description": "Standard (non-DST) timezone abbreviation.",
+          "example": "AEST"
+        },
+        "standard_tz_full_name": {
+          "type": "string",
+          "description": "Full name of the standard timezone.",
+          "example": "Australian Eastern Standard Time"
+        },
+        "is_dst": {
+          "type": "boolean",
+          "description": "Indicates whether daylight saving time is currently active."
+        },
+        "dst_savings": {
+          "type": "float",
+          "description": "Number of hours added during daylight saving time."
+        },
+        "dst_exists": {
+          "type": "boolean",
+          "description": "Indicates whether the region observes daylight saving time."
+        },
+        "dst_tz_abbreviation": {
+          "type": "string",
+          "description": "Abbreviation used during daylight saving time.",
+          "example": "PDT"
+        },
+        "dst_tz_full_name": {
+          "type": "string",
+          "description": "Full name used during daylight saving time.",
+          "example": "Pacific Daylight Time"
+        },
+        "dst_start": {
+          "type": "object",
+          "description": "Represents a daylight saving time transition event including the\nmoment when DST begins or ends.\n",
+          "properties": {
+            "utc_time": {
+              "type": "string",
+              "description": "UTC timestamp when the DST transition occurs.",
+              "example": "2025-03-09 TIME 10"
+            },
+            "duration": {
+              "type": "string",
+              "description": "Time change applied during the transition.",
+              "example": "+1H"
+            },
+            "gap": {
+              "type": "boolean",
+              "description": "Indicates whether an hour is skipped during the transition."
+            },
+            "date_time_after": {
+              "type": "string",
+              "description": "Local date and time immediately after the DST change.",
+              "example": "2025-03-09 TIME 03"
+            },
+            "date_time_before": {
+              "type": "string",
+              "description": "Local date and time immediately before the DST change.",
+              "example": "2025-03-09 TIME 02"
+            },
+            "overlap": {
+              "type": "boolean",
+              "description": "Indicates whether clock time overlaps during the transition."
+            }
+          }
+        },
+        "dst_end": {
+          "type": "object",
+          "description": "Represents a daylight saving time transition event including the\nmoment when DST begins or ends.\n",
+          "properties": {
+            "utc_time": {
+              "type": "string",
+              "description": "UTC timestamp when the DST transition occurs.",
+              "example": "2025-03-09 TIME 10"
+            },
+            "duration": {
+              "type": "string",
+              "description": "Time change applied during the transition.",
+              "example": "+1H"
+            },
+            "gap": {
+              "type": "boolean",
+              "description": "Indicates whether an hour is skipped during the transition."
+            },
+            "date_time_after": {
+              "type": "string",
+              "description": "Local date and time immediately after the DST change.",
+              "example": "2025-03-09 TIME 03"
+            },
+            "date_time_before": {
+              "type": "string",
+              "description": "Local date and time immediately before the DST change.",
+              "example": "2025-03-09 TIME 02"
+            },
+            "overlap": {
+              "type": "boolean",
+              "description": "Indicates whether clock time overlaps during the transition."
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/user-agent-engine-structure.json",
+  "name": "Engine",
+  "description": "Layout engine information extracted from the user agent string.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the layout engine (e.g. `\"AppleWebKit\"`, `\"Blink\"`, `\"Gecko\"`).",
+      "example": "AppleWebKit"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the layout engine. See possible values in the documentation.\n",
+      "example": "Browser"
+    },
+    "version": {
+      "type": "string",
+      "description": "Full version string of the layout engine. May be `\"??\"` if unknown.",
+      "example": "601.3.9"
+    },
+    "version_major": {
+      "type": "string",
+      "description": "Major version of the layout engine. May be `\"??\"` if unknown.",
+      "example": "601"
+    }
+  }
+}

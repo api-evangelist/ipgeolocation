@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/user-agent-user-agent-response-schema.json",
+  "title": "UserAgentResponse",
+  "description": "Parsed user agent details including browser, device, layout engine, and\noperating system information. Also indicates bots, crawlers, or malicious\nuser agent strings.\n",
+  "type": "object",
+  "properties": {
+    "user_agent_string": {
+      "type": "string",
+      "description": "The raw user agent string that was parsed.",
+      "example": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the detected agent (e.g. browser name, bot name, or `\"Hacker\"`\nif the string is malformed or contains injected scripts).\n",
+      "example": "Safari"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the detected user agent. See possible values in the documentation.\n",
+      "example": "Browser"
+    },
+    "version": {
+      "type": "string",
+      "description": "Full version string of the detected agent.",
+      "example": "9.0.2"
+    },
+    "version_major": {
+      "type": "string",
+      "description": "Major version of the detected agent.",
+      "example": "9"
+    },
+    "device": {
+      "type": "object",
+      "description": "Hardware device information extracted from the user agent string.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the device (e.g. model name or manufacturer).",
+          "example": "Apple Macintosh"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the device. See possible values in the documentation.\n",
+          "example": "Desktop"
+        },
+        "brand": {
+          "type": "string",
+          "description": "Brand or manufacturer of the device.",
+          "example": "Apple"
+        },
+        "cpu": {
+          "type": "string",
+          "description": "CPU architecture or model of the device. May be `\"Unknown\"`.",
+          "example": "Intel"
+        }
+      }
+    },
+    "engine": {
+      "type": "object",
+      "description": "Layout engine information extracted from the user agent string.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the layout engine (e.g. `\"AppleWebKit\"`, `\"Blink\"`, `\"Gecko\"`).",
+          "example": "AppleWebKit"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the layout engine. See possible values in the documentation.\n",
+          "example": "Browser"
+        },
+        "version": {
+          "type": "string",
+          "description": "Full version string of the layout engine. May be `\"??\"` if unknown.",
+          "example": "601.3.9"
+        },
+        "version_major": {
+          "type": "string",
+          "description": "Major version of the layout engine. May be `\"??\"` if unknown.",
+          "example": "601"
+        }
+      }
+    },
+    "operating_system": {
+      "type": "object",
+      "description": "Operating system information extracted from the user agent string.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the operating system.",
+          "example": "Mac OS"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the operating system. See possible values in the documentation.\n",
+          "example": "Desktop"
+        },
+        "version": {
+          "type": "string",
+          "description": "Full version string of the operating system. May be `\"??\"` if unknown.",
+          "example": "10.11.2"
+        },
+        "version_major": {
+          "type": "string",
+          "description": "Major version of the operating system. May be `\"??\"` if unknown.",
+          "example": "10.11"
+        },
+        "build": {
+          "type": "string",
+          "description": "Build identifier of the operating system. May be `\"??\"` if unknown.",
+          "example": "??"
+        }
+      }
+    }
+  }
+}

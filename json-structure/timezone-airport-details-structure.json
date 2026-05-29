@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/timezone-airport-details-structure.json",
+  "name": "AirportDetails",
+  "description": "Airport information returned when the timezone lookup is performed\nusing `iata_code` or `icao_code`.\n\nContains metadata about the airport including its geographic\ncoordinates, country, and airport identifiers.\n",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Classification of the airport based on size and traffic.",
+      "example": "large_airport"
+    },
+    "name": {
+      "type": "string",
+      "description": "Official name of the airport.",
+      "example": "Hartsfield Jackson Atlanta International Airport"
+    },
+    "latitude": {
+      "type": "string",
+      "description": "Latitude coordinate of the airport.",
+      "example": "33.63670"
+    },
+    "longitude": {
+      "type": "string",
+      "description": "Longitude coordinate of the airport.",
+      "example": "-84.42810"
+    },
+    "elevation_ft": {
+      "type": "double",
+      "description": "Airport elevation above sea level measured in feet.",
+      "example": 1026
+    },
+    "continent_code": {
+      "type": "string",
+      "description": "Two-letter continent code where the airport is located.",
+      "example": "NA"
+    },
+    "country_code": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code.",
+      "example": "US"
+    },
+    "state_code": {
+      "type": "string",
+      "description": "State or province code where the airport is located.",
+      "example": "US-GA"
+    },
+    "city": {
+      "type": "string",
+      "description": "City served by the airport.",
+      "example": "Atlanta"
+    },
+    "iata_code": {
+      "type": "string",
+      "description": "Three-letter IATA airport identifier.",
+      "example": "ATL"
+    },
+    "icao_code": {
+      "type": "string",
+      "description": "Four-letter ICAO airport identifier.",
+      "example": "KATL"
+    },
+    "faa_code": {
+      "type": "string",
+      "description": "FAA location identifier used primarily in the United States.",
+      "example": ""
+    }
+  }
+}

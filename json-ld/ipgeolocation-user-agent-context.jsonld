@@ -1,0 +1,57 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ipgeo": "https://ipgeolocation.io/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Device": "ipgeo:Device",
+    "Engine": "ipgeo:Engine",
+    "OperatingSystem": "ipgeo:OperatingSystem",
+    "UserAgentResponse": "ipgeo:UserAgentResponse",
+    "brand": {
+      "@id": "ipgeo:brand",
+      "@type": "xsd:string"
+    },
+    "build": {
+      "@id": "ipgeo:build",
+      "@type": "xsd:string"
+    },
+    "cpu": {
+      "@id": "ipgeo:cpu",
+      "@type": "xsd:string"
+    },
+    "device": {
+      "@id": "ipgeo:device",
+      "@type": "@id"
+    },
+    "engine": {
+      "@id": "ipgeo:engine",
+      "@type": "@id"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "operating_system": {
+      "@id": "ipgeo:operating_system",
+      "@type": "@id"
+    },
+    "type": {
+      "@id": "ipgeo:type",
+      "@type": "xsd:string"
+    },
+    "user_agent_string": {
+      "@id": "ipgeo:user_agent_string",
+      "@type": "xsd:string"
+    },
+    "version": {
+      "@id": "schema:version",
+      "@type": "xsd:string"
+    },
+    "version_major": {
+      "@id": "ipgeo:version_major",
+      "@type": "xsd:string"
+    }
+  }
+}

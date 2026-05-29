@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/ip-location-asn-structure.json",
+  "name": "Asn",
+  "description": "Autonomous System Number details for the IP. Free plans receive `as_number`,\n`organization`, and `country` only. Paid plans also receive `type`, `domain`,\n`date_allocated`, and `rir`.\n",
+  "type": "object",
+  "properties": {
+    "as_number": {
+      "type": "string",
+      "description": "AS number prefixed with `AS` (e.g. `AS1257`).",
+      "example": "AS1257"
+    },
+    "organization": {
+      "type": "string",
+      "description": "Name of the organization that owns the ASN.",
+      "example": "Tele2 Sverige AB"
+    },
+    "country": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country where the ASN is registered.",
+      "example": "SE"
+    },
+    "type": {
+      "type": "string",
+      "description": "Organization type. Values: `ISP`, `HOSTING`, `BUSINESS`, `EDUCATION`,\n`GOVERNMENT`. Paid plans only.\n",
+      "example": "ISP"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Primary domain of the ASN holder. Paid plans only.",
+      "example": "tele2.com"
+    },
+    "date_allocated": {
+      "type": "string",
+      "description": "Date when the ASN was allocated, in `YYYY-MM-DD` format (e.g.\n`2024-12-13`). Paid plans only.\n",
+      "example": "2024-12-13"
+    },
+    "rir": {
+      "type": "string",
+      "description": "Regional Internet Registry (RIR) that allocated the ASN. Possible values include `RIPE`, `ARIN`, `APNIC`, `LACNIC`, `AFRINIC`, etc.\n",
+      "example": "RIPE"
+    }
+  }
+}

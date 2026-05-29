@@ -1,32 +1,359 @@
 aid: ipgeolocation
-name: ipgeolocation
-description: "IP Geolocation AP with free plan 30k requests per month"
+name: IPGeolocation.io
+description: >-
+  IPGeolocation.io is a multi-product IP intelligence platform offering IP
+  geolocation, IP security/threat intelligence, ASN lookup, abuse contact,
+  timezone, astronomy (sunrise, sunset, moon phase, celestial position), and
+  user-agent parsing APIs. All endpoints are served under
+  https://api.ipgeolocation.io with API-key authentication. The free plan
+  offers 1,000 credits/day; paid plans (Starter through Premium) scale from
+  150K to 5M requests/month, with custom Enterprise pricing on top.
 url: https://ipgeolocation.io/
 specificationVersion: '0.20'
 created: '2026-05-28'
-modified: '2026-05-28'
+modified: '2026-05-29'
 x-source: public-apis/public-apis
-x-category: "Geocoding"
+x-category: Geocoding
+x-type: company
 x-tier: 3
 x-tier-reason: bulk-registered-from-public-apis
 tags:
   - Geocoding
+  - IP Geolocation
+  - IP Intelligence
+  - IP Security
+  - ASN Lookup
+  - Abuse Contact
+  - Timezone
+  - Astronomy
+  - User Agent
+  - Threat Intelligence
   - Public APIs
 apis:
-  - name: ipgeolocation
-    description: "IP Geolocation AP with free plan 30k requests per month"
-    humanURL: https://ipgeolocation.io/
-    baseURL: https://ipgeolocation.io/
+  - name: IP Geolocation
+    description: >-
+      Resolve any IPv4 / IPv6 address or domain name to a rich geolocation
+      payload — country, region, city, lat/long, postal, currency, ASN,
+      company, timezone, security signals, abuse contact, and user-agent
+      enrichment. Includes single lookup (GET /v3/ipgeo) and bulk lookup
+      (POST /v3/ipgeo-bulk, up to 50,000 entries per request, paid plans).
+    humanURL: https://ipgeolocation.io/ip-location-api.html
+    baseURL: https://api.ipgeolocation.io
     tags:
+      - IP Geolocation
       - Geocoding
+      - IP Intelligence
     properties:
       - type: Documentation
-        url: https://ipgeolocation.io/
+        url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
+      - type: OpenAPI
+        url: openapi/ipgeolocation-ip-location-openapi.yml
+      - type: SDK
+        title: PHP SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-php
+      - type: SDK
+        title: Python SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
+      - type: SDK
+        title: Java SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
+      - type: SDK
+        title: JavaScript SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
+      - type: SDK
+        title: TypeScript SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
+      - type: SDK
+        title: Node.js SDK
+        url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
+      - type: SDK
+        title: Ruby SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
+      - type: SDK
+        title: Go SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
+      - type: SDK
+        title: .NET SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
+      - type: SDK
+        title: Kotlin SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
+      - type: SDK
+        title: Swift SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
+      - type: SDK
+        title: Rust SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
+      - type: SDK
+        title: C++ SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
+      - type: SDK
+        title: jQuery SDK
+        url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
+      - type: NaftikoCapability
+        url: capabilities/ip-location-ip-geolocation.yaml
+  - name: IP Security
+    description: >-
+      Threat-intelligence API that detects VPNs, proxies, Tor exit nodes,
+      relay networks, bot activity, spam sources, residential proxies, cloud
+      and data-center IPs, and assigns a threat score. Single lookup
+      (GET /v3/security) and bulk lookup (POST /v3/security-bulk).
+    humanURL: https://ipgeolocation.io/ip-security-api.html
+    baseURL: https://api.ipgeolocation.io
+    tags:
+      - IP Security
+      - Threat Intelligence
+      - VPN Detection
+      - Proxy Detection
+    properties:
+      - type: Documentation
+        url: https://ipgeolocation.io/documentation/ip-security-api.html
+      - type: OpenAPI
+        url: openapi/ipgeolocation-security-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/security-ip-security.yaml
+  - name: ASN Lookup
+    description: >-
+      Resolve an IP or ASN to Autonomous System metadata — owning organization,
+      country, type (ISP, hosting, education, government), IP ranges, peers,
+      and upstream/downstream relationships.
+    humanURL: https://ipgeolocation.io/asn-api.html
+    baseURL: https://api.ipgeolocation.io
+    tags:
+      - ASN Lookup
+      - Network Intelligence
+    properties:
+      - type: Documentation
+        url: https://ipgeolocation.io/documentation/asn-api.html
+      - type: OpenAPI
+        url: openapi/ipgeolocation-asn-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/asn-asn-lookup.yaml
+  - name: IP Abuse Contact
+    description: >-
+      Registry-sourced abuse contact information for any IPv4/IPv6 address —
+      RIR, abuse email, network/route, country, and registry metadata. Useful
+      for security operations, takedown workflows, and compliance.
+    humanURL: https://ipgeolocation.io/abuse-contact-api.html
+    baseURL: https://api.ipgeolocation.io
+    tags:
+      - Abuse Contact
+      - Security Operations
+    properties:
+      - type: Documentation
+        url: https://ipgeolocation.io/documentation/abuse-contact-api.html
+      - type: OpenAPI
+        url: openapi/ipgeolocation-abuse-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/abuse-ip-abuse-contact.yaml
+  - name: Timezone
+    description: >-
+      Resolve a timezone from name (e.g. America/New_York), IP address, or
+      lat/long coordinates. Returns current date/time, UTC offset, DST status,
+      DST transition windows, airport/locode metadata, and a convert endpoint
+      to translate a timestamp between two zones.
+    humanURL: https://ipgeolocation.io/timezone-api.html
+    baseURL: https://api.ipgeolocation.io
+    tags:
+      - Timezone
+      - Date and Time
+    properties:
+      - type: Documentation
+        url: https://ipgeolocation.io/documentation/timezone-api.html
+      - type: OpenAPI
+        url: openapi/ipgeolocation-timezone-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/timezone-timezone.yaml
+  - name: Astronomy
+    description: >-
+      Astronomy data for any date and location — sunrise, sunset, solar noon,
+      civil/nautical/astronomical twilight phases, moonrise, moonset, moon
+      phase, illumination percentage, and altitude/azimuth for the sun and
+      moon. Includes a /astronomy/timeSeries endpoint for date ranges.
+    humanURL: https://ipgeolocation.io/astronomy-api.html
+    baseURL: https://api.ipgeolocation.io
+    tags:
+      - Astronomy
+      - Sunrise Sunset
+      - Moon Phase
+    properties:
+      - type: Documentation
+        url: https://ipgeolocation.io/documentation/astronomy-api.html
+      - type: OpenAPI
+        url: openapi/ipgeolocation-astronomy-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/astronomy-astronomy.yaml
+  - name: User Agent
+    description: >-
+      Parse a User-Agent string into browser, engine, device, and operating
+      system attributes. Supports single (GET /v3/user-agent — header-based,
+      or POST /v3/user-agent — body-based) and bulk lookup (POST
+      /v3/user-agent-bulk).
+    humanURL: https://ipgeolocation.io/user-agent-api.html
+    baseURL: https://api.ipgeolocation.io
+    tags:
+      - User Agent
+      - Device Detection
+      - Browser Detection
+    properties:
+      - type: Documentation
+        url: https://ipgeolocation.io/documentation/user-agent-api.html
+      - type: OpenAPI
+        url: openapi/ipgeolocation-user-agent-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/user-agent-user-agent.yaml
 common:
   - type: Website
     url: https://ipgeolocation.io/
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation
+  - type: Pricing
+    url: https://ipgeolocation.io/pricing.html
+  - type: SignUp
+    url: https://app.ipgeolocation.io/signup
+  - type: Dashboard
+    url: https://app.ipgeolocation.io/
+  - type: GitHubOrganization
+    url: https://github.com/IPGeolocation
+  - type: OpenAPI
+    title: Combined OpenAPI Spec
+    url: https://github.com/IPGeolocation/openapi
+  - type: CLI
+    url: https://github.com/IPGeolocation/cli
+  - type: Tools
+    title: MCP Server
+    url: https://github.com/IPGeolocation/ipgeolocation-io-mcp
+  - type: Tools
+    title: Steampipe Plugin
+    url: https://github.com/IPGeolocation/steampipe-plugin-ipgeolocation
+  - type: Tools
+    title: Vercel Edge Middleware
+    url: https://github.com/IPGeolocation/vercel-middleware
+  - type: Tools
+    title: n8n Node
+    url: https://github.com/IPGeolocation/n8n-nodes-ipgeolocation
+  - type: Tools
+    title: Google Sheets Add-on
+    url: https://github.com/IPGeolocation/google-sheets
+  - type: Tools
+    title: Elasticsearch Ingest Processor
+    url: https://github.com/IPGeolocation/es-ipgeo-ingest-processor
+  - type: Tools
+    title: MMDB CLI (mmdbio)
+    url: https://github.com/IPGeolocation/mmdbio
+  - type: Tools
+    title: Database Reader
+    url: https://github.com/IPGeolocation/ipgeolocation-database-reader
+  - type: Integrations
+    title: Splunk App
+    url: https://github.com/IPGeolocation/splunk-docs
   - type: PublicAPIsListing
     url: https://github.com/public-apis/public-apis
+  - type: Plans
+    url: plans/ipgeolocation-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/ipgeolocation-rate-limits.yml
+  - type: FinOps
+    url: finops/ipgeolocation-finops.yml
+  - type: Vocabulary
+    url: vocabulary/ipgeolocation-vocabulary.yml
+  - type: Rules
+    url: rules/ipgeolocation-rules.yml
+  - type: JSONLD
+    url: json-ld/ipgeolocation-context.jsonld
+features:
+  - name: 7-Product API Suite
+    description: >-
+      IP Geolocation, IP Security, ASN Lookup, Abuse Contact, Timezone,
+      Astronomy, and User-Agent parsing — all behind one API key.
+  - name: Bulk Endpoints
+    description: >-
+      Bulk lookup endpoints (up to 50,000 entries per request) for IP
+      geolocation, IP security, and user-agent parsing on paid plans.
+  - name: 14 Official SDKs
+    description: >-
+      First-party SDKs for PHP, Python, Java, JavaScript, TypeScript, Node,
+      Ruby, Go, .NET, Kotlin, Swift, Rust, C++, and jQuery.
+  - name: MCP Server
+    description: >-
+      Official Model Context Protocol server exposing every product (geo,
+      security, ASN, timezone, astronomy, user-agent) as MCP tools for
+      Claude, Cursor, Copilot, and other MCP-aware clients.
+  - name: Edge and Platform Integrations
+    description: >-
+      Vercel edge middleware, Cloudflare-friendly client, Steampipe plugin,
+      Elasticsearch ingest processor, n8n node, Google Sheets add-on,
+      Splunk app, and WordPress / Shopify / Pipedream / Zapier / Make
+      integrations.
+  - name: MMDB Database Products
+    description: >-
+      Downloadable MMDB databases for offline geolocation, security, ASN,
+      company, abuse-contact, WHOIS, hosting, and residential-proxy lookups
+      (Geo Standard, Geo Advance, Security Pro tiers).
+useCases:
+  - name: Personalize and Localize Web Experiences
+    description: >-
+      Detect a visitor's country, currency, and timezone to tailor language,
+      pricing, and content at the edge.
+  - name: Compliance and Geo-Blocking
+    description: >-
+      Enforce sanctions, age-gates, or licensing rules by blocking or
+      redirecting traffic from specific countries or networks at the
+      Vercel/CDN edge.
+  - name: Fraud and Abuse Prevention
+    description: >-
+      Score signups, logins, and transactions using VPN/proxy/Tor detection,
+      threat scoring, and ASN type (hosting vs residential).
+  - name: SOC Triage and Takedown
+    description: >-
+      Resolve abuse contacts and ASN owners for IOCs during incident response
+      and abuse reporting.
+  - name: Scheduling and Astronomy
+    description: >-
+      Power scheduling, lighting automation, agriculture, and observatory
+      tooling with high-precision sunrise/sunset and moon-phase data.
+  - name: Audience Analytics
+    description: >-
+      Enrich logs and analytics events with country, city, ISP, and device
+      info to segment users and dashboards.
+integrations:
+  - name: Vercel Edge Middleware
+    description: Geo-block, redirect, and detect VPN/proxy/Tor at the Vercel edge.
+  - name: Splunk App
+    description: Enrich Splunk events with IP intelligence.
+  - name: Elasticsearch Ingest Processor
+    description: Enrich documents indexed into Elasticsearch.
+  - name: Steampipe Plugin
+    description: Query IP intelligence via SQL.
+  - name: n8n Node
+    description: First-party node for n8n workflow automation.
+  - name: Google Sheets Add-on
+    description: Look up IPs directly from spreadsheets.
+  - name: Zapier
+    description: Trigger workflows on IP intelligence enrichment.
+  - name: Make (Integromat)
+    description: Compose IP lookups into Make scenarios.
+  - name: Pipedream
+    description: Source step for Pipedream automations.
+  - name: WordPress Plugin
+    description: Personalize and protect WordPress sites.
+  - name: Shopify App
+    description: Geo-route Shopify customers and enforce regional rules.
+  - name: Microsoft Copilot Connector
+    description: Surface IP intelligence inside Microsoft Copilot.
+  - name: Maltego Transform
+    description: Pivot from IP to ASN, geo, and security in Maltego investigations.
+solutions:
+  - name: Real-Time API Lookup
+    description: Sub-50ms IP intelligence over HTTPS with a single API key.
+  - name: Downloadable MMDB Databases
+    description: >-
+      Offline-capable MMDB files (Geo Standard, Geo Advance, Security Pro)
+      for embedded or air-gapped use cases.
+  - name: Edge-Native Integrations
+    description: >-
+      Drop-in middleware for Vercel, Cloudflare Workers, and other edge
+      runtimes for personalization and geo-blocking without an extra hop.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

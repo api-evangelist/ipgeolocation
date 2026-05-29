@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/astronomy-location-schema.json",
+  "title": "Location",
+  "description": "Geolocation information associated with the resolved location.\n\nFor coordinate-based or location-string lookups, only basic geographic\nfields are returned (latitude, longitude, country, state, city, locality,\nelevation).\n\nFor IP-based lookups, extended fields are also returned including\ncontinent codes, country codes, district, zipcode, and other metadata.\n",
+  "type": "object",
+  "properties": {
+    "location_string": {
+      "type": "string",
+      "description": "The location string provided in the request. Only present when the\n`location` query parameter was used.\n",
+      "example": "New York, USA"
+    },
+    "continent_code": {
+      "type": "string",
+      "description": "Two-letter continent code. Returned for IP-based lookups only.",
+      "example": "NA"
+    },
+    "continent_name": {
+      "type": "string",
+      "description": "Full name of the continent. Returned for IP-based lookups only.",
+      "example": "North America"
+    },
+    "country_code2": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code. Returned for IP-based lookups only.\n",
+      "example": "US"
+    },
+    "country_code3": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-3 country code. Returned for IP-based lookups only.\n",
+      "example": "USA"
+    },
+    "country_name": {
+      "type": "string",
+      "description": "Common name of the country.",
+      "example": "United States"
+    },
+    "country_name_official": {
+      "type": "string",
+      "description": "Official name of the country. Returned for IP-based lookups only.\n",
+      "example": "United States of America"
+    },
+    "is_eu": {
+      "type": "boolean",
+      "description": "Indicates whether the country is a member of the European Union.\nReturned for IP-based lookups only.\n"
+    },
+    "state_prov": {
+      "type": "string",
+      "description": "State, province, or region name.",
+      "example": "New York"
+    },
+    "state_code": {
+      "type": "string",
+      "description": "Standardized state or region code. Returned for IP-based lookups only.\n",
+      "example": "US-NY"
+    },
+    "district": {
+      "type": "string",
+      "description": "District or administrative subdivision. Returned for IP-based\nlookups only.\n",
+      "example": "Manhattan"
+    },
+    "city": {
+      "type": "string",
+      "description": "City name of the location.",
+      "example": "New York"
+    },
+    "locality": {
+      "type": "string",
+      "description": "Smaller locality or neighborhood within the city.",
+      "example": "Midtown West"
+    },
+    "zipcode": {
+      "type": "string",
+      "description": "ZIP or postal code of the location. Returned for IP-based\nlookups only.\n",
+      "example": "10001"
+    },
+    "latitude": {
+      "type": "string",
+      "format": "float",
+      "description": "Latitude coordinate of the resolved location.",
+      "example": "40.76473"
+    },
+    "longitude": {
+      "type": "string",
+      "format": "float",
+      "description": "Longitude coordinate of the resolved location.",
+      "example": "-74.00084"
+    },
+    "elevation": {
+      "type": "string",
+      "description": "Elevation above sea level at the location, in meters.",
+      "example": "9"
+    }
+  }
+}

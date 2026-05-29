@@ -1,0 +1,239 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ipgeo": "https://ipgeolocation.io/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "AstronomyData": "ipgeo:AstronomyData",
+    "AstronomyLookupResponse": "ipgeo:AstronomyLookupResponse",
+    "AstronomyTimeSeriesEntry": "ipgeo:AstronomyTimeSeriesEntry",
+    "AstronomyTimeSeriesResponse": "ipgeo:AstronomyTimeSeriesResponse",
+    "Location": "ipgeo:Location",
+    "TwilightPhase": "ipgeo:TwilightPhase",
+    "astronomical_twilight_begin": {
+      "@id": "ipgeo:astronomical_twilight_begin",
+      "@type": "xsd:string"
+    },
+    "astronomical_twilight_end": {
+      "@id": "ipgeo:astronomical_twilight_end",
+      "@type": "xsd:string"
+    },
+    "astronomy": {
+      "@id": "ipgeo:astronomy",
+      "@type": "@id"
+    },
+    "blue_hour_begin": {
+      "@id": "ipgeo:blue_hour_begin",
+      "@type": "xsd:string"
+    },
+    "blue_hour_end": {
+      "@id": "ipgeo:blue_hour_end",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "ipgeo:city",
+      "@type": "xsd:string"
+    },
+    "civil_twilight_begin": {
+      "@id": "ipgeo:civil_twilight_begin",
+      "@type": "xsd:string"
+    },
+    "civil_twilight_end": {
+      "@id": "ipgeo:civil_twilight_end",
+      "@type": "xsd:string"
+    },
+    "continent_code": {
+      "@id": "ipgeo:continent_code",
+      "@type": "xsd:string"
+    },
+    "continent_name": {
+      "@id": "ipgeo:continent_name",
+      "@type": "xsd:string"
+    },
+    "country_code2": {
+      "@id": "ipgeo:country_code2",
+      "@type": "xsd:string"
+    },
+    "country_code3": {
+      "@id": "ipgeo:country_code3",
+      "@type": "xsd:string"
+    },
+    "country_name": {
+      "@id": "ipgeo:country_name",
+      "@type": "xsd:string"
+    },
+    "country_name_official": {
+      "@id": "ipgeo:country_name_official",
+      "@type": "xsd:string"
+    },
+    "current_time": {
+      "@id": "ipgeo:current_time",
+      "@type": "xsd:string"
+    },
+    "date": {
+      "@id": "ipgeo:date",
+      "@type": "xsd:string"
+    },
+    "day_length": {
+      "@id": "ipgeo:day_length",
+      "@type": "xsd:string"
+    },
+    "district": {
+      "@id": "ipgeo:district",
+      "@type": "xsd:string"
+    },
+    "elevation": {
+      "@id": "ipgeo:elevation",
+      "@type": "xsd:string"
+    },
+    "evening": {
+      "@id": "ipgeo:evening",
+      "@type": "@id"
+    },
+    "golden_hour_begin": {
+      "@id": "ipgeo:golden_hour_begin",
+      "@type": "xsd:string"
+    },
+    "golden_hour_end": {
+      "@id": "ipgeo:golden_hour_end",
+      "@type": "xsd:string"
+    },
+    "ip": {
+      "@id": "ipgeo:ip",
+      "@type": "xsd:string"
+    },
+    "is_eu": {
+      "@id": "ipgeo:is_eu",
+      "@type": "xsd:boolean"
+    },
+    "latitude": {
+      "@id": "ipgeo:latitude",
+      "@type": "xsd:string"
+    },
+    "locality": {
+      "@id": "ipgeo:locality",
+      "@type": "xsd:string"
+    },
+    "location": {
+      "@id": "ipgeo:location",
+      "@type": "@id"
+    },
+    "location_string": {
+      "@id": "ipgeo:location_string",
+      "@type": "xsd:string"
+    },
+    "longitude": {
+      "@id": "ipgeo:longitude",
+      "@type": "xsd:string"
+    },
+    "mid_night": {
+      "@id": "ipgeo:mid_night",
+      "@type": "xsd:string"
+    },
+    "moon_altitude": {
+      "@id": "ipgeo:moon_altitude",
+      "@type": "xsd:float"
+    },
+    "moon_angle": {
+      "@id": "ipgeo:moon_angle",
+      "@type": "xsd:float"
+    },
+    "moon_azimuth": {
+      "@id": "ipgeo:moon_azimuth",
+      "@type": "xsd:float"
+    },
+    "moon_distance": {
+      "@id": "ipgeo:moon_distance",
+      "@type": "xsd:float"
+    },
+    "moon_illumination_percentage": {
+      "@id": "ipgeo:moon_illumination_percentage",
+      "@type": "xsd:string"
+    },
+    "moon_parallactic_angle": {
+      "@id": "ipgeo:moon_parallactic_angle",
+      "@type": "xsd:float"
+    },
+    "moon_phase": {
+      "@id": "ipgeo:moon_phase",
+      "@type": "xsd:string"
+    },
+    "moon_status": {
+      "@id": "ipgeo:moon_status",
+      "@type": "xsd:string"
+    },
+    "moonrise": {
+      "@id": "ipgeo:moonrise",
+      "@type": "xsd:string"
+    },
+    "moonset": {
+      "@id": "ipgeo:moonset",
+      "@type": "xsd:string"
+    },
+    "morning": {
+      "@id": "ipgeo:morning",
+      "@type": "@id"
+    },
+    "nautical_twilight_begin": {
+      "@id": "ipgeo:nautical_twilight_begin",
+      "@type": "xsd:string"
+    },
+    "nautical_twilight_end": {
+      "@id": "ipgeo:nautical_twilight_end",
+      "@type": "xsd:string"
+    },
+    "night_begin": {
+      "@id": "ipgeo:night_begin",
+      "@type": "xsd:string"
+    },
+    "night_end": {
+      "@id": "ipgeo:night_end",
+      "@type": "xsd:string"
+    },
+    "solar_noon": {
+      "@id": "ipgeo:solar_noon",
+      "@type": "xsd:string"
+    },
+    "state_code": {
+      "@id": "ipgeo:state_code",
+      "@type": "xsd:string"
+    },
+    "state_prov": {
+      "@id": "ipgeo:state_prov",
+      "@type": "xsd:string"
+    },
+    "sun_altitude": {
+      "@id": "ipgeo:sun_altitude",
+      "@type": "xsd:float"
+    },
+    "sun_azimuth": {
+      "@id": "ipgeo:sun_azimuth",
+      "@type": "xsd:float"
+    },
+    "sun_distance": {
+      "@id": "ipgeo:sun_distance",
+      "@type": "xsd:float"
+    },
+    "sun_status": {
+      "@id": "ipgeo:sun_status",
+      "@type": "xsd:string"
+    },
+    "sunrise": {
+      "@id": "ipgeo:sunrise",
+      "@type": "xsd:string"
+    },
+    "sunset": {
+      "@id": "ipgeo:sunset",
+      "@type": "xsd:string"
+    },
+    "time_zone": {
+      "@id": "ipgeo:time_zone",
+      "@type": "xsd:string"
+    },
+    "zipcode": {
+      "@id": "ipgeo:zipcode",
+      "@type": "xsd:string"
+    }
+  }
+}

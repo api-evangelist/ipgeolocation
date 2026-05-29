@@ -1,0 +1,51 @@
+{
+  "as_number": "AS24940",
+  "organization": "Hetzner Online GmbH",
+  "country": "DE",
+  "asn_name": "HETZNER-AS",
+  "type": "HOSTING",
+  "domain": "hetzner.com",
+  "date_allocated": "2002-06-03",
+  "rir": "RIPE",
+  "allocation_status": "ASSIGNED",
+  "num_of_ipv4_routes": "84",
+  "num_of_ipv6_routes": "6",
+  "peers": [
+    {
+      "as_number": "AS3356",
+      "description": "Level 3 Parent, LLC",
+      "country": "US"
+    },
+    {
+      "as_number": "AS3356",
+      "description": "Level 3 Parent, LLC",
+      "country": "US"
+    }
+  ],
+  "downstreams": [
+    {
+      "as_number": "AS3356",
+      "description": "Level 3 Parent, LLC",
+      "country": "US"
+    },
+    {
+      "as_number": "AS3356",
+      "description": "Level 3 Parent, LLC",
+      "country": "US"
+    }
+  ],
+  "upstreams": [
+    {
+      "as_number": "AS3356",
+      "description": "Level 3 Parent, LLC",
+      "country": "US"
+    },
+    {
+      "as_number": "AS3356",
+      "description": "Level 3 Parent, LLC",
+      "country": "US"
+    }
+  ],
+  "routes": "192.76.177.0/24",
+  "whois_response": "ASNumber: 24940\nOrgName: Hetzner Online GmbH\nCountry: DE"
+}

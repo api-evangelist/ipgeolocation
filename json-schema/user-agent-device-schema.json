@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/user-agent-device-schema.json",
+  "title": "Device",
+  "description": "Hardware device information extracted from the user agent string.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the device (e.g. model name or manufacturer).",
+      "example": "Apple Macintosh"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the device. See possible values in the documentation.\n",
+      "example": "Desktop"
+    },
+    "brand": {
+      "type": "string",
+      "description": "Brand or manufacturer of the device.",
+      "example": "Apple"
+    },
+    "cpu": {
+      "type": "string",
+      "description": "CPU architecture or model of the device. May be `\"Unknown\"`.",
+      "example": "Intel"
+    }
+  }
+}

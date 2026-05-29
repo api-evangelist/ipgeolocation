@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/ip-location-dst-transition-structure.json",
+  "name": "DstTransition",
+  "description": "Details about a DST transition (start or end). Only present when `dst_exists`\nis `true`. When `dst_exists` is `false`, `dst_start` and `dst_end` are\nreturned as empty objects with no properties.\n",
+  "type": "object",
+  "properties": {
+    "utc_time": {
+      "type": "string",
+      "description": "UTC time of the transition, formatted as `YYYY-MM-DD TIME HH:mm`.",
+      "example": "2026-03-29 TIME 01:00"
+    },
+    "duration": {
+      "type": "string",
+      "description": "Clock shift direction and amount (e.g. `+1.00H` for spring forward,\n`-1.00H` for fall back).\n",
+      "example": "+1.00H"
+    },
+    "gap": {
+      "type": "boolean",
+      "description": "Whether this transition creates a gap in local time (clocks jump forward).\n`true` for DST start, `false` for DST end.\n",
+      "example": true
+    },
+    "date_time_after": {
+      "type": "string",
+      "description": "Local time immediately after the transition.",
+      "example": "2026-03-29 TIME 03:00"
+    },
+    "date_time_before": {
+      "type": "string",
+      "description": "Local time immediately before the transition.",
+      "example": "2026-03-29 TIME 02:00"
+    },
+    "overlap": {
+      "type": "boolean",
+      "description": "Whether this transition creates an overlap in local time (clocks fall back,\nso the same local time occurs twice). `true` for DST end, `false` for DST\nstart.\n",
+      "example": false
+    }
+  }
+}

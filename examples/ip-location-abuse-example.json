@@ -1,0 +1,10 @@
+{
+  "route": "91.128.0.0/14",
+  "country": "SE",
+  "name": "Swipnet Staff",
+  "organization": "",
+  "kind": "group",
+  "address": "Tele2 AB/Swedish IP Network, IP Registry, Torshamnsgatan 17 164 40 Kista SWEDEN",
+  "emails": "abuse@tele2.com",
+  "phone_numbers": "+46 8 5626 42 10"
+}

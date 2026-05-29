@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/timezone-time-conversion-response-structure.json",
+  "name": "TimeConversionResponse",
+  "description": "Response returned by the Timezone Conversion API.\n\nContains the original timestamp, the converted timestamp in the\ndestination timezone, and the time difference between the two\nlocations or timezones.\n\nThe conversion can be performed using timezone names, geographic\ncoordinates, location addresses, airport codes (IATA/ICAO),\nor UN/LOCODE identifiers.\n",
+  "type": "object",
+  "properties": {
+    "original_time": {
+      "type": "string",
+      "description": "The original timestamp before conversion. If the `time`\nparameter is omitted, this value represents the current\ntime at the source location.\n",
+      "example": "2024-12-08 11:00"
+    },
+    "converted_time": {
+      "type": "string",
+      "description": "The converted timestamp in the destination timezone.\n",
+      "example": "2024-12-08 18:30:00"
+    },
+    "diff_hour": {
+      "type": "float",
+      "description": "Time difference between the source and destination\ntimezones expressed in hours.\n",
+      "example": 7.5
+    },
+    "diff_min": {
+      "type": "double",
+      "description": "Time difference between the source and destination\ntimezones expressed in minutes.\n",
+      "example": 450
+    }
+  }
+}

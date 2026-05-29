@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/ip-location-user-agent-operating-system-structure.json",
+  "name": "UserAgentOperatingSystem",
+  "description": "Operating system information extracted from the User-Agent string.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "OS name (e.g. `Windows`, `macOS`, `Linux`, `Android`, `iOS`, `Cloud`).",
+      "example": "Linux"
+    },
+    "type": {
+      "type": "string",
+      "description": "OS type. Common values: `Desktop`, `Mobile`, `Tablet`, `Cloud`.\n",
+      "example": "Desktop"
+    },
+    "version": {
+      "type": "string",
+      "description": "OS version. `??` when the version cannot be determined.",
+      "example": "??"
+    },
+    "version_major": {
+      "type": "string",
+      "description": "OS major version. `??` when the version cannot be determined.",
+      "example": "??"
+    },
+    "build": {
+      "type": "string",
+      "description": "OS build number. `??` when the build cannot be determined.",
+      "example": "??"
+    }
+  }
+}

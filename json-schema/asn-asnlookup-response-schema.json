@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/asn-asnlookup-response-schema.json",
+  "title": "ASNLookupResponse",
+  "description": "Response returned by the ASN Lookup API.\n\nContains the queried IP address (when an IP lookup is performed) and\nthe ASN information associated with the network responsible for routing\nthat IP address.\n\nWhen the lookup is performed using the `asn` parameter, the `ip` field\nis not included in the response.\n",
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "description": "The IP address for which ASN details are returned. This field appears\nonly when the lookup is performed using an IP address.\n",
+      "example": "49.12.0.0"
+    },
+    "asn": {
+      "type": "object",
+      "description": "ASN information describing the Autonomous System responsible for routing\nthe queried IP address or the specified ASN. Costs 1 credit.\n",
+      "properties": {
+        "as_number": {
+          "type": "string",
+          "description": "Complete Autonomous System Number that was looked up.",
+          "example": "AS24940"
+        },
+        "organization": {
+          "type": "string",
+          "description": "Name of the organization to which the ASN is assigned.",
+          "example": "Hetzner Online GmbH"
+        },
+        "country": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code where the ASN is registered.",
+          "example": "DE"
+        },
+        "asn_name": {
+          "type": "string",
+          "description": "Official ASN handle.",
+          "example": "HETZNER-AS"
+        },
+        "type": {
+          "type": "string",
+          "description": "ASN category. Possible values include `ISP`, `HOSTING`, `BUSINESS`,\n`EDUCATION`, or `GOVERNMENT` when available.\n",
+          "example": "HOSTING"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain associated with the ASN.",
+          "example": "hetzner.com"
+        },
+        "date_allocated": {
+          "type": "string",
+          "description": "Date when the ASN was originally allocated.",
+          "example": "2002-06-03"
+        },
+        "rir": {
+          "type": "string",
+          "description": "Regional Internet Registry that allocated the ASN.\nExamples include `RIPE`, `ARIN`, `APNIC`, `LACNIC`, `AFRINIC`, etc.\n",
+          "example": "RIPE"
+        },
+        "allocation_status": {
+          "type": "string",
+          "description": "Current allocation status of the ASN.",
+          "example": "ASSIGNED"
+        },
+        "num_of_ipv4_routes": {
+          "type": "string",
+          "description": "Number of IPv4 prefixes announced by this ASN.",
+          "example": "84"
+        },
+        "num_of_ipv6_routes": {
+          "type": "string",
+          "description": "Number of IPv6 prefixes announced by this ASN.",
+          "example": "6"
+        },
+        "peers": {
+          "type": "array",
+          "description": "Directly connected peer ASNs.",
+          "items": {
+            "type": "object",
+            "description": "Represents a connected Autonomous System such as a peer,\nupstream provider, or downstream customer.\n",
+            "properties": {
+              "as_number": {
+                "type": "string",
+                "description": "Autonomous System Number of the connected network.",
+                "example": "AS3356"
+              },
+              "description": {
+                "type": "string",
+                "description": "Name or description of the connected network operator.",
+                "example": "Level 3 Parent, LLC"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country code of the connected ASN.",
+                "example": "US"
+              }
+            }
+          }
+        },
+        "downstreams": {
+          "type": "array",
+          "description": "Downstream (customer) ASNs connected to this ASN.",
+          "items": {
+            "type": "object",
+            "description": "Represents a connected Autonomous System such as a peer,\nupstream provider, or downstream customer.\n",
+            "properties": {
+              "as_number": {
+                "type": "string",
+                "description": "Autonomous System Number of the connected network.",
+                "example": "AS3356"
+              },
+              "description": {
+                "type": "string",
+                "description": "Name or description of the connected network operator.",
+                "example": "Level 3 Parent, LLC"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country code of the connected ASN.",
+                "example": "US"
+              }
+            }
+          }
+        },
+        "upstreams": {
+          "type": "array",
+          "description": "Upstream provider ASNs used for internet connectivity.",
+          "items": {
+            "type": "object",
+            "description": "Represents a connected Autonomous System such as a peer,\nupstream provider, or downstream customer.\n",
+            "properties": {
+              "as_number": {
+                "type": "string",
+                "description": "Autonomous System Number of the connected network.",
+                "example": "AS3356"
+              },
+              "description": {
+                "type": "string",
+                "description": "Name or description of the connected network operator.",
+                "example": "Level 3 Parent, LLC"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country code of the connected ASN.",
+                "example": "US"
+              }
+            }
+          }
+        },
+        "routes": {
+          "type": "array",
+          "description": "IPv4 and IPv6 prefixes announced by this ASN.",
+          "items": {
+            "type": "string"
+          },
+          "examples": [
+            "192.76.177.0/24",
+            "2607:f600::/32"
+          ]
+        },
+        "whois_response": {
+          "type": "string",
+          "description": "Raw WHOIS registry record text returned for the ASN.",
+          "example": "ASNumber: 24940\nOrgName: Hetzner Online GmbH\nCountry: DE"
+        }
+      }
+    }
+  }
+}

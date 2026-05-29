@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/ip-location-bulk-geolocation-request-schema.json",
+  "title": "BulkGeolocationRequest",
+  "description": "Request body for the bulk geolocation lookup. Contains a single `ips` field\nwith an array of IP addresses or domain names to look up.\n",
+  "type": "object",
+  "properties": {
+    "ips": {
+      "type": "array",
+      "description": "Array of IPv4 addresses, IPv6 addresses, or domain names to look up.\nMust not be empty. Maximum 50,000 entries per request. Each entry is\nresolved independently, so you can mix IPv4, IPv6, and domains freely.\n",
+      "minItems": 1,
+      "maxItems": 50000,
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        "8.8.8.8",
+        "91.128.103.196",
+        "2607:fb91:16c6:8860:e531:2d1d:4944:6c7c",
+        "ipgeolocation.io"
+      ]
+    }
+  },
+  "required": [
+    "ips"
+  ]
+}

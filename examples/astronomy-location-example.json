@@ -1,0 +1,19 @@
+{
+  "location_string": "New York, USA",
+  "continent_code": "NA",
+  "continent_name": "North America",
+  "country_code2": "US",
+  "country_code3": "USA",
+  "country_name": "United States",
+  "country_name_official": "United States of America",
+  "is_eu": true,
+  "state_prov": "New York",
+  "state_code": "US-NY",
+  "district": "Manhattan",
+  "city": "New York",
+  "locality": "Midtown West",
+  "zipcode": "10001",
+  "latitude": "40.76473",
+  "longitude": "-74.00084",
+  "elevation": "9"
+}

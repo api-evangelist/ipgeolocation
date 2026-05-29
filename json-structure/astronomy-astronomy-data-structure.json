@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/astronomy-astronomy-data-structure.json",
+  "name": "AstronomyData",
+  "description": "Astronomical data for the resolved location and requested date.\n\nIncludes event times for sunrise, sunset, moonrise, moonset,\ntwilight phases, golden hour, blue hour, solar noon, and\nastronomical midnight, as well as real-time positional data\nfor the Sun and Moon at the current time of day.\n\nAll timestamp fields (except `current_time` and `day_length`) are\nin `HH:mm` format by default. When the `time_zone` parameter is\nprovided, they are returned as full date-time values in\n`yyyy-MM-dd HH:mm` format.\n",
+  "type": "object",
+  "properties": {
+    "time_zone": {
+      "type": "string",
+      "description": "The IANA timezone identifier used for timestamp conversion.\nThis field appears only when the `time_zone` query parameter\nwas provided in the request.\n",
+      "example": "Europe/London"
+    },
+    "date": {
+      "type": "string",
+      "description": "The date for which astronomical data is returned, in `yyyy-MM-dd` format.",
+      "example": "2026-03-18"
+    },
+    "current_time": {
+      "type": "string",
+      "description": "Current local time at the resolved location in `HH:mm:ss.SSS` format.\nUsed as the reference time for real-time positional calculations\n(altitude, azimuth, distance).\n",
+      "example": "10:15:00.000"
+    },
+    "mid_night": {
+      "type": "string",
+      "description": "Astronomical midnight (nadir) for the given date, in `HH:mm` format.\n",
+      "example": "00:06"
+    },
+    "night_end": {
+      "type": "string",
+      "description": "End of night / start of astronomical twilight in the morning,\nin `HH:mm` format.\n",
+      "example": "04:49"
+    },
+    "morning": {
+      "type": "object",
+      "description": "Twilight phase times for either the morning (pre-sunrise) or evening\n(post-sunset) period.\n\nIncludes astronomical, nautical, and civil twilight windows, as well\nas blue hour and golden hour windows commonly used in photography.\n\nAll times are in `HH:mm` format by default. When the `time_zone`\nparameter is provided, times are returned as full date-time values\nin `yyyy-MM-dd HH:mm` format.\n",
+      "properties": {
+        "astronomical_twilight_begin": {
+          "type": "string",
+          "description": "Start of astronomical twilight. In the morning, this marks the\nend of night; in the evening, this marks the start of night sky.\n",
+          "example": "04:49"
+        },
+        "astronomical_twilight_end": {
+          "type": "string",
+          "description": "End of astronomical twilight.",
+          "example": "05:21"
+        },
+        "nautical_twilight_begin": {
+          "type": "string",
+          "description": "Start of nautical twilight, when the horizon first becomes visible.\n",
+          "example": "05:21"
+        },
+        "nautical_twilight_end": {
+          "type": "string",
+          "description": "End of nautical twilight.",
+          "example": "05:53"
+        },
+        "civil_twilight_begin": {
+          "type": "string",
+          "description": "Start of civil twilight, when there is enough light for outdoor\nactivities without artificial lighting.\n",
+          "example": "05:53"
+        },
+        "civil_twilight_end": {
+          "type": "string",
+          "description": "End of civil twilight.",
+          "example": "06:20"
+        },
+        "blue_hour_begin": {
+          "type": "string",
+          "description": "Start of the blue hour, a period of soft diffused light with a\nblue color tone.\n",
+          "example": "05:42"
+        },
+        "blue_hour_end": {
+          "type": "string",
+          "description": "End of the blue hour.",
+          "example": "06:03"
+        },
+        "golden_hour_begin": {
+          "type": "string",
+          "description": "Start of the golden hour, a period of warm low-angle light\nfavored by photographers.\n",
+          "example": "06:03"
+        },
+        "golden_hour_end": {
+          "type": "string",
+          "description": "End of the golden hour.",
+          "example": "06:57"
+        }
+      }
+    },
+    "sunrise": {
+      "type": "string",
+      "description": "Time at which the sun rises at the resolved location, in `HH:mm` format.\n",
+      "example": "06:20"
+    },
+    "sunset": {
+      "type": "string",
+      "description": "Time at which the sun sets at the resolved location, in `HH:mm` format.\n",
+      "example": "19:00"
+    },
+    "evening": {
+      "type": "object",
+      "description": "Twilight phase times for either the morning (pre-sunrise) or evening\n(post-sunset) period.\n\nIncludes astronomical, nautical, and civil twilight windows, as well\nas blue hour and golden hour windows commonly used in photography.\n\nAll times are in `HH:mm` format by default. When the `time_zone`\nparameter is provided, times are returned as full date-time values\nin `yyyy-MM-dd HH:mm` format.\n",
+      "properties": {
+        "astronomical_twilight_begin": {
+          "type": "string",
+          "description": "Start of astronomical twilight. In the morning, this marks the\nend of night; in the evening, this marks the start of night sky.\n",
+          "example": "04:49"
+        },
+        "astronomical_twilight_end": {
+          "type": "string",
+          "description": "End of astronomical twilight.",
+          "example": "05:21"
+        },
+        "nautical_twilight_begin": {
+          "type": "string",
+          "description": "Start of nautical twilight, when the horizon first becomes visible.\n",
+          "example": "05:21"
+        },
+        "nautical_twilight_end": {
+          "type": "string",
+          "description": "End of nautical twilight.",
+          "example": "05:53"
+        },
+        "civil_twilight_begin": {
+          "type": "string",
+          "description": "Start of civil twilight, when there is enough light for outdoor\nactivities without artificial lighting.\n",
+          "example": "05:53"
+        },
+        "civil_twilight_end": {
+          "type": "string",
+          "description": "End of civil twilight.",
+          "example": "06:20"
+        },
+        "blue_hour_begin": {
+          "type": "string",
+          "description": "Start of the blue hour, a period of soft diffused light with a\nblue color tone.\n",
+          "example": "05:42"
+        },
+        "blue_hour_end": {
+          "type": "string",
+          "description": "End of the blue hour.",
+          "example": "06:03"
+        },
+        "golden_hour_begin": {
+          "type": "string",
+          "description": "Start of the golden hour, a period of warm low-angle light\nfavored by photographers.\n",
+          "example": "06:03"
+        },
+        "golden_hour_end": {
+          "type": "string",
+          "description": "End of the golden hour.",
+          "example": "06:57"
+        }
+      }
+    },
+    "night_begin": {
+      "type": "string",
+      "description": "Start of night / end of astronomical twilight in the evening,\nin `HH:mm` format.\n",
+      "example": "20:31"
+    },
+    "sun_status": {
+      "type": "string",
+      "description": "Represents the current state of the sun relative to the horizon:\n\n- `\"-\"` \u2014 Normal day with both sunrise and sunset occurring.\n- `\"Always above the twilight angle\"` \u2014 The sun does not set\n  (perpetual daylight, e.g. polar summer).\n- `\"Always below the twilight angle\"` \u2014 The sun does not rise\n  within the current 24-hour period (e.g. polar night).\n",
+      "example": "-"
+    },
+    "solar_noon": {
+      "type": "string",
+      "description": "The time when the sun is at its highest point in the sky,\nin `HH:mm` format.\n",
+      "example": "12:40"
+    },
+    "day_length": {
+      "type": "string",
+      "description": "Total length of daylight for the date, from sunrise to sunset,\nin `HH:mm` format.\n",
+      "example": "12:40"
+    },
+    "sun_altitude": {
+      "type": "float",
+      "description": "The sun's altitude angle above the horizon at `current_time`,\nmeasured in degrees. Negative values indicate the sun is below\nthe horizon.\n",
+      "example": 42.5
+    },
+    "sun_distance": {
+      "type": "float",
+      "description": "Distance from Earth to the sun at `current_time`, in kilometers.\n",
+      "example": 148900000.0
+    },
+    "sun_azimuth": {
+      "type": "float",
+      "description": "The azimuth angle of the sun at `current_time`, indicating its\ncompass direction in degrees (0\u00b0 = North, 90\u00b0 = East, etc.).\n",
+      "example": 150.3
+    },
+    "moon_phase": {
+      "type": "string",
+      "description": "The current phase of the moon, indicating its position in the\nlunar cycle.\n",
+      "enum": [
+        "NEW_MOON",
+        "WAXING_CRESCENT",
+        "FIRST_QUARTER",
+        "WAXING_GIBBOUS",
+        "FULL_MOON",
+        "WANING_GIBBOUS",
+        "LAST_QUARTER",
+        "WANING_CRESCENT"
+      ],
+      "example": "WAXING_CRESCENT"
+    },
+    "moonrise": {
+      "type": "string",
+      "description": "Time at which the moon rises at the resolved location, in `HH:mm`\nformat. Returns `\"-:-\"` if the moon does not rise on this date.\n",
+      "example": "08:45"
+    },
+    "moonset": {
+      "type": "string",
+      "description": "Time at which the moon sets at the resolved location, in `HH:mm`\nformat. Returns `\"-:-\"` if the moon does not set on this date.\n",
+      "example": "22:10"
+    },
+    "moon_status": {
+      "type": "string",
+      "description": "Represents the current state of the moon relative to the horizon:\n\n- `\"-\"` \u2014 Normal day with both moonrise and moonset occurring.\n- `\"Always above the horizon\"` \u2014 The moon does not set within\n  the current 24-hour period.\n- `\"Always below the horizon\"` \u2014 The moon does not rise within\n  the current 24-hour period.\n",
+      "example": "-"
+    },
+    "moon_altitude": {
+      "type": "float",
+      "description": "The moon's altitude angle above the horizon at `current_time`,\nmeasured in degrees. Negative values indicate the moon is below\nthe horizon.\n",
+      "example": 15.2
+    },
+    "moon_distance": {
+      "type": "float",
+      "description": "Distance from Earth to the moon at `current_time`, in kilometers.\n",
+      "example": 384400.0
+    },
+    "moon_azimuth": {
+      "type": "float",
+      "description": "The azimuth angle of the moon at `current_time`, indicating its\ncompass direction in degrees.\n",
+      "example": 220.5
+    },
+    "moon_parallactic_angle": {
+      "type": "float",
+      "description": "The angle between the celestial pole and the moon's position\nrelative to the observer's location, measured in degrees.\n",
+      "example": 30.1
+    },
+    "moon_illumination_percentage": {
+      "type": "string",
+      "description": "The percentage of the moon's surface illuminated by sunlight\nas viewed from Earth. Returned as a string with two decimal\nplaces. Negative values indicate a waning phase.\n",
+      "example": "25.40"
+    },
+    "moon_angle": {
+      "type": "float",
+      "description": "The angular diameter of the moon as observed from Earth,\nmeasured in degrees.\n",
+      "example": 0.52
+    }
+  }
+}

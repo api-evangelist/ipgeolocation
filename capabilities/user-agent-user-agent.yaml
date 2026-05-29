@@ -1,0 +1,158 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IPGeolocation.io — User Agent
+  description: 'IPGeolocation.io User Agent. 3 operations. Lead operation: Parse user agent string (auto-detect or explicit header). Self-contained Naftiko capability covering one IPGeolocation.io business
+    surface.'
+  tags:
+  - IPGeolocation
+  - IP Intelligence
+  - User Agent
+  created: '2026-05-29'
+  modified: '2026-05-29'
+binds:
+- namespace: env
+  keys:
+    IPGEOLOCATION_API_KEY: IPGEOLOCATION_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: user-agent-user-agent
+    baseUri: https://api.ipgeolocation.io
+    description: IPGeolocation.io — User Agent business capability. Self-contained, no shared references.
+    authentication:
+      type: apikey
+      key: apiKey
+      value: '{{env.IPGEOLOCATION_API_KEY}}'
+      placement: query
+    resources:
+    - name: user-agent
+      path: /v3/user-agent
+      operations:
+      - name: parseUserAgent
+        method: GET
+        description: Parse user agent string (auto-detect or explicit header)
+        inputParameters:
+        - name: User-Agent
+          in: header
+          type: string
+          required: false
+          description: The user agent string to parse. When omitted, the API automatically parses
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: parseCustomUserAgent
+        method: POST
+        description: Parse custom user agent string (payload)
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: JSON body containing the custom user agent string to parse.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: user-agent-bulk
+      path: /v3/user-agent-bulk
+      operations:
+      - name: parseUserAgentBulk
+        method: POST
+        description: Bulk parse user agent strings
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: JSON body containing the array of user agent strings to parse.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: user-agent-user-agent-rest
+    port: 8080
+    description: REST adapter for IPGeolocation.io — User Agent. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/user-agent
+      name: user-agent
+      description: REST surface for /v3/user-agent.
+      operations:
+      - method: GET
+        name: parseUserAgent
+        description: Parse user agent string (auto-detect or explicit header)
+        call: user-agent-user-agent.parseUserAgent
+        with:
+          User-Agent: rest.User-Agent
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: parseCustomUserAgent
+        description: Parse custom user agent string (payload)
+        call: user-agent-user-agent.parseCustomUserAgent
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/user-agent-bulk
+      name: user-agent-bulk
+      description: REST surface for /v3/user-agent-bulk.
+      operations:
+      - method: POST
+        name: parseUserAgentBulk
+        description: Bulk parse user agent strings
+        call: user-agent-user-agent.parseUserAgentBulk
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: user-agent-user-agent-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for IPGeolocation.io — User Agent. One tool per consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: parse-user-agent-string
+      description: Parse user agent string (auto-detect or explicit header)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: user-agent-user-agent.parseUserAgent
+      with:
+        User-Agent: tools.User-Agent
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: parse-custom-user-agent-string
+      description: Parse custom user agent string (payload)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: user-agent-user-agent.parseCustomUserAgent
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bulk-parse-user-agent-strings
+      description: Bulk parse user agent strings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: user-agent-user-agent.parseUserAgentBulk
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

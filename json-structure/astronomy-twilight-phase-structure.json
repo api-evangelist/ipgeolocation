@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/astronomy-twilight-phase-structure.json",
+  "name": "TwilightPhase",
+  "description": "Twilight phase times for either the morning (pre-sunrise) or evening\n(post-sunset) period.\n\nIncludes astronomical, nautical, and civil twilight windows, as well\nas blue hour and golden hour windows commonly used in photography.\n\nAll times are in `HH:mm` format by default. When the `time_zone`\nparameter is provided, times are returned as full date-time values\nin `yyyy-MM-dd HH:mm` format.\n",
+  "type": "object",
+  "properties": {
+    "astronomical_twilight_begin": {
+      "type": "string",
+      "description": "Start of astronomical twilight. In the morning, this marks the\nend of night; in the evening, this marks the start of night sky.\n",
+      "example": "04:49"
+    },
+    "astronomical_twilight_end": {
+      "type": "string",
+      "description": "End of astronomical twilight.",
+      "example": "05:21"
+    },
+    "nautical_twilight_begin": {
+      "type": "string",
+      "description": "Start of nautical twilight, when the horizon first becomes visible.\n",
+      "example": "05:21"
+    },
+    "nautical_twilight_end": {
+      "type": "string",
+      "description": "End of nautical twilight.",
+      "example": "05:53"
+    },
+    "civil_twilight_begin": {
+      "type": "string",
+      "description": "Start of civil twilight, when there is enough light for outdoor\nactivities without artificial lighting.\n",
+      "example": "05:53"
+    },
+    "civil_twilight_end": {
+      "type": "string",
+      "description": "End of civil twilight.",
+      "example": "06:20"
+    },
+    "blue_hour_begin": {
+      "type": "string",
+      "description": "Start of the blue hour, a period of soft diffused light with a\nblue color tone.\n",
+      "example": "05:42"
+    },
+    "blue_hour_end": {
+      "type": "string",
+      "description": "End of the blue hour.",
+      "example": "06:03"
+    },
+    "golden_hour_begin": {
+      "type": "string",
+      "description": "Start of the golden hour, a period of warm low-angle light\nfavored by photographers.\n",
+      "example": "06:03"
+    },
+    "golden_hour_end": {
+      "type": "string",
+      "description": "End of the golden hour.",
+      "example": "06:57"
+    }
+  }
+}

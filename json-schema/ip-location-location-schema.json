@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/ip-location-location-schema.json",
+  "title": "Location",
+  "description": "Geographic location data for the IP address.",
+  "type": "object",
+  "properties": {
+    "continent_code": {
+      "type": "string",
+      "description": "Two-letter continent code (e.g. `EU`, `NA`, `AS`).",
+      "example": "EU"
+    },
+    "continent_name": {
+      "type": "string",
+      "description": "Full continent name.",
+      "example": "Europe"
+    },
+    "country_code2": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code.",
+      "example": "SE"
+    },
+    "country_code3": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-3 country code.",
+      "example": "SWE"
+    },
+    "country_name": {
+      "type": "string",
+      "description": "Common country name.",
+      "example": "Sweden"
+    },
+    "country_name_official": {
+      "type": "string",
+      "description": "Official country name as recognized by the UN.",
+      "example": "Kingdom of Sweden"
+    },
+    "country_capital": {
+      "type": "string",
+      "description": "Capital city of the country.",
+      "example": "Stockholm"
+    },
+    "state_prov": {
+      "type": "string",
+      "description": "State, province, or top-level administrative region.",
+      "example": "Stockholms l\u00e4n"
+    },
+    "state_code": {
+      "type": "string",
+      "description": "ISO 3166-2 state or province code.",
+      "example": "SE-AB"
+    },
+    "district": {
+      "type": "string",
+      "description": "District, county, or second-level administrative division.",
+      "example": "Stockholm"
+    },
+    "city": {
+      "type": "string",
+      "description": "City name.",
+      "example": "Stockholm"
+    },
+    "locality": {
+      "type": "string",
+      "description": "Locality or neighborhood. May be the same as `city`. Only present when\n`include=geo_accuracy` or `include=*` is used.\n",
+      "example": "Stockholm"
+    },
+    "accuracy_radius": {
+      "type": "string",
+      "description": "Estimated accuracy radius in kilometers around `latitude` and `longitude`.\nOnly present when `include=geo_accuracy` or `include=*` is used.\n",
+      "example": "4.395"
+    },
+    "confidence": {
+      "type": "string",
+      "description": "Confidence level for the accuracy radius. Possible values: `high`, `medium`,\n`low`. Only present when `include=geo_accuracy` or `include=*` is used.\n",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "example": "high"
+    },
+    "dma_code": {
+      "type": "string",
+      "description": "Nielsen Designated Market Area code. Only populated for US-based IPs.\nPresent when `include=dma_code` or `include=*` is used. Empty string for\nnon-US IPs.\n",
+      "example": "504"
+    },
+    "zipcode": {
+      "type": "string",
+      "description": "Postal or ZIP code.",
+      "example": "164 40"
+    },
+    "latitude": {
+      "type": "string",
+      "description": "Latitude in decimal degrees (WGS 84).",
+      "example": "59.40510"
+    },
+    "longitude": {
+      "type": "string",
+      "description": "Longitude in decimal degrees (WGS 84).",
+      "example": "17.95510"
+    },
+    "is_eu": {
+      "type": "boolean",
+      "description": "Whether the country is a member of the European Union.",
+      "example": true
+    },
+    "country_flag": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to a 64x64 PNG of the country flag.",
+      "example": "https://ipgeolocation.io/static/flags/se_64.png"
+    },
+    "geoname_id": {
+      "type": "string",
+      "description": "GeoNames identifier for the location.",
+      "example": "9972319"
+    },
+    "country_emoji": {
+      "type": "string",
+      "description": "Unicode flag emoji for the country.",
+      "example": "\ud83c\uddf8\ud83c\uddea"
+    }
+  }
+}

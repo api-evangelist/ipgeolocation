@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-schema/user-agent-operating-system-schema.json",
+  "title": "OperatingSystem",
+  "description": "Operating system information extracted from the user agent string.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the operating system.",
+      "example": "Mac OS"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the operating system. See possible values in the documentation.\n",
+      "example": "Desktop"
+    },
+    "version": {
+      "type": "string",
+      "description": "Full version string of the operating system. May be `\"??\"` if unknown.",
+      "example": "10.11.2"
+    },
+    "version_major": {
+      "type": "string",
+      "description": "Major version of the operating system. May be `\"??\"` if unknown.",
+      "example": "10.11"
+    },
+    "build": {
+      "type": "string",
+      "description": "Build identifier of the operating system. May be `\"??\"` if unknown.",
+      "example": "??"
+    }
+  }
+}

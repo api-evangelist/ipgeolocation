@@ -1,0 +1,101 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IPGeolocation.io — IP Abuse Contact
+  description: 'IPGeolocation.io IP Abuse Contact. 1 operation. Lead operation: IP abuse contact lookup. Self-contained Naftiko capability covering one IPGeolocation.io business surface.'
+  tags:
+  - IPGeolocation
+  - IP Intelligence
+  - IP Abuse Contact
+  created: '2026-05-29'
+  modified: '2026-05-29'
+binds:
+- namespace: env
+  keys:
+    IPGEOLOCATION_API_KEY: IPGEOLOCATION_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: abuse-ip-abuse-contact
+    baseUri: https://api.ipgeolocation.io
+    description: IPGeolocation.io — IP Abuse Contact business capability. Self-contained, no shared references.
+    authentication:
+      type: apikey
+      key: apiKey
+      value: '{{env.IPGEOLOCATION_API_KEY}}'
+      placement: query
+    resources:
+    - name: abuse
+      path: /v3/abuse
+      operations:
+      - name: lookupIpAbuseContact
+        method: GET
+        description: IP abuse contact lookup
+        inputParameters:
+        - name: ip
+          in: query
+          type: string
+          required: false
+          description: An IPv4 address or IPv6 address to look up. When omitted, the API
+        - name: fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of fields or objects to return. Everything else is omitted.
+        - name: excludes
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of fields or objects to remove from the response. The `ip`
+        - name: output
+          in: query
+          type: string
+          required: false
+          description: Desired response format. Defaults to `json` if not specified. You can also
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: abuse-ip-abuse-contact-rest
+    port: 8080
+    description: REST adapter for IPGeolocation.io — IP Abuse Contact. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/abuse
+      name: abuse
+      description: REST surface for /v3/abuse.
+      operations:
+      - method: GET
+        name: lookupIpAbuseContact
+        description: IP abuse contact lookup
+        call: abuse-ip-abuse-contact.lookupIpAbuseContact
+        with:
+          ip: rest.ip
+          fields: rest.fields
+          excludes: rest.excludes
+          output: rest.output
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: abuse-ip-abuse-contact-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for IPGeolocation.io — IP Abuse Contact. One tool per consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: ip-abuse-contact-lookup
+      description: IP abuse contact lookup
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: abuse-ip-abuse-contact.lookupIpAbuseContact
+      with:
+        ip: tools.ip
+        fields: tools.fields
+        excludes: tools.excludes
+        output: tools.output
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,227 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IPGeolocation.io — Astronomy
+  description: 'IPGeolocation.io Astronomy. 2 operations. Lead operation: Astronomy lookup. Self-contained Naftiko capability covering one IPGeolocation.io business surface.'
+  tags:
+  - IPGeolocation
+  - IP Intelligence
+  - Astronomy
+  created: '2026-05-29'
+  modified: '2026-05-29'
+binds:
+- namespace: env
+  keys:
+    IPGEOLOCATION_API_KEY: IPGEOLOCATION_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: astronomy-astronomy
+    baseUri: https://api.ipgeolocation.io
+    description: IPGeolocation.io — Astronomy business capability. Self-contained, no shared references.
+    authentication:
+      type: apikey
+      key: apiKey
+      value: '{{env.IPGEOLOCATION_API_KEY}}'
+      placement: query
+    resources:
+    - name: astronomy
+      path: /v3/astronomy
+      operations:
+      - name: lookupAstronomy
+        method: GET
+        description: Astronomy lookup
+        inputParameters:
+        - name: lat
+          in: query
+          type: number
+          required: false
+          description: Latitude coordinate of the location. Must be provided together with
+        - name: long
+          in: query
+          type: number
+          required: false
+          description: Longitude coordinate of the location. Must be provided together with
+        - name: location
+          in: query
+          type: string
+          required: false
+          description: Address or location name used to determine the astronomical
+        - name: ip
+          in: query
+          type: string
+          required: false
+          description: An IPv4 or IPv6 address used to resolve the location for the
+        - name: date
+          in: query
+          type: string
+          required: false
+          description: Date for which to retrieve astronomical information.
+        - name: elevation
+          in: query
+          type: number
+          required: false
+          description: Elevation of the location above sea level in meters. Used to
+        - name: time_zone
+          in: query
+          type: string
+          required: false
+          description: IANA timezone identifier used to convert all astronomical event
+        - name: lang
+          in: query
+          type: string
+          required: false
+          description: Language code for translated location names in the `location` object.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: astronomy-timeseries
+      path: /v3/astronomy/timeSeries
+      operations:
+      - name: lookupAstronomyTimeSeries
+        method: GET
+        description: Astronomy time series lookup
+        inputParameters:
+        - name: lat
+          in: query
+          type: number
+          required: false
+          description: Latitude coordinate of the location. Must be provided together with
+        - name: long
+          in: query
+          type: number
+          required: false
+          description: Longitude coordinate of the location. Must be provided together with
+        - name: location
+          in: query
+          type: string
+          required: false
+          description: Address or location name used to determine the astronomical
+        - name: ip
+          in: query
+          type: string
+          required: false
+          description: An IPv4 or IPv6 address used to resolve the location for the
+        - name: dateStart
+          in: query
+          type: string
+          required: true
+          description: Start date of the time series range.
+        - name: dateEnd
+          in: query
+          type: string
+          required: true
+          description: End date of the time series range.
+        - name: elevation
+          in: query
+          type: number
+          required: false
+          description: Elevation of the location above sea level in meters. Used to
+        - name: time_zone
+          in: query
+          type: string
+          required: false
+          description: IANA timezone identifier used to convert all astronomical event
+        - name: lang
+          in: query
+          type: string
+          required: false
+          description: Language code for translated location names in the `location` object.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: astronomy-astronomy-rest
+    port: 8080
+    description: REST adapter for IPGeolocation.io — Astronomy. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/astronomy
+      name: astronomy
+      description: REST surface for /v3/astronomy.
+      operations:
+      - method: GET
+        name: lookupAstronomy
+        description: Astronomy lookup
+        call: astronomy-astronomy.lookupAstronomy
+        with:
+          lat: rest.lat
+          long: rest.long
+          location: rest.location
+          ip: rest.ip
+          date: rest.date
+          elevation: rest.elevation
+          time_zone: rest.time_zone
+          lang: rest.lang
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/astronomy/timeseries
+      name: astronomy-timeseries
+      description: REST surface for /v3/astronomy/timeSeries.
+      operations:
+      - method: GET
+        name: lookupAstronomyTimeSeries
+        description: Astronomy time series lookup
+        call: astronomy-astronomy.lookupAstronomyTimeSeries
+        with:
+          lat: rest.lat
+          long: rest.long
+          location: rest.location
+          ip: rest.ip
+          dateStart: rest.dateStart
+          dateEnd: rest.dateEnd
+          elevation: rest.elevation
+          time_zone: rest.time_zone
+          lang: rest.lang
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: astronomy-astronomy-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for IPGeolocation.io — Astronomy. One tool per consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: astronomy-lookup
+      description: Astronomy lookup
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: astronomy-astronomy.lookupAstronomy
+      with:
+        lat: tools.lat
+        long: tools.long
+        location: tools.location
+        ip: tools.ip
+        date: tools.date
+        elevation: tools.elevation
+        time_zone: tools.time_zone
+        lang: tools.lang
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: astronomy-time-series-lookup
+      description: Astronomy time series lookup
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: astronomy-astronomy.lookupAstronomyTimeSeries
+      with:
+        lat: tools.lat
+        long: tools.long
+        location: tools.location
+        ip: tools.ip
+        dateStart: tools.dateStart
+        dateEnd: tools.dateEnd
+        elevation: tools.elevation
+        time_zone: tools.time_zone
+        lang: tools.lang
+      outputParameters:
+      - type: object
+        mapping: $.

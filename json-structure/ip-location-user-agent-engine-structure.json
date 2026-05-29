@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/ip-location-user-agent-engine-structure.json",
+  "name": "UserAgentEngine",
+  "description": "Rendering engine information extracted from the User-Agent string.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Engine name (e.g. `Blink`, `Gecko`, `WebKit`).",
+      "example": "Blink"
+    },
+    "type": {
+      "type": "string",
+      "description": "Engine classification. Typically matches the client type.",
+      "example": "Browser"
+    },
+    "version": {
+      "type": "string",
+      "description": "Full version of the rendering engine.",
+      "example": "143"
+    },
+    "version_major": {
+      "type": "string",
+      "description": "Major version of the rendering engine.",
+      "example": "143"
+    }
+  }
+}

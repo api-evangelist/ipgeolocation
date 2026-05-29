@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ipgeolocation/refs/heads/main/json-structure/ip-location-currency-structure.json",
+  "name": "Currency",
+  "description": "Local currency of the country where the IP is located.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "ISO 4217 currency code.",
+      "example": "SEK"
+    },
+    "name": {
+      "type": "string",
+      "description": "Currency name.",
+      "example": "Swedish Krona"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Currency symbol.",
+      "example": "kr"
+    }
+  }
+}

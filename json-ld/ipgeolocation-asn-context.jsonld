@@ -1,0 +1,92 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ipgeo": "https://ipgeolocation.io/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ASN": "ipgeo:ASN",
+    "ASNConnection": "ipgeo:ASNConnection",
+    "ASNLookupResponse": "ipgeo:ASNLookupResponse",
+    "allocation_status": {
+      "@id": "ipgeo:allocation_status",
+      "@type": "xsd:string"
+    },
+    "as_number": {
+      "@id": "ipgeo:as_number",
+      "@type": "xsd:string"
+    },
+    "asn": {
+      "@id": "ipgeo:asn",
+      "@type": "@id"
+    },
+    "asn_name": {
+      "@id": "ipgeo:asn_name",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "ipgeo:country",
+      "@type": "xsd:string"
+    },
+    "date_allocated": {
+      "@id": "ipgeo:date_allocated",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    },
+    "domain": {
+      "@id": "ipgeo:domain",
+      "@type": "xsd:string"
+    },
+    "downstreams": {
+      "@id": "ipgeo:downstreams",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "ip": {
+      "@id": "ipgeo:ip",
+      "@type": "xsd:string"
+    },
+    "num_of_ipv4_routes": {
+      "@id": "ipgeo:num_of_ipv4_routes",
+      "@type": "xsd:string"
+    },
+    "num_of_ipv6_routes": {
+      "@id": "ipgeo:num_of_ipv6_routes",
+      "@type": "xsd:string"
+    },
+    "organization": {
+      "@id": "ipgeo:organization",
+      "@type": "xsd:string"
+    },
+    "peers": {
+      "@id": "ipgeo:peers",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "rir": {
+      "@id": "ipgeo:rir",
+      "@type": "xsd:string"
+    },
+    "routes": {
+      "@id": "ipgeo:routes",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "ipgeo:type",
+      "@type": "xsd:string"
+    },
+    "upstreams": {
+      "@id": "ipgeo:upstreams",
+      "@container": "@set",
+      "@type": "@id"
+    },
+    "whois_response": {
+      "@id": "ipgeo:whois_response",
+      "@type": "xsd:string"
+    }
+  }
+}

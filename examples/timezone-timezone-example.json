@@ -1,0 +1,42 @@
+{
+  "name": "America/Los_Angeles",
+  "offset": -8,
+  "offset_with_dst": -7,
+  "date": "2025-04-24",
+  "date_time": "2025-04-24 11:30:12",
+  "date_time_txt": "Thursday, April 24, 2025 11:30:12",
+  "date_time_wti": "Thu, 24 Apr 2025 11:30:12 -0700",
+  "date_time_ymd": "2025-04-24T11:30:12-0700",
+  "current_time_unix": 1745519412.353,
+  "time_24": "11:30:12",
+  "time_12": "11:30:12 AM",
+  "week": 17,
+  "month": 4,
+  "year": 2025,
+  "year_abbr": "25",
+  "current_tz_abbreviation": "AEST",
+  "current_tz_full_name": "Australian Eastern Standard Time",
+  "standard_tz_abbreviation": "AEST",
+  "standard_tz_full_name": "Australian Eastern Standard Time",
+  "is_dst": false,
+  "dst_savings": 70.34,
+  "dst_exists": false,
+  "dst_tz_abbreviation": "PDT",
+  "dst_tz_full_name": "Pacific Daylight Time",
+  "dst_start": {
+    "utc_time": "2025-03-09 TIME 10",
+    "duration": "+1H",
+    "gap": false,
+    "date_time_after": "2025-03-09 TIME 03",
+    "date_time_before": "2025-03-09 TIME 02",
+    "overlap": true
+  },
+  "dst_end": {
+    "utc_time": "2025-03-09 TIME 10",
+    "duration": "+1H",
+    "gap": true,
+    "date_time_after": "2025-03-09 TIME 03",
+    "date_time_before": "2025-03-09 TIME 02",
+    "overlap": false
+  }
+}

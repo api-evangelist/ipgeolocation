@@ -1,0 +1,53 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ipgeo": "https://ipgeolocation.io/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "AbuseLookupResponse": "ipgeo:AbuseLookupResponse",
+    "Abuse": "ipgeo:Abuse",
+    "abuse": {
+      "@id": "ipgeo:abuse",
+      "@type": "@id"
+    },
+    "address": {
+      "@id": "ipgeo:address",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "ipgeo:country",
+      "@type": "xsd:string"
+    },
+    "emails": {
+      "@id": "ipgeo:emails",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "ip": {
+      "@id": "ipgeo:ip",
+      "@type": "xsd:string"
+    },
+    "kind": {
+      "@id": "ipgeo:kind",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "organization": {
+      "@id": "ipgeo:organization",
+      "@type": "xsd:string"
+    },
+    "phone_numbers": {
+      "@id": "ipgeo:phone_numbers",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "route": {
+      "@id": "ipgeo:route",
+      "@type": "xsd:string"
+    }
+  }
+}
