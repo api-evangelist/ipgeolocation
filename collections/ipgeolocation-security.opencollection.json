@@ -1,0 +1,98 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IPGeolocation.io: IP Security API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "IP Security",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IPGeolocation.io Single IP Security Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ipgeolocation.io/v3/security",
+            "params": [
+              {
+                "name": "ip",
+                "value": "",
+                "type": "query",
+                "description": "An IPv4 address or IPv6 address to look up. When omitted, the API\nresolves the public IP of the requesting client. Empty or whitespace-only values\nare treated the same as omission and resolve caller IP. Pass `ip` only once. If multiple `ip` query parameters are sent,\nvalues may be merged and treated as invalid input (HTTP 400).\n"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to return. Everything else is omitted.\nThe `ip` field is always returned regardless of this filter.\n\nSupports dot-notation for nested fields: `security.is_tor`, `security.threat_score`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nIf you list both an object key and one of its nested fields separated by comma\n(e.g. `security,security.is_vpn`), the full object is returned.\n\nUnknown field paths are ignored. The API still returns HTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "excludes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to remove from the response. The `ip`\nfield cannot be excluded.\n\nSupports dot-notation for nested fields: `security.is_relay`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nUnknown fields or object keys in `excludes` are ignored. The API still returns\nHTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "output",
+                "value": "",
+                "type": "query",
+                "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+              }
+            ]
+          },
+          "docs": "Returns threat intelligence and anonymization signals for a single\nIPv4 or IPv6 address.\n\nIf the `ip` parameter is omitted, the API automatically detects the\ncaller's public IP address and returns its security risk signals.\n\nThe response includes a threat score and multiple indicators such\nas VPN usage, proxy usage, Tor exit node detection, relay networks,\nbot activity, spam activity, and cloud hosting infrastructure.\n\nWhen available, provider names, confidence scores, and last-seen\ntimestamps a"
+        },
+        {
+          "info": {
+            "name": "IPGeolocation.io Bulk IP Security Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ipgeolocation.io/v3/security-bulk",
+            "params": [
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to return. Everything else is omitted.\nThe `ip` field is always returned regardless of this filter.\n\nSupports dot-notation for nested fields: `security.is_tor`, `security.threat_score`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nIf you list both an object key and one of its nested fields separated by comma\n(e.g. `security,security.is_vpn`), the full object is returned.\n\nUnknown field paths are ignored. The API still returns HTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "excludes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to remove from the response. The `ip`\nfield cannot be excluded.\n\nSupports dot-notation for nested fields: `security.is_relay`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nUnknown fields or object keys in `excludes` are ignored. The API still returns\nHTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "output",
+                "value": "",
+                "type": "query",
+                "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns security intelligence for up to **50,000 IPv4 or IPv6\naddresses** in a single request.\n\nThe request body must contain an `ips` array.\n\nEach IP is processed independently. Invalid, bogon, or private\nIP addresses return an object containing only a `message` field.\n\nCredits are charged **per valid IP address** using the same\npricing rules as the single lookup endpoint.\n\nWhen at least one entry is invalid, the response header\n`X-Successful-Record` indicates the number of successful\nlookups.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

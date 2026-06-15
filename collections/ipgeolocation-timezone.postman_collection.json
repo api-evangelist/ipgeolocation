@@ -1,0 +1,2713 @@
+{
+  "item": [
+    {
+      "id": "7b73705b-e84c-4cd8-98bb-2f8de24ae28a",
+      "name": "Timezone",
+      "description": {
+        "content": "API endpoints for retrieving current date, time, and timezone\ninformation for a given input such as an IANA timezone identifier,\ngeographic coordinates, location address, IPv4 or IPv6 address,\nairport codes (IATA or ICAO), or UN/LOCODE.\n\nThe API can also convert timestamps between different timezones,\nlocations, coordinates, airports, or UN/LOCODE identifiers.\n\nResponses include detailed timezone metadata such as UTC offset,\ndaylight saving time (DST) status, formatted timestamps, and\nupcoming DST transition information. Depending on the lookup\nmethod used, the response may also include geolocation data,\nairport details, or city information.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9f32e9da-ed39-4e46-85e0-fa834d90f539",
+          "name": "IPGeolocation.io Timezone Lookup",
+          "request": {
+            "name": "IPGeolocation.io Timezone Lookup",
+            "description": {
+              "content": "Returns current date, time, and timezone information for a\nspecific location or identifier.\n\nThe timezone can be resolved using one of several inputs,\nincluding an IANA timezone name (`tz`), geographic coordinates\n(`lat` and `long`), location address (`location`), IPv4 or IPv6\naddress (`ip`), airport codes (`iata_code` or `icao_code`), or\na UN/LOCODE (`lo_code`).\n\nDepending on the lookup method used, additional contextual\ninformation may also be returned in the response:\n\n- `location` object for IP address or location queries\n- `airport_details` object for IATA or ICAO code queries\n- `lo_code_details` object for UN/LOCODE queries\n\nIf multiple lookup parameters are provided in the same request,\nthe API resolves the timezone using the following priority order:\n\n1. `tz`\n2. `lat` and `long`\n3. `location`\n4. `ip`\n5. `iata_code`\n6. `icao_code`\n7. `lo_code`\n\nIf none of the lookup parameters are provided, the API resolves\nthe timezone using the public IP address of the requesting client.\n\nEach successful lookup consumes **1 credit**.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "timezone"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tz",
+                  "value": "<string>",
+                  "description": "IANA timezone identifier to retrieve timezone information.\n\nWhen provided, the API returns the current date, time, and timezone\nmetadata for the specified timezone.\n\nIf multiple lookup parameters are provided in the same request,\nthe `tz` parameter takes the highest priority.\n\nExample identifiers include `Europe/London`, `America/New_York`,\nand `Asia/Tokyo`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "location",
+                  "value": "<string>",
+                  "description": "Address or location name used to determine the timezone.\n\nTypically a city-level or region-level address such as\n`London, UK` or `New York, USA`.\n\nWhen this parameter is used, the API returns a `location`\nobject containing geolocation details alongside the\n`time_zone` object.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<float>",
+                  "description": "Latitude coordinate of the location used to determine the\ntimezone. Must be provided together with the `long` parameter.\n\nValid latitude values range from **-90 to 90**.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "long",
+                  "value": "<float>",
+                  "description": "Longitude coordinate of the location used to determine the\ntimezone. Must be provided together with the `lat` parameter.\n\nValid longitude values range from **-180 to 180**.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "ip",
+                  "value": "<string>",
+                  "description": "An IPv4 address, IPv6 address, or domain name to look up. When omitted, the API\nresolves the public IP of the requesting client. Empty or whitespace-only values\nare treated the same as omission and resolve caller IP. Domain lookups require a\npaid plan. Pass `ip` only once. If multiple `ip` query parameters are sent,\nvalues may be merged and treated as invalid input (HTTP 400).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "iata_code",
+                  "value": "<string>",
+                  "description": "Three-letter IATA airport code used to determine the timezone\nof the airport location.\n\nWhen used, the response includes an `airport_details` object\ncontaining airport metadata alongside the `time_zone` object.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "icao_code",
+                  "value": "<string>",
+                  "description": "Four-letter ICAO airport code used to determine the timezone\nof the airport location.\n\nWhen used, the response includes an `airport_details` object\ncontaining airport metadata alongside the `time_zone` object.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "lo_code",
+                  "value": "<string>",
+                  "description": "UN/LOCODE used to determine the timezone of a city or location.\n\nThe code consists of a two-letter country code followed by\nthree alphanumeric characters representing the location.\n\nWhen used, the response includes a `lo_code_details` object\nalongside the `time_zone` object.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "lang",
+                  "value": "en",
+                  "description": "Language code for translated location names. Defaults to `en`. Non-English\nresponses require a paid plan. Free plans always receive English regardless\nof this parameter. Unsupported `lang` values return HTTP 400.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "output",
+                  "value": "json",
+                  "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9f62ad54-cdad-4950-8e44-f7c061649ced",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of API credits consumed by this request.",
+                  "key": "X-Credits-Charged",
+                  "value": "1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ip\": \"49.12.0.0\",\n  \"location\": {\n    \"continent_code\": \"EU\",\n    \"continent_name\": \"Europe\",\n    \"country_code2\": \"DE\",\n    \"country_code3\": \"DEU\",\n    \"country_name\": \"Germany\",\n    \"country_name_official\": \"Federal Republic of Germany\",\n    \"is_eu\": true,\n    \"state_prov\": \"Bavaria\",\n    \"state_code\": \"DE-BY\",\n    \"district\": \"Cham\",\n    \"city\": \"Falkenstein\",\n    \"zipcode\": \"93167\",\n    \"latitude\": \"49.09745\",\n    \"longitude\": \"12.48637\"\n  },\n  \"time_zone\": {\n    \"name\": \"Europe/Berlin\",\n    \"offset\": 1,\n    \"offset_with_dst\": 1,\n    \"date\": \"2026-03-07\",\n    \"date_time\": \"2026-03-07 10:37:39\",\n    \"date_time_txt\": \"Saturday, March 07, 2026 10:37:39\",\n    \"date_time_wti\": \"Sat, 07 Mar 2026 10:37:39 +0100\",\n    \"date_time_ymd\": \"2026-03-07T10:37:39+0100\",\n    \"current_time\": \"2026-03-07 10:37:39.744+0100\",\n    \"current_time_unix\": 1772876259.744,\n    \"time_24\": \"10:37:39\",\n    \"time_12\": \"10:37:39 AM\",\n    \"week\": 10,\n    \"month\": 3,\n    \"year\": 2026,\n    \"year_abbr\": \"26\",\n    \"current_tz_abbreviation\": \"CET\",\n    \"current_tz_full_name\": \"Central European Standard Time\",\n    \"standard_tz_abbreviation\": \"CET\",\n    \"standard_tz_full_name\": \"Central European Standard Time\",\n    \"is_dst\": false,\n    \"dst_savings\": 0,\n    \"dst_exists\": true,\n    \"dst_tz_abbreviation\": \"CEST\",\n    \"dst_tz_full_name\": \"Central European Summer Time\",\n    \"dst_start\": {\n      \"utc_time\": \"2026-03-29 TIME 01:00\",\n      \"duration\": \"+1.00H\",\n      \"gap\": true,\n      \"date_time_after\": \"2026-03-29 TIME 03:00\",\n      \"date_time_before\": \"2026-03-29 TIME 02:00\",\n      \"overlap\": false\n    },\n    \"dst_end\": {\n      \"utc_time\": \"2026-10-25 TIME 01:00\",\n      \"duration\": \"-1.00H\",\n      \"gap\": false,\n      \"date_time_after\": \"2026-10-25 TIME 02:00\",\n      \"date_time_before\": \"2026-10-25 TIME 03:00\",\n      \"overlap\": true\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc07d257-61c5-447b-a5c1-00de9851100c",
+              "name": "Bad Request – Possible reasons include:\n  - If the provided IPv4 or IPv6 address is invalid.\n\n  - If special character(s) ( ) [ ] { } | ^ ` is passed in the API URL either as parameter or its value. Specially in case of API key.\n  \n  - If the provided IATA code to the request parameter `iata_code` is not in the format as three letter code AAA.\n  \n  - If the provided ICAO code to the request parameter `icao_code` is not in the format as four letter code AAAA.\n\n  - If the provided UN/LOCODE to the request parameter `lo_code` is not in format as first two characters of country code, followed by the three alphanumeric characters of the city/region.\n  \n  - If the provided values to the request parameters `lat` and `long` are not numbers, or the values fall outside the acceptable latitude and longitude ranges. The valid range for latitude is between -90 and 90, and for longitude, it is between -180 and 180.\n                \n  - If the provided time zone name to the query parameter `tz` is wrong or not registered in the IANA time zone database.\n\n  - An invalid or unsupported `lang` parameter is provided.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided name, service or IP address '999.999.999.999' is not valid.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eb009af4-0dc1-4de6-9d34-55fafb3c9040",
+              "name": "Unauthorized – Possible reasons include:\n  - Missing or invalid API key\n  - If your account has been disabled or locked to use by the admin due to abuse or illegal activity.\n  - When the request to Timezone API is made using API key for a database subscription\n  - When the request to Timezone API is made on the 'paused' subscription.\n  - If you’re making API requests after your subscription trial has been expired.\n  - If your active until date has passed and you need to upgrade your account.\n  - A language other than English is specified in the `lang` parameter\n    while using a Free/Developer plan API key.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7bb66ded-7974-472a-86c1-93275fe20fb3",
+              "name": "Not found. Returned for one of the following reasons:\n- If the IPv4, IPv6 address does not exist in our database.\n\n- If the IPv4, IPv6 address passed as a path variable, instead of url parameter as ip=.\n\n- If the location address provided to the `location` parameter is invalid, or if the address provided to either `location_from` or `location_to` is invalid for time conversion. A city-level or state-level address must be provided.\n              \n- If the provided UN/LOCODE, IATA code or ICAO code to the query parameters `lo_code`, `iata_code`, or `icao_code` does not exist in our database.\n\n- If the wrong endpoint is called, that does not exist in our API.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided IPv4 or IPv6 address does not exist in our database.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "46472afc-1385-4400-b451-0c0767d19730",
+              "name": "Method Not Allowed. Returned when an unsupported HTTP method is used\nto call an endpoint.\n\nOnly the **GET** method is supported for the Timezone API endpoint.\n\nAny other HTTP method results in HTTP 405.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Request method 'POST' is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c61aae0c-99c3-4080-86a4-5f3b35336a95",
+              "name": "Locked. The provided IP address belongs to a bogon IP range or a private\nnetwork and cannot be looked up.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Locked (WebDAV) (RFC 4918)",
+              "code": 423,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"'10.0.0.1' is a bogon IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b5a17112-a077-4222-b749-d0a740bd26ab",
+              "name": "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4b279d15-21a1-4fc7-84f8-747170e75b0b",
+              "name": "The client closed the connection before the server finished processing the\nrequest. This usually happens when the client sets a very short request or\nconnection timeout. Increase the timeout on the client side.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Client Closed Request",
+              "code": 499,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Client closed the request before the server could respond.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ccf40f54-c07d-44e3-b8be-c78253524565",
+              "name": "Internal Server Error. The server encountered an unexpected condition\nthat prevented it from fulfilling the request. If the issue persists,\ncontact support@ipgeolocation.io.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong on the server side.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0289fa94-4fb3-4b61-ae16-beae18edc942",
+              "name": "Bad Gateway. The API server received an invalid response from an upstream\nserver while processing the request. This is usually temporary.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Upstream service error. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "597fc252-df26-410e-888d-1acd7da7c6a4",
+              "name": "Service Unavailable. The API is temporarily unavailable due to maintenance\nor overload. Please try again later.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be65e5b4-0084-40fd-a7e1-e217f2ea207f",
+              "name": "Gateway Timeout. The API server did not receive a timely response from\nan upstream server.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The server timed out while processing the request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "06764506-c347-487f-b695-bb1712d09abb",
+              "name": "HTTP Version Not Supported. The server does not support the HTTP protocol\nversion used in the request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz",
+                      "value": ""
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lo_code",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "HTTP Version Not Supported",
+              "code": 505,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"HTTP version not supported.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f2c0dda-c393-441c-a664-9e30c03ee2cf",
+          "name": "IPGeolocation.io Timezone Time Conversion",
+          "request": {
+            "name": "IPGeolocation.io Timezone Time Conversion",
+            "description": {
+              "content": "Converts a given time between two timezones, locations,\ncoordinates, airports, or UN/LOCODE identifiers.\n\nThe conversion can be performed using one of the following\nparameter combinations:\n\n- `tz_from` and `tz_to`\n- `location_from` and `location_to`\n- `lat_from`, `long_from`, `lat_to`, `long_to`\n- `iata_from` and `iata_to`\n- `icao_from` and `icao_to`\n- `locode_from` and `locode_to`\n\nThe optional `time` parameter specifies the time to convert.\n\nSupported formats:\n\n- `yyyy-MM-dd HH:mm`\n- `yyyy-MM-dd HH:mm:ss`\n\nIf the `time` parameter is omitted, the current time is used\nfor conversion.\n\nEach successful conversion request consumes **1 credit**.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "timezone",
+                "convert"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tz_from",
+                  "value": "<string>",
+                  "description": "Source timezone identifier (IANA format) used for time conversion.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "tz_to",
+                  "value": "<string>",
+                  "description": "Destination timezone identifier (IANA format) used for time conversion.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "location_from",
+                  "value": "<string>",
+                  "description": "Source location address used to determine the source timezone.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "location_to",
+                  "value": "<string>",
+                  "description": "Destination location address used to determine the target timezone.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "lat_from",
+                  "value": "<float>"
+                },
+                {
+                  "disabled": false,
+                  "key": "lat_to",
+                  "value": "<float>"
+                },
+                {
+                  "disabled": false,
+                  "key": "long_from",
+                  "value": "<float>"
+                },
+                {
+                  "disabled": false,
+                  "key": "long_to",
+                  "value": "<float>"
+                },
+                {
+                  "disabled": false,
+                  "key": "iata_from",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "iata_to",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "icao_from",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "icao_to",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "locode_from",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "locode_to",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "time",
+                  "value": "<string>",
+                  "description": "Date and time to convert.\n\nSupported formats:\n\n- `yyyy-MM-dd HH:mm`\n- `yyyy-MM-dd HH:mm:ss`\n\nIf omitted, the current time is used.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "output",
+                  "value": "json",
+                  "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "312d845d-c872-42cd-b421-31bffe0962a6",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of API credits consumed by this request.",
+                  "key": "X-Credits-Charged",
+                  "value": "1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"original_time\": \"2026-03-16 21:42:10\",\n  \"converted_time\": \"2026-03-16 22:42:10\",\n  \"diff_hour\": 1,\n  \"diff_min\": 60\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "db60f497-6fef-4c7b-a850-aeaf52ccc814",
+              "name": "Bad Request – Possible reasons include:\n  - If one of the query parameters `tz_from` and `tz_to` is provided and the other is missing, for time conversion.\n\n  - If one of the query parameters `location_from` and `location_to` is provided and the other is missing, for time conversion.\n  \n  - If one of the query parameters `lat_from`, `long_from`, `lat_to`, and `long_to` is provided and other(s) is/are missing, for time conversion.\n                \n  - If the geographic coordinates provided to one of the parameters `lat_from`, `long_from`, `lat_to`, and `long_to` is/are not numbers, or the values fall outside the acceptable latitude and longitude ranges. The valid range for latitude is between -90 and 90, and for longitude, it is between -180 and 180.\n  \n  - If the time zone names provided to one of the parameters `tz_from` and `tz_to` is/are wrong or not registered in the IANA time zone database.\n  \n  - If none of the query parameter combination is provided for time conversion. `tz_from` and `tz_to` or `location_from` and `location_to` or `lat_from`, `long_from`, `lat_to`, `long_to` combination must be provided.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"To convert time by time zone names , both the tz_from and tz_to parameter must be provided. For more detail, you can read about it in the documentation at ipgeolocation.io or contact us at support@ipgeolocation.io.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e903a024-707f-4bdc-8d54-666ede13ef91",
+              "name": "Unauthorized – Possible reasons include:\n  - Missing or invalid API key\n  - If your account has been disabled or locked to use by the admin due to abuse or illegal activity.\n  - When the request to Timezone API is made using API key for a database subscription\n  - When the request to Timezone API is made on the 'paused' subscription.\n  - If you’re making API requests after your subscription trial has been expired.\n  - If your active until date has passed and you need to upgrade your account.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "53e31263-42e3-4f91-8869-4ef469e3587b",
+              "name": "Not found. Returned for one of the following reasons:\n- If the IPv4, IPv6 address does not exist in our database.\n\n- If the IPv4, IPv6 address passed as a path variable, instead of url parameter as ip=.\n\n- If the location address provided to the `location` parameter is invalid, or if the address provided to either `location_from` or `location_to` is invalid for time conversion. A city-level or state-level address must be provided.\n              \n- If the provided UN/LOCODE, IATA code or ICAO code to the query parameters `lo_code`, `iata_code`, or `icao_code` does not exist in our database.\n\n- If the wrong endpoint is called, that does not exist in our API.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided IPv4 or IPv6 address does not exist in our database.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2735642-e6f3-4986-acc3-728ef0dc8226",
+              "name": "Method Not Allowed. Returned when an unsupported HTTP method is used\nto call an endpoint.\n\nOnly the **GET** method is supported for the Timezone API endpoint.\n\nAny other HTTP method results in HTTP 405.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Request method 'POST' is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2bd62fb-69aa-4147-a4f5-797d01bd9116",
+              "name": "Locked. The provided IP address belongs to a bogon IP range or a private\nnetwork and cannot be looked up.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Locked (WebDAV) (RFC 4918)",
+              "code": 423,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"'10.0.0.1' is a bogon IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c111a305-b34b-4541-892c-df83dab168b8",
+              "name": "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c0bea9e-ed09-4c4d-b193-8538fe5e3988",
+              "name": "The client closed the connection before the server finished processing the\nrequest. This usually happens when the client sets a very short request or\nconnection timeout. Increase the timeout on the client side.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Client Closed Request",
+              "code": 499,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Client closed the request before the server could respond.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "510a04cd-4005-4b7f-8ac9-d16a46bc8167",
+              "name": "Internal Server Error. The server encountered an unexpected condition\nthat prevented it from fulfilling the request. If the issue persists,\ncontact support@ipgeolocation.io.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong on the server side.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "506679a5-6a3f-48c1-825f-4cf6824c48cb",
+              "name": "Bad Gateway. The API server received an invalid response from an upstream\nserver while processing the request. This is usually temporary.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Upstream service error. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5953eefd-dba1-449e-9b07-60f2524cf9fd",
+              "name": "Service Unavailable. The API is temporarily unavailable due to maintenance\nor overload. Please try again later.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4358adcc-4308-4ff8-99f3-e84904da3730",
+              "name": "Gateway Timeout. The API server did not receive a timely response from\nan upstream server.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The server timed out while processing the request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15f48f39-59e8-44e5-a85f-4b061d9a92b8",
+              "name": "HTTP Version Not Supported. The server does not support the HTTP protocol\nversion used in the request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "timezone",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tz_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "tz_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "location_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "lat_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lat_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_from",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long_to",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "iata_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "iata_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "icao_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_from",
+                      "value": ""
+                    },
+                    {
+                      "key": "locode_to",
+                      "value": ""
+                    },
+                    {
+                      "key": "time",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "HTTP Version Not Supported",
+              "code": 505,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"HTTP version not supported.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ipgeolocation.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b0ae84a2-4bba-427b-b900-e7a399b4f664",
+    "name": "IPGeolocation.io: Date, Time & Timezone API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Retrieve current date, time, and timezone information for a specific\nlocation or identifier.\n\nThe Timezone API returns detailed timezone information including the\ntimezone name, UTC offset, daylight saving time (DST) status, current\nlocal time, formatted timestamps, and upcoming DST transition details.\n\nTimezone information can be retrieved using multiple lookup inputs:\n\n- Timezone name (IANA identifier)\n- Location address\n- Geographic coordinates (latitude and longitude)\n- IPv4 or IPv6 address\n- IATA airport code\n- ICAO airport code\n- UN/LOCODE city identifier\n\nDepending on the lookup method used, additional contextual information\nmay be returned:\n\n- Geolocation details for IP address or location queries\n- Airport information for IATA or ICAO code queries\n- City details for UN/LOCODE queries\n\nTwo endpoints are available:\n\n- **Timezone lookup** (`GET /v3/timezone`) returns timezone and current\n  time information for a location, IP address, coordinates, timezone\n  name, airport code, or UN/LOCODE.\n\n- **Time conversion** (`GET /v3/timezone/convert`) converts a given time\n  between two timezones, locations, coordinates, airports, or UN/LOCODE\n  identifiers.\n\n## Authentication\n\nTwo authentication methods are supported:\n\n### API Key\n\nPass your API key as the `apiKey` query parameter on every request. You can find your\nkey in the [IPGeolocation dashboard](https://app.ipgeolocation.io/). Store it in\nserver-side environment variables. Avoid exposing it in client-side JavaScript.\n\n### Request Origin (CORS)\n\nAvailable on paid plans only. Whitelist your domain in the dashboard under the\n\"API Keys\" section. Once configured, requests from that domain (and all its subdomains)\nare accepted without passing `apiKey`. Enter your root domain (e.g. `example.com`),\nnot the full URL.\n\nEach plan has a limit on the number of extra API keys and request origins:\n\n| Plan | Extra API Keys + Request Origins |\n|---|---|\n| Starter (150K requests) | 1 |\n| Core (250K requests) | 1 |\n| Plus (500K requests) | 2 |\n| Pro (1M requests) | 2 |\n| Business (2M requests) | 3 |\n| Premium (5M requests) | 3 |\n\nAdditional keys or origins can be added for $2.50 per month each.\n\n## Response Formats\n\nThe API supports JSON (default) and XML output.\n\n- Set the `output` query parameter to `json` or `xml`.\n- Alternatively, set the `Accept` header to `application/json`,\n  `application/xml`, or `text/xml`.\n\nIf neither is specified, the response is returned as JSON. XML responses\nuse a `LinkedHashMap` root element.\n\n## Credit Usage\n\nCredits are charged only for successful **HTTP 200** responses. The exact\nnumber of credits consumed by a request is returned in the\n`X-Credits-Charged` response header.\n\n- A **timezone lookup** (`GET /v3/timezone`) consumes **1 credit** per request.\n- A **time conversion request** (`GET /v3/timezone/convert`) consumes **1 credit** per request.\n\n## Lookup Parameter Priority\n\nIf multiple lookup parameters are provided in a request, the API resolves\nthe timezone information using the following priority order:\n\n1. `tz` (timezone name)\n2. Geographic coordinates (`lat`, `long`)\n3. `location`\n4. `ip`\n5. `iata_code`\n6. `icao_code`\n7. `lo_code`\n\n## Parameter Name Casing\n\nQuery parameter names are case-sensitive. Use exact names such as\n`apiKey`, `tz`, `location`, `lat`, `long`, `ip`, `iata_code`,\n`icao_code`, `lo_code`, `lang`, and `output`.\n\n## Timezone Data Availability\n\nBasic timezone information is also included in the IP Geolocation API\n(`/v3/ipgeo`) for both Free and Paid subscriptions.\n\nExtended timezone metadata such as formatted timestamps, calendar\nfields, and additional date/time formats are available through the\ndedicated `/v3/timezone` endpoint.\n\nBoth `/v3/ipgeo` and `/v3/timezone` endpoints are available on **Free\nand Paid plans**. The difference between them lies in the **level of\ntimezone data returned**, not plan availability.\n\n| Field | /v3/ipgeo | /v3/timezone |\n|---|---|---|\n| time_zone.name | ✓ | ✓ |\n| time_zone.offset | ✓ | ✓ |\n| time_zone.offset_with_dst | ✓ | ✓ |\n| time_zone.current_time | ✓ | ✓ |\n| time_zone.current_time_unix | ✓ | ✓ |\n| time_zone.current_tz_abbreviation | ✓ | ✓ |\n| time_zone.current_tz_full_name | ✓ | ✓ |\n| time_zone.standard_tz_abbreviation | ✓ | ✓ |\n| time_zone.standard_tz_full_name | ✓ | ✓ |\n| time_zone.is_dst | ✓ | ✓ |\n| time_zone.dst_savings | ✓ | ✓ |\n| time_zone.dst_exists | ✓ | ✓ |\n| time_zone.dst_start | ✓ | ✓ |\n| time_zone.dst_end | ✓ | ✓ |\n| time_zone.date | ✗ | ✓ |\n| time_zone.date_time | ✗ | ✓ |\n| time_zone.date_time_txt | ✗ | ✓ |\n| time_zone.date_time_wti | ✗ | ✓ |\n| time_zone.date_time_ymd | ✗ | ✓ |\n| time_zone.time_24 | ✗ | ✓ |\n| time_zone.time_12 | ✗ | ✓ |\n| time_zone.week | ✗ | ✓ |\n| time_zone.month | ✗ | ✓ |\n| time_zone.year | ✗ | ✓ |\n| time_zone.year_abbr | ✗ | ✓ |\n\nUse `/v3/ipgeo` when timezone information is required together with\ngeolocation, ASN, network, security, or company data in a single request.\n\nUse `/v3/timezone` when detailed timezone metadata, formatted time\nvalues, or timezone conversions are required.\n\n## Usage Limits\n\nThe Timezone API is available on **both Free and Paid plans**.\n\nFree plan subscriptions include **up to 1,000 requests per day**.\n\nPaid subscriptions do not enforce fixed daily or hourly rate limits.\nIf the monthly request quota is exceeded, requests continue and a\nsurcharge may be applied depending on the subscribed plan.\n\nRequests made using invalid API keys or unsupported subscriptions\nreturn **HTTP 401 Unauthorized**.\n\n\nContact Support:\n Name: IPGeolocation Support\n Email: support@ipgeolocation.io",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,1955 @@
+{
+  "item": [
+    {
+      "id": "290df125-f129-4043-85a2-929e8a85d27f",
+      "name": "User Agent",
+      "description": {
+        "content": "API endpoints for parsing user agent strings into browser, device, layout engine,\nand operating system details. Supports single lookups via request header, custom\nstring lookups via JSON body, and bulk parsing of up to 50,000 strings per request.\nAlso detects bots, crawlers, and malicious or malformed user agent strings.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9f5042cb-82f0-4092-8761-a42112b4dabe",
+          "name": "IPGeolocation.io Parse User Agent String (auto-detect or Explicit Header)",
+          "request": {
+            "name": "IPGeolocation.io Parse User Agent String (auto-detect or Explicit Header)",
+            "description": {
+              "content": "Parses a user agent string and returns browser, device, and operating system\ndetails. Also detects bots, crawlers, and malicious or malformed user agent strings.\n\nThis endpoint supports two usage modes:\n\n**Mode 1 — Auto-detect caller's user agent:**\nOmit the `User-Agent` header entirely. The API will parse the user agent string\nof the calling client automatically. This is the default browser behavior — when\nexecuted in browser JavaScript, the header is appended automatically and no\nadditional configuration is needed.\n\n**Mode 2 — Explicit user agent header:**\nPass any user agent string in the `User-Agent` request header. The API parses\nthat string instead of detecting the caller's own user agent. Use this to\nsimulate or test specific user agent strings server-side.\n\nEach successful lookup consumes **1 credit**.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "user-agent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "apiKey",
+                  "value": "<string>",
+                  "description": "Your IPGeolocation API key. Required unless Request Origin (CORS) authentication\nis configured for your domain on a paid plan. Get your key from the\n[IPGeolocation dashboard](https://app.ipgeolocation.io/).\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                "key": "User-Agent",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23737966-db75-4cb9-a6fa-73a0d55d98a0",
+              "name": "Parsed user agent details for the resolved user agent string.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of API credits consumed by this request.",
+                  "key": "X-Credits-Charged",
+                  "value": "1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"user_agent_string\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9\",\n  \"name\": \"Safari\",\n  \"type\": \"Browser\",\n  \"version\": \"9.0.2\",\n  \"version_major\": \"9\",\n  \"device\": {\n    \"name\": \"Apple Macintosh\",\n    \"type\": \"Desktop\",\n    \"brand\": \"Apple\",\n    \"cpu\": \"Intel\"\n  },\n  \"engine\": {\n    \"name\": \"AppleWebKit\",\n    \"type\": \"Browser\",\n    \"version\": \"601.3.9\",\n    \"version_major\": \"601\"\n  },\n  \"operating_system\": {\n    \"name\": \"Mac OS\",\n    \"type\": \"Desktop\",\n    \"version\": \"10.11.2\",\n    \"version_major\": \"10.11\",\n    \"build\": \"??\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48b73147-3327-4b81-a793-5b05a69b097f",
+              "name": "Bad Request. Returned for one of the following reasons:\n- Special characters ( ) [ ] { } | ^ ` are passed in the API URL (either in parameters or values), especially in the API key.\n- The `uaString` is empty or null when calling `/v3/user-agent`(POST).\n- The `uaStrings` array is empty, or the JSON body does not contain a `uaStrings`\n  field when calling `/v3/user-agent-bulk`.\n- More than 50,000 user agent strings are provided in a single bulk request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid character found in the request target.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bcc146e4-36c7-4231-92bc-1c0aaec4b482",
+              "name": "Unauthorized. Returned for one of the following reasons:\n- The `apiKey` URL parameter is missing from the request.\n- The provided API key is not valid.\n- The request is made using an API key of a database subscription.\n- The account has been disabled or locked due to illegal activity.\n- Requests are made after the subscription trial has expired.\n- The subscription is paused or not active.\n- The account’s active-until date has passed.\n- A paid feature is accessed using a free subscription.\n- The bulk user agent parsing endpoint is called using a free subscription API key.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d527514-7018-478d-8b0c-619164f78cba",
+              "name": "Method Not Allowed. Returned when an unsupported HTTP method is used.\n\n- `/v3/user-agent` supports GET and POST.\n- `/v3/user-agent-bulk` supports POST only.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Request method 'GET' is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "acb0d2e3-9754-4364-bf55-f5de56315f00",
+              "name": "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a free subscription.\n- The API usage limit has been reached for a paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba7e2eed-1d86-40d8-956c-782588acb80e",
+              "name": "Client Closed Request. Returned when the client sets a very short timeout,\ncausing the connection to close before the server responds.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Client Closed Request",
+              "code": 499,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Client closed the request before the server could respond.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4d76445-06eb-4940-874b-bf15b76b179c",
+              "name": "Internal Server Error. The server encountered an unexpected condition\nthat prevented it from fulfilling the request. If the issue persists,\ncontact support@ipgeolocation.io.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong on the server side.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f52b6b8-ed6c-4f80-a9c9-20cb8bae6fa1",
+              "name": "Bad Gateway. The API server received an invalid response from an upstream\nserver while processing the request. This is usually temporary.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Upstream service error. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e79671ad-fe04-486e-8427-b7ccc83e7ef0",
+              "name": "Service Unavailable. The API is temporarily unavailable due to maintenance\nor overload. Please try again later.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f0558a2-e68c-4d16-bf59-69e26dd02086",
+              "name": "Gateway Timeout. The API server did not receive a timely response from\nan upstream server.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The server timed out while processing the request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "813018a6-1feb-4172-a626-ac02db243919",
+              "name": "HTTP Version Not Supported. The server does not support the HTTP protocol\nversion used in the request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "The user agent string to parse. When omitted, the API automatically parses\nthe user agent of the calling client. When provided, the supplied string is\nparsed instead.\n",
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.96 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "HTTP Version Not Supported",
+              "code": 505,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"HTTP version not supported.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "af650b5c-9dc4-4da8-b630-fe1806a10eb4",
+          "name": "IPGeolocation.io Parse Custom User Agent String (payload)",
+          "request": {
+            "name": "IPGeolocation.io Parse Custom User Agent String (payload)",
+            "description": {
+              "content": "Parses a custom user agent string supplied in the JSON request body and returns\nbrowser, device, and operating system details.\n\n**Mode 3 — Custom user agent string via POST body:**\nPass the user agent string as the `uaString` field in a JSON payload. This is\nintended for server-side use cases where the string to be parsed is different\nfrom the caller's own user agent and is known at request time.\n\nThis endpoint is available on **paid plans only**.\n\nEach successful lookup consumes **1 credit**.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "user-agent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "apiKey",
+                  "value": "<string>",
+                  "description": "Your IPGeolocation API key. Required unless Request Origin (CORS) authentication\nis configured for your domain on a paid plan. Get your key from the\n[IPGeolocation dashboard](https://app.ipgeolocation.io/).\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uaString\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "77d74fc1-f466-4652-9fd0-31869d11bab2",
+              "name": "Parsed user agent details for the submitted user agent string.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of API credits consumed by this request.",
+                  "key": "X-Credits-Charged",
+                  "value": "1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"user_agent_string\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9\",\n  \"name\": \"Safari\",\n  \"type\": \"Browser\",\n  \"version\": \"9.0.2\",\n  \"version_major\": \"9\",\n  \"device\": {\n    \"name\": \"Apple Macintosh\",\n    \"type\": \"Desktop\",\n    \"brand\": \"Apple\",\n    \"cpu\": \"Intel\"\n  },\n  \"engine\": {\n    \"name\": \"AppleWebKit\",\n    \"type\": \"Browser\",\n    \"version\": \"601.3.9\",\n    \"version_major\": \"601\"\n  },\n  \"operating_system\": {\n    \"name\": \"Mac OS\",\n    \"type\": \"Desktop\",\n    \"version\": \"10.11.2\",\n    \"version_major\": \"10.11\",\n    \"build\": \"??\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8c97613-002f-4cbd-a9c0-9b604746e3ab",
+              "name": "Bad Request. Returned for one of the following reasons:\n- Special characters ( ) [ ] { } | ^ ` are passed in the API URL (either in parameters or values), especially in the API key.\n- The `uaString` is empty or null when calling `/v3/user-agent`(POST).\n- The `uaStrings` array is empty, or the JSON body does not contain a `uaStrings`\n  field when calling `/v3/user-agent-bulk`.\n- More than 50,000 user agent strings are provided in a single bulk request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid character found in the request target.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0047b6d7-1f32-4e1b-ba5f-9d5280076d83",
+              "name": "Unauthorized. Returned for one of the following reasons:\n- The `apiKey` URL parameter is missing from the request.\n- The provided API key is not valid.\n- The request is made using an API key of a database subscription.\n- The account has been disabled or locked due to illegal activity.\n- Requests are made after the subscription trial has expired.\n- The subscription is paused or not active.\n- The account’s active-until date has passed.\n- A paid feature is accessed using a free subscription.\n- The bulk user agent parsing endpoint is called using a free subscription API key.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91cf71d0-fc90-41cb-9b49-a3176a37805e",
+              "name": "Method Not Allowed. Returned when an unsupported HTTP method is used.\n\n- `/v3/user-agent` supports GET and POST.\n- `/v3/user-agent-bulk` supports POST only.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Request method 'GET' is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9448bcf-c545-46f9-b0a2-8d552c1fd9c1",
+              "name": "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a free subscription.\n- The API usage limit has been reached for a paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f0ff40b-d2ce-4a27-9396-a08bc48fae79",
+              "name": "Client Closed Request. Returned when the client sets a very short timeout,\ncausing the connection to close before the server responds.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Client Closed Request",
+              "code": 499,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Client closed the request before the server could respond.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9faae49-16df-482e-8873-78ecc676d883",
+              "name": "Internal Server Error. The server encountered an unexpected condition\nthat prevented it from fulfilling the request. If the issue persists,\ncontact support@ipgeolocation.io.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong on the server side.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b9d7f13-455e-4b37-aa45-98924d469804",
+              "name": "Bad Gateway. The API server received an invalid response from an upstream\nserver while processing the request. This is usually temporary.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Upstream service error. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "999e9602-9a13-45ad-b82b-2b010b7a0825",
+              "name": "Service Unavailable. The API is temporarily unavailable due to maintenance\nor overload. Please try again later.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5236a7e2-e6ef-4f23-8d62-c163294bc406",
+              "name": "Gateway Timeout. The API server did not receive a timely response from\nan upstream server.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The server timed out while processing the request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c96cc22-38b4-466e-8201-2ff625aff07a",
+              "name": "HTTP Version Not Supported. The server does not support the HTTP protocol\nversion used in the request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "HTTP Version Not Supported",
+              "code": 505,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"HTTP version not supported.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "629a09ab-63b8-499b-abda-83b8021b2135",
+          "name": "IPGeolocation.io Bulk Parse User Agent Strings",
+          "request": {
+            "name": "IPGeolocation.io Bulk Parse User Agent Strings",
+            "description": {
+              "content": "Parses up to **50,000 user agent strings** in a single request.\n\nPass a JSON body containing the `uaStrings` array. Each entry in the array\nis parsed independently. The total credits charged equals the number of strings\nin the array.\n\nThis endpoint is available on **paid plans only**.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "user-agent-bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "apiKey",
+                  "value": "<string>",
+                  "description": "Your IPGeolocation API key. Required unless Request Origin (CORS) authentication\nis configured for your domain on a paid plan. Get your key from the\n[IPGeolocation dashboard](https://app.ipgeolocation.io/).\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uaStrings\": [\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2a8833c2-85c8-463b-b292-269d536e77e0",
+              "name": "Array of parsed user agent results, one object per submitted string,\nin the same order as the input array.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Total number of API credits consumed by this request.\nEquals the number of user agent strings submitted.\n",
+                  "key": "X-Credits-Charged",
+                  "value": "3"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"user_agent_string\": \"Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36\",\n    \"name\": \"Chrome\",\n    \"type\": \"Browser\",\n    \"version\": \"62.0.3202.84\",\n    \"version_major\": \"62\",\n    \"device\": {\n      \"name\": \"Samsung SM-G960F\",\n      \"type\": \"Phone\",\n      \"brand\": \"Samsung\",\n      \"cpu\": \"Unknown\"\n    },\n    \"engine\": {\n      \"name\": \"Blink\",\n      \"type\": \"Browser\",\n      \"version\": \"62.0\",\n      \"version_major\": \"62\"\n    },\n    \"operating_system\": {\n      \"name\": \"Android\",\n      \"type\": \"Mobile\",\n      \"version\": \"8.0.0\",\n      \"version_major\": \"8\",\n      \"build\": \"R16NW\"\n    }\n  },\n  {\n    \"user_agent_string\": \"Mozilla/5.0 (X11; U; Linux armv7l like Android; en-us) AppleWebKit/531.2+ (KHTML, like Gecko) Version/5.0 Safari/533.2+ Kindle/3.0+\",\n    \"name\": \"Kindle\",\n    \"type\": \"Browser\",\n    \"version\": \"3.0\",\n    \"version_major\": \"3\",\n    \"device\": {\n      \"name\": \"Amazon Kindle\",\n      \"type\": \"eReader\",\n      \"brand\": \"Amazon\",\n      \"cpu\": \"ARMv7l\"\n    },\n    \"engine\": {\n      \"name\": \"AppleWebKit\",\n      \"type\": \"Browser\",\n      \"version\": \"531.2\",\n      \"version_major\": \"531\"\n    },\n    \"operating_system\": {\n      \"name\": \"FireOS\",\n      \"type\": \"Mobile\",\n      \"version\": \"??\",\n      \"version_major\": \"??\",\n      \"build\": \"??\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9069477e-5d16-46f9-a371-183c4ea3789d",
+              "name": "Bad Request. Returned for one of the following reasons:\n- Special characters ( ) [ ] { } | ^ ` are passed in the API URL (either in parameters or values), especially in the API key.\n- The `uaString` is empty or null when calling `/v3/user-agent`(POST).\n- The `uaStrings` array is empty, or the JSON body does not contain a `uaStrings`\n  field when calling `/v3/user-agent-bulk`.\n- More than 50,000 user agent strings are provided in a single bulk request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid character found in the request target.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80411867-47ca-4b5f-ab43-d3ceb6734389",
+              "name": "Unauthorized. Returned for one of the following reasons:\n- The `apiKey` URL parameter is missing from the request.\n- The provided API key is not valid.\n- The request is made using an API key of a database subscription.\n- The account has been disabled or locked due to illegal activity.\n- Requests are made after the subscription trial has expired.\n- The subscription is paused or not active.\n- The account’s active-until date has passed.\n- A paid feature is accessed using a free subscription.\n- The bulk user agent parsing endpoint is called using a free subscription API key.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3f08384-8385-4acb-85c6-e47c042f8005",
+              "name": "Method Not Allowed. Returned when an unsupported HTTP method is used.\n\n- `/v3/user-agent` supports GET and POST.\n- `/v3/user-agent-bulk` supports POST only.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Request method 'GET' is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "796d2435-551b-47af-ac6f-d29c1cdeff3a",
+              "name": "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a free subscription.\n- The API usage limit has been reached for a paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a440832e-fd8b-4b3b-8580-1860789ff0c4",
+              "name": "Client Closed Request. Returned when the client sets a very short timeout,\ncausing the connection to close before the server responds.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Client Closed Request",
+              "code": 499,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Client closed the request before the server could respond.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc5286b5-2e17-47d7-a2f6-f1ed155d1b79",
+              "name": "Internal Server Error. The server encountered an unexpected condition\nthat prevented it from fulfilling the request. If the issue persists,\ncontact support@ipgeolocation.io.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong on the server side.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da8c9b42-bb53-4e8f-805e-909a4afae33f",
+              "name": "Bad Gateway. The API server received an invalid response from an upstream\nserver while processing the request. This is usually temporary.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Upstream service error. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ce1ec05-3fc1-4814-a366-9d3af38771e3",
+              "name": "Service Unavailable. The API is temporarily unavailable due to maintenance\nor overload. Please try again later.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2a10690-c50e-4276-8cde-18081a782f14",
+              "name": "Gateway Timeout. The API server did not receive a timely response from\nan upstream server.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The server timed out while processing the request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e60d367b-7ed3-40b7-9a7e-8bc08daf61f5",
+              "name": "HTTP Version Not Supported. The server does not support the HTTP protocol\nversion used in the request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "user-agent-bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "YOUR_API_KEY"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ips\": [\n    \"8.8.8.8\",\n    \"1.1.1.1\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "HTTP Version Not Supported",
+              "code": 505,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"HTTP version not supported.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ipgeolocation.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3359ea27-9a03-4910-bc81-9d54f850f07e",
+    "name": "IPGeolocation.io: User Agent API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Parse browser, device, and operating system details from a User Agent string.\nThe API also detects crawlers, bots, and potential attackers based on anomalies\nin the user agent string.\n\nTwo endpoints are available, supporting three usage modes:\n\n- **`GET /v3/user-agent`** supports two modes: omit the `User-Agent` header to\n  auto-detect the caller's own user agent, or pass any string in the `User-Agent`\n  header to parse it explicitly.\n- **`POST /v3/user-agent`** parses a custom user agent string from a JSON body\n  (`uaString` field). Available on paid plans only.\n- **`POST /v3/user-agent-bulk`** parses up to 50,000 user agent strings in a\n  single request. Available on paid plans only.\n\nUser agent data can also be retrieved alongside IP geolocation data via the\n`/v3/ipgeo` endpoint using `include=user_agent`.\n\n## Authentication\n\nTwo authentication methods are supported:\n\n### API Key\n\nPass your API key as the `apiKey` query parameter on every request. You can find your\nkey in the [IPGeolocation dashboard](https://app.ipgeolocation.io/). Store it in\nserver-side environment variables. Avoid exposing it in client-side JavaScript.\n\n### Request Origin (CORS)\n\nAvailable on paid plans only. Whitelist your domain in the dashboard under the\n\"API Keys\" section. Once configured, requests from that domain (and all its subdomains)\nare accepted without passing `apiKey`. Enter your root domain (e.g. `example.com`),\nnot the full URL.\n\nEach plan has a limit on the number of extra API keys and request origins:\n\n| Plan | Extra API Keys + Request Origins |\n|---|---|\n| Starter (150K requests) | 1 |\n| Core (250K requests) | 1 |\n| Plus (500K requests) | 2 |\n| Pro (1M requests) | 2 |\n| Business (2M requests) | 3 |\n| Premium (5M requests) | 3 |\n\nAdditional keys or origins can be added for $2.50 per month each.\n\n## Credit Usage\n\nCredits are charged only for successful **HTTP 200** responses. The exact number of\ncredits consumed by a request is returned in the `X-Credits-Charged` response header.\n\nEach successful user agent lookup costs **1 credit** per user agent string parsed.\nFor bulk requests, the total credits charged equals the number of user agent strings\nsubmitted.\n\nWhen using `/v3/ipgeo` with `include=user_agent`, no additional credits are charged\nbeyond the base IP lookup cost.\n\n## Plan Availability\n\n- **`GET /v3/user-agent`** (auto-detect or explicit `User-Agent` header) is available\n  on all plans including Free.\n- **`POST /v3/user-agent`** (custom string via JSON body) is available on **paid plans only**.\n- **`POST /v3/user-agent-bulk`** is available on **paid plans only**.\n- User agent data via `/v3/ipgeo?include=user_agent` is available on **paid plans only**.\n\n## Parameter Name Casing\n\nQuery parameter names are case-sensitive. Use exact names such as `apiKey`.\n\n\nContact Support:\n Name: IPGeolocation Support\n Email: support@ipgeolocation.io",
+      "type": "text/plain"
+    }
+  }
+}

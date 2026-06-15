@@ -1,0 +1,973 @@
+{
+  "item": [
+    {
+      "id": "e59190da-36f1-48f9-b556-81b5acef783d",
+      "name": "ASN Lookup",
+      "description": {
+        "content": "API endpoint for retrieving Autonomous System Number (ASN) information\nassociated with IPv4 addresses, IPv6 addresses, or specific ASN numbers.\n\nThe response includes ASN metadata such as the ASN number, organization\nname, country of registration, ASN type, domain, allocation details,\nrouting statistics, and the Regional Internet Registry (RIR) responsible\nfor the allocation.\n\nAdditional routing intelligence such as peers, upstreams, downstreams,\nannounced routes, and raw WHOIS registry data can also be retrieved\nusing the `include` parameter.\n\nThis information helps analyze internet routing, identify network\noperators, and understand how Autonomous Systems interconnect\nacross the internet.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f0302df7-1fe1-481e-a3c0-8a8fb0f81a3f",
+          "name": "IPGeolocation.io ASN Lookup",
+          "request": {
+            "name": "IPGeolocation.io ASN Lookup",
+            "description": {
+              "content": "Returns ASN details for a single IPv4 address, IPv6 address,\nor ASN number.\n\nThe response contains information about the Autonomous System\nresponsible for routing the queried IP address or ASN.\n\nBasic ASN metadata is always returned, while additional routing\nrelationships such as peers, upstreams, downstreams, routes,\nand WHOIS data can be retrieved using the `include` parameter.\n\nWhen the lookup is performed using the `asn` parameter,\nthe `ip` field is not included in the response.\n\nEach successful lookup consumes **1 credit**.\n\nUse the `fields`, `excludes`, and `include` parameters\nto customize the response.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "asn"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ip",
+                  "value": "<string>",
+                  "description": "An IPv4 address or IPv6 address to look up. When omitted, the API\nresolves the public IP of the requesting client.\n\nIf the `asn` parameter is provided, the `ip` parameter must not be used,\nbecause the lookup will be performed directly using the specified ASN.\n\nEmpty or whitespace-only values are treated the same as omission and resolve\nthe caller IP.\n\nPass `ip` only once. If multiple `ip` query parameters are sent,\nvalues may be merged and treated as invalid input (HTTP 400).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "asn",
+                  "value": "<string>",
+                  "description": "An Autonomous System Number (ASN) to look up.\n\nWhen provided, the lookup is performed directly using the specified ASN,\nand the `ip` parameter must not be included in the request.\n\nThe API returns detailed information about the ASN including the\norganization name, country of registration, ASN type, routing statistics,\nand other related network metadata.\n\nPass `asn` only once. If multiple `asn` query parameters are sent,\nvalues may be merged and treated as invalid input (HTTP 400).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "Comma-separated list of optional data modules to add to the response. These are\nnot returned by default.\n\nSupported ASN modules include:\n\n- `peers`\n- `downstreams`\n- `upstreams`\n- `routes`\n- `whois_response`\n\nIf multiple values are provided, they must be comma-separated.\n\nFor additional query parameters (`include`, `fields`, `excludes`, `output`),\nunknown values are ignored. The API still returns HTTP 200 and applies only\nrecognized values.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Comma-separated list of fields or objects to return. Everything else is omitted.\nThe `ip` field is always returned when the lookup is performed using an IP address.\n\nSupports dot-notation for nested fields: `asn.organization`, `asn.domain`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nIf you list both an object key and one of its nested fields separated by comma\n(e.g. `asn,asn.organization`), the full object is returned.\n\nUnknown field paths are ignored. The API still returns HTTP 200.\n\nAvailable on all plans including Free.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "excludes",
+                  "value": "<string>",
+                  "description": "Comma-separated list of fields or objects to remove from the response.\nThe `ip` field cannot be excluded.\n\nSupports dot-notation for nested fields: `asn.domain`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nUnknown fields or object keys in `excludes` are ignored. The API still returns\nHTTP 200.\n\nAvailable on all plans including Free.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "output",
+                  "value": "json",
+                  "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8626c34f-66fe-486e-a609-40d8247af131",
+              "name": "ASN information for the requested IP address.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of API credits consumed by this request.",
+                  "key": "X-Credits-Charged",
+                  "value": "1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"asn\": {\n    \"as_number\": \"AS24940\",\n    \"organization\": \"Hetzner Online GmbH\",\n    \"country\": \"DE\",\n    \"type\": \"HOSTING\",\n    \"domain\": \"hetzner.com\",\n    \"date_allocated\": \"2002-06-03\",\n    \"asn_name\": \"HETZNER-AS\",\n    \"allocation_status\": \"ASSIGNED\",\n    \"num_of_ipv4_routes\": \"84\",\n    \"num_of_ipv6_routes\": \"6\",\n    \"rir\": \"RIPE\",\n    \"peers\": [\n      {\n        \"as_number\": \"AS58057\",\n        \"description\": \"Securebit A\",\n        \"country\": \"CH\"\n      },\n      {\n        \"as_number\": \"AS28792\",\n        \"description\": \"Public Internet Ltd\",\n        \"country\": \"GB\"\n      }\n    ],\n    \"routes\": [\n      \"78.46.0.0/15\",\n      \"138.199.128.0/17\"\n    ],\n    \"upstreams\": [\n      {\n        \"as_number\": \"AS12552\",\n        \"description\": \"GlobalConnect AB\",\n        \"country\": \"SE\"\n      },\n      {\n        \"as_number\": \"AS58057\",\n        \"description\": \"Securebit AG\",\n        \"country\": \"CH\"\n      }\n    ],\n    \"downstreams\": [\n      {\n        \"as_number\": \"AS209148\",\n        \"description\": \"Securepoint GmbH\",\n        \"country\": \"DE\"\n      },\n      {\n        \"as_number\": \"AS198167\",\n        \"description\": \"Apptc.me s.r.o.\",\n        \"country\": \"CZ\"\n      }\n    ],\n    \"whois_response\": \"#\\n# ARIN WHOIS data and services are subject to the Terms of Use\\n#\\nASNumber:       24940\\nASName:         HETZNER-AS\\nOrgName:        Hetzner Online GmbH\\nCountry:        DE\\n...\\n\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71ecc1ee-28fa-4e00-9d3b-1cb00f3591a6",
+              "name": "Bad request. Returned for one of the following reasons:\n- The provided IPv4 address or IPv6 address is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided name, service or IP address '999.999.999.999' is not valid.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "427f59ba-f3c9-400a-8651-8f75ed02ecca",
+              "name": "Unauthorized. Returned for one of the following reasons:\n\n- The `apiKey` URL parameter is missing.\n- An invalid (random or incorrect) API key is provided.\n- The account has been disabled or locked due to abuse or illegal activity.\n- The API request is made using an API key for a database subscription.\n- The API request is made using a free subscription API key.\n- The subscription is in a 'paused' state.\n- The subscription trial has expired.\n- The account’s active-until date has passed and renewal or upgrade is required.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4162e6ff-5270-4d5d-a93a-e8faa2712658",
+              "name": "Not found. Returned for one of the following reasons:\n\n- A syntactically valid IPv4, IPv6, or ASN does not exist in the IPGeolocation database.\n- An IPv4, IPv6, or ASN is passed as a path variable\n  instead of as a URL query parameter (e.g., using `/v3/ipgeo/8.8.8.8`\n  instead of `/v3/ipgeo?ip=8.8.8.8`).\n- A non-existent or incorrect API endpoint is called.\n\nInvalid or malformed IPv4, IPv6, or domain input returns HTTP 400 instead.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided ASN or IP Address does not exist in our database.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eeef7d89-7835-44eb-8af5-0a53de86e583",
+              "name": "Method Not Allowed. Returned when an unsupported HTTP method is used\nto call an endpoint.\n\nOnly the **GET** method is supported for the ASN lookup API endpoint.\n\nAny other HTTP method results in HTTP 405.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Request method 'POST' is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "422fe9d3-de72-45d8-a9e7-fa6796d8817d",
+              "name": "Locked. The provided IP address belongs to a bogon IP range or a private\nnetwork and cannot be looked up.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Locked (WebDAV) (RFC 4918)",
+              "code": 423,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"'10.0.0.1' is a bogon IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ceccc72-76b1-49aa-bddb-1adee0ede479",
+              "name": "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2ce9777-6fb0-4be4-8321-331f9e1d35fc",
+              "name": "The client closed the connection before the server finished processing the\nrequest. This usually happens when the client sets a very short request or\nconnection timeout. Increase the timeout on the client side.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Client Closed Request",
+              "code": 499,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Client closed the request before the server could respond.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ed35761-557a-438b-baca-1a91e97626a1",
+              "name": "Internal Server Error. The server encountered an unexpected condition\nthat prevented it from fulfilling the request. If the issue persists,\ncontact support@ipgeolocation.io.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong on the server side.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dbed0077-c155-4c7e-8696-a866aa164c5a",
+              "name": "Bad Gateway. The API server received an invalid response from an upstream\nserver while processing the request. This is usually temporary.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Upstream service error. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2577f2f8-91c7-4f7c-9a48-10ef01c71262",
+              "name": "Service Unavailable. The API is temporarily unavailable due to maintenance\nor overload. Please try again later.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "899c264c-7d04-4026-9ea7-60dd229250fd",
+              "name": "Gateway Timeout. The API server did not receive a timely response from\nan upstream server.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The server timed out while processing the request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2e863fb0-e248-4f21-a0ba-8e4f841d1c38",
+              "name": "HTTP Version Not Supported. The server does not support the HTTP protocol\nversion used in the request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "asn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "asn",
+                      "value": ""
+                    },
+                    {
+                      "key": "include",
+                      "value": ""
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "HTTP Version Not Supported",
+              "code": 505,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"HTTP version not supported.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ipgeolocation.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "68cf394c-34f2-422a-a2a2-3246f6775ec5",
+    "name": "IPGeolocation.io: ASN Lookup API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Retrieve Autonomous System Number (ASN) information associated with an\nIPv4 address, IPv6 address, or a specific ASN.\n\nThe ASN Lookup API returns detailed information about an Autonomous System\nincluding the ASN number, organization name, country of registration,\ndomain, ASN type, allocation date, and the Regional Internet Registry (RIR)\nresponsible for assigning the ASN.\n\nAdditional routing intelligence can also be retrieved including:\n\n- Peering relationships\n- Upstream and downstream connections\n- IPv4 and IPv6 routing prefixes\n- Raw WHOIS registry data\n\nThis information helps organizations analyze internet routing, identify\nnetwork operators, and understand how Autonomous Systems interconnect\nacross the internet.\n\nOne endpoint is available:\n\n- **ASN lookup** (`GET /v3/asn`) returns ASN information for a single\n  IPv4 address, IPv6 address, or ASN number per request.\n\nUse query parameters to control which fields are returned, include\nrouting relationships, or exclude fields to reduce response payload size.\n\n   ## Authentication\n\nTwo authentication methods are supported:\n\n### API Key\n\nPass your API key as the `apiKey` query parameter on every request. You can find your\nkey in the [IPGeolocation dashboard](https://app.ipgeolocation.io/). Store it in\nserver-side environment variables. Avoid exposing it in client-side JavaScript.\n\n### Request Origin (CORS)\n\nAvailable on paid plans only. Whitelist your domain in the dashboard under the\n\"API Keys\" section. Once configured, requests from that domain (and all its subdomains)\nare accepted without passing `apiKey`. Enter your root domain (e.g. `example.com`),\nnot the full URL.\n\nEach plan has a limit on the number of extra API keys and request origins:\n\n| Plan | Extra API Keys + Request Origins |\n|---|---|\n| Starter (150K requests) | 1 |\n| Core (250K requests) | 1 |\n| Plus (500K requests) | 2 |\n| Pro (1M requests) | 2 |\n| Business (2M requests) | 3 |\n| Premium (5M requests) | 3 |\n\nAdditional keys or origins can be added for $2.50 per month each.\n\n## Response Formats\n\nThe API supports JSON (default) and XML output.\n\n- Set the `output` query parameter to `json` or `xml`.\n- Alternatively, set the `Accept` header to `application/json`, `application/xml`,\n  or `text/xml`.\n\nIf neither is specified, the response is returned as JSON. XML responses use a\n`LinkedHashMap` root element.\n\n## Credit Usage\n\nCredits are charged only for successful **HTTP 200** responses. The exact number of\ncredits consumed by a request is returned in the `X-Credits-Charged` response header.\n\nA **single ASN lookup** (`GET /v3/asn`) consumes **1 credit** per request.\n\n## Field Filtering\n\nUse `fields` to cherry-pick specific fields, or `excludes` to drop fields you do not\nneed. Both accept dot-notation for nested fields (e.g. `asn.as_number`,\n`asn.organization`). The `ip` field is always present regardless of filters.\n\n## Parameter Name Casing\n\nQuery parameter names are case-sensitive. Use exact names such as\n`apiKey`, `ip`, `fields`, `include`, `excludes`, and `output`.\n\n## Include Additional ASN Data\n\nThe `include` parameter can be used to retrieve additional routing\ninformation related to the ASN.\n\nSupported values include:\n\n- `peers`\n- `downstreams`\n- `upstreams`\n- `routes`\n- `whois_response`\n\nMultiple values must be comma-separated.\n\n## Parameter Name Casing\n\nQuery parameter names are case-sensitive.\nUse exact names such as `apiKey`, `ip`, `asn`, `include`,\n`fields`, `excludes`, and `output`.\n\n## ASN Data Availability\n\nBasic ASN information is also included in the IP Geolocation API (`/v3/ipgeo`).\n\nField availability differs depending on the endpoint and subscription plan.\n\n| Field | /v3/ipgeo (Free) | /v3/ipgeo (Paid) | /v3/asn |\n|---|---|---|---|\n| asn.as_number | ✓ | ✓ | ✓ |\n| asn.organization | ✓ | ✓ | ✓ |\n| asn.country | ✓ | ✓ | ✓ |\n| asn.type | ✗ | ✓ | ✓ |\n| asn.domain | ✗ | ✓ | ✓ |\n| asn.date_allocated | ✗ | ✓ | ✓ |\n| asn.rir | ✗ | ✓ | ✓ |\n| asn.asn_name | ✗ | ✗ | ✓ |\n| asn.allocation_status | ✗ | ✗ | ✓ |\n| asn.num_of_ipv4_routes | ✗ | ✗ | ✓ |\n| asn.num_of_ipv6_routes | ✗ | ✗ | ✓ |\n| asn.peers | ✗ | ✗ | ✓ |\n| asn.downstreams | ✗ | ✗ | ✓ |\n| asn.upstreams | ✗ | ✗ | ✓ |\n| asn.routes | ✗ | ✗ | ✓ |\n| asn.whois_response | ✗ | ✗ | ✓ |\n\nThe `/v3/ipgeo` endpoint is recommended when you need IP geolocation data together\nwith basic ASN information.\n\nThe `/v3/asn` endpoint should be used when detailed ASN intelligence is required,\nincluding routing relationships, routes, and WHOIS registry data.\n\n## Usage Limits\n\nPaid subscriptions do not enforce fixed daily or hourly rate limits.\n\nIf the monthly request quota is exceeded, requests continue and a surcharge\nmay be applied depending on the subscribed plan.\n\nRequests made using invalid API keys or unsupported subscriptions\nreturn **HTTP 401 Unauthorized**.\n\n\nContact Support:\n Name: IPGeolocation Support\n Email: support@ipgeolocation.io",
+      "type": "text/plain"
+    }
+  }
+}

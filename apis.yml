@@ -1,13 +1,11 @@
 aid: ipgeolocation
 name: IPGeolocation.io
 description: >-
-  IPGeolocation.io is a multi-product IP intelligence platform offering IP
-  geolocation, IP security/threat intelligence, ASN lookup, abuse contact,
-  timezone, astronomy (sunrise, sunset, moon phase, celestial position), and
-  user-agent parsing APIs. All endpoints are served under
-  https://api.ipgeolocation.io with API-key authentication. The free plan
-  offers 1,000 credits/day; paid plans (Starter through Premium) scale from
-  150K to 5M requests/month, with custom Enterprise pricing on top.
+  IPGeolocation.io is a multi-product IP intelligence platform offering IP geolocation, IP security/threat intelligence,
+  ASN lookup, abuse contact, timezone, astronomy (sunrise, sunset, moon phase, celestial position), and user-agent
+  parsing APIs. All endpoints are served under https://api.ipgeolocation.io with API-key authentication. The free plan
+  offers 1,000 credits/day; paid plans (Starter through Premium) scale from 150K to 5M requests/month, with custom
+  Enterprise pricing on top.
 url: https://ipgeolocation.io/
 specificationVersion: '0.20'
 created: '2026-05-28'
@@ -32,11 +30,9 @@ tags:
 apis:
   - name: IP Geolocation
     description: >-
-      Resolve any IPv4 / IPv6 address or domain name to a rich geolocation
-      payload — country, region, city, lat/long, postal, currency, ASN,
-      company, timezone, security signals, abuse contact, and user-agent
-      enrichment. Includes single lookup (GET /v3/ipgeo) and bulk lookup
-      (POST /v3/ipgeo-bulk, up to 50,000 entries per request, paid plans).
+      Resolve any IPv4 / IPv6 address or domain name to a rich geolocation payload — country, region, city, lat/long,
+      postal, currency, ASN, company, timezone, security signals, abuse contact, and user-agent enrichment. Includes
+      single lookup (GET /v3/ipgeo) and bulk lookup (POST /v3/ipgeo-bulk, up to 50,000 entries per request, paid plans).
     humanURL: https://ipgeolocation.io/ip-location-api.html
     baseURL: https://api.ipgeolocation.io
     tags:
@@ -90,14 +86,11 @@ apis:
       - type: SDK
         title: jQuery SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
-      - type: NaftikoCapability
-        url: capabilities/ip-location-ip-geolocation.yaml
   - name: IP Security
     description: >-
-      Threat-intelligence API that detects VPNs, proxies, Tor exit nodes,
-      relay networks, bot activity, spam sources, residential proxies, cloud
-      and data-center IPs, and assigns a threat score. Single lookup
-      (GET /v3/security) and bulk lookup (POST /v3/security-bulk).
+      Threat-intelligence API that detects VPNs, proxies, Tor exit nodes, relay networks, bot activity, spam sources,
+      residential proxies, cloud and data-center IPs, and assigns a threat score. Single lookup (GET /v3/security) and
+      bulk lookup (POST /v3/security-bulk).
     humanURL: https://ipgeolocation.io/ip-security-api.html
     baseURL: https://api.ipgeolocation.io
     tags:
@@ -110,13 +103,10 @@ apis:
         url: https://ipgeolocation.io/documentation/ip-security-api.html
       - type: OpenAPI
         url: openapi/ipgeolocation-security-openapi.yml
-      - type: NaftikoCapability
-        url: capabilities/security-ip-security.yaml
   - name: ASN Lookup
     description: >-
-      Resolve an IP or ASN to Autonomous System metadata — owning organization,
-      country, type (ISP, hosting, education, government), IP ranges, peers,
-      and upstream/downstream relationships.
+      Resolve an IP or ASN to Autonomous System metadata — owning organization, country, type (ISP, hosting, education,
+      government), IP ranges, peers, and upstream/downstream relationships.
     humanURL: https://ipgeolocation.io/asn-api.html
     baseURL: https://api.ipgeolocation.io
     tags:
@@ -127,13 +117,10 @@ apis:
         url: https://ipgeolocation.io/documentation/asn-api.html
       - type: OpenAPI
         url: openapi/ipgeolocation-asn-openapi.yml
-      - type: NaftikoCapability
-        url: capabilities/asn-asn-lookup.yaml
   - name: IP Abuse Contact
     description: >-
-      Registry-sourced abuse contact information for any IPv4/IPv6 address —
-      RIR, abuse email, network/route, country, and registry metadata. Useful
-      for security operations, takedown workflows, and compliance.
+      Registry-sourced abuse contact information for any IPv4/IPv6 address — RIR, abuse email, network/route, country,
+      and registry metadata. Useful for security operations, takedown workflows, and compliance.
     humanURL: https://ipgeolocation.io/abuse-contact-api.html
     baseURL: https://api.ipgeolocation.io
     tags:
@@ -144,14 +131,11 @@ apis:
         url: https://ipgeolocation.io/documentation/abuse-contact-api.html
       - type: OpenAPI
         url: openapi/ipgeolocation-abuse-openapi.yml
-      - type: NaftikoCapability
-        url: capabilities/abuse-ip-abuse-contact.yaml
   - name: Timezone
     description: >-
-      Resolve a timezone from name (e.g. America/New_York), IP address, or
-      lat/long coordinates. Returns current date/time, UTC offset, DST status,
-      DST transition windows, airport/locode metadata, and a convert endpoint
-      to translate a timestamp between two zones.
+      Resolve a timezone from name (e.g. America/New_York), IP address, or lat/long coordinates. Returns current
+      date/time, UTC offset, DST status, DST transition windows, airport/locode metadata, and a convert endpoint to
+      translate a timestamp between two zones.
     humanURL: https://ipgeolocation.io/timezone-api.html
     baseURL: https://api.ipgeolocation.io
     tags:
@@ -162,14 +146,11 @@ apis:
         url: https://ipgeolocation.io/documentation/timezone-api.html
       - type: OpenAPI
         url: openapi/ipgeolocation-timezone-openapi.yml
-      - type: NaftikoCapability
-        url: capabilities/timezone-timezone.yaml
   - name: Astronomy
     description: >-
-      Astronomy data for any date and location — sunrise, sunset, solar noon,
-      civil/nautical/astronomical twilight phases, moonrise, moonset, moon
-      phase, illumination percentage, and altitude/azimuth for the sun and
-      moon. Includes a /astronomy/timeSeries endpoint for date ranges.
+      Astronomy data for any date and location — sunrise, sunset, solar noon, civil/nautical/astronomical twilight
+      phases, moonrise, moonset, moon phase, illumination percentage, and altitude/azimuth for the sun and moon.
+      Includes a /astronomy/timeSeries endpoint for date ranges.
     humanURL: https://ipgeolocation.io/astronomy-api.html
     baseURL: https://api.ipgeolocation.io
     tags:
@@ -181,14 +162,10 @@ apis:
         url: https://ipgeolocation.io/documentation/astronomy-api.html
       - type: OpenAPI
         url: openapi/ipgeolocation-astronomy-openapi.yml
-      - type: NaftikoCapability
-        url: capabilities/astronomy-astronomy.yaml
   - name: User Agent
     description: >-
-      Parse a User-Agent string into browser, engine, device, and operating
-      system attributes. Supports single (GET /v3/user-agent — header-based,
-      or POST /v3/user-agent — body-based) and bulk lookup (POST
-      /v3/user-agent-bulk).
+      Parse a User-Agent string into browser, engine, device, and operating system attributes. Supports single (GET
+      /v3/user-agent — header-based, or POST /v3/user-agent — body-based) and bulk lookup (POST /v3/user-agent-bulk).
     humanURL: https://ipgeolocation.io/user-agent-api.html
     baseURL: https://api.ipgeolocation.io
     tags:
@@ -200,8 +177,6 @@ apis:
         url: https://ipgeolocation.io/documentation/user-agent-api.html
       - type: OpenAPI
         url: openapi/ipgeolocation-user-agent-openapi.yml
-      - type: NaftikoCapability
-        url: capabilities/user-agent-user-agent.yaml
 common:
   - type: Website
     url: https://ipgeolocation.io/
@@ -264,58 +239,47 @@ common:
 features:
   - name: 7-Product API Suite
     description: >-
-      IP Geolocation, IP Security, ASN Lookup, Abuse Contact, Timezone,
-      Astronomy, and User-Agent parsing — all behind one API key.
+      IP Geolocation, IP Security, ASN Lookup, Abuse Contact, Timezone, Astronomy, and User-Agent parsing — all behind
+      one API key.
   - name: Bulk Endpoints
     description: >-
-      Bulk lookup endpoints (up to 50,000 entries per request) for IP
-      geolocation, IP security, and user-agent parsing on paid plans.
+      Bulk lookup endpoints (up to 50,000 entries per request) for IP geolocation, IP security, and user-agent parsing
+      on paid plans.
   - name: 14 Official SDKs
     description: >-
-      First-party SDKs for PHP, Python, Java, JavaScript, TypeScript, Node,
-      Ruby, Go, .NET, Kotlin, Swift, Rust, C++, and jQuery.
+      First-party SDKs for PHP, Python, Java, JavaScript, TypeScript, Node, Ruby, Go, .NET, Kotlin, Swift, Rust, C++,
+      and jQuery.
   - name: MCP Server
     description: >-
-      Official Model Context Protocol server exposing every product (geo,
-      security, ASN, timezone, astronomy, user-agent) as MCP tools for
-      Claude, Cursor, Copilot, and other MCP-aware clients.
+      Official Model Context Protocol server exposing every product (geo, security, ASN, timezone, astronomy,
+      user-agent) as MCP tools for Claude, Cursor, Copilot, and other MCP-aware clients.
   - name: Edge and Platform Integrations
     description: >-
-      Vercel edge middleware, Cloudflare-friendly client, Steampipe plugin,
-      Elasticsearch ingest processor, n8n node, Google Sheets add-on,
-      Splunk app, and WordPress / Shopify / Pipedream / Zapier / Make
-      integrations.
+      Vercel edge middleware, Cloudflare-friendly client, Steampipe plugin, Elasticsearch ingest processor, n8n node,
+      Google Sheets add-on, Splunk app, and WordPress / Shopify / Pipedream / Zapier / Make integrations.
   - name: MMDB Database Products
     description: >-
-      Downloadable MMDB databases for offline geolocation, security, ASN,
-      company, abuse-contact, WHOIS, hosting, and residential-proxy lookups
-      (Geo Standard, Geo Advance, Security Pro tiers).
+      Downloadable MMDB databases for offline geolocation, security, ASN, company, abuse-contact, WHOIS, hosting, and
+      residential-proxy lookups (Geo Standard, Geo Advance, Security Pro tiers).
 useCases:
   - name: Personalize and Localize Web Experiences
-    description: >-
-      Detect a visitor's country, currency, and timezone to tailor language,
-      pricing, and content at the edge.
+    description: Detect a visitor's country, currency, and timezone to tailor language, pricing, and content at the edge.
   - name: Compliance and Geo-Blocking
     description: >-
-      Enforce sanctions, age-gates, or licensing rules by blocking or
-      redirecting traffic from specific countries or networks at the
-      Vercel/CDN edge.
+      Enforce sanctions, age-gates, or licensing rules by blocking or redirecting traffic from specific countries or
+      networks at the Vercel/CDN edge.
   - name: Fraud and Abuse Prevention
     description: >-
-      Score signups, logins, and transactions using VPN/proxy/Tor detection,
-      threat scoring, and ASN type (hosting vs residential).
+      Score signups, logins, and transactions using VPN/proxy/Tor detection, threat scoring, and ASN type (hosting vs
+      residential).
   - name: SOC Triage and Takedown
-    description: >-
-      Resolve abuse contacts and ASN owners for IOCs during incident response
-      and abuse reporting.
+    description: Resolve abuse contacts and ASN owners for IOCs during incident response and abuse reporting.
   - name: Scheduling and Astronomy
     description: >-
-      Power scheduling, lighting automation, agriculture, and observatory
-      tooling with high-precision sunrise/sunset and moon-phase data.
+      Power scheduling, lighting automation, agriculture, and observatory tooling with high-precision sunrise/sunset and
+      moon-phase data.
   - name: Audience Analytics
-    description: >-
-      Enrich logs and analytics events with country, city, ISP, and device
-      info to segment users and dashboards.
+    description: Enrich logs and analytics events with country, city, ISP, and device info to segment users and dashboards.
 integrations:
   - name: Vercel Edge Middleware
     description: Geo-block, redirect, and detect VPN/proxy/Tor at the Vercel edge.
@@ -347,13 +311,11 @@ solutions:
   - name: Real-Time API Lookup
     description: Sub-50ms IP intelligence over HTTPS with a single API key.
   - name: Downloadable MMDB Databases
-    description: >-
-      Offline-capable MMDB files (Geo Standard, Geo Advance, Security Pro)
-      for embedded or air-gapped use cases.
+    description: Offline-capable MMDB files (Geo Standard, Geo Advance, Security Pro) for embedded or air-gapped use cases.
   - name: Edge-Native Integrations
     description: >-
-      Drop-in middleware for Vercel, Cloudflare Workers, and other edge
-      runtimes for personalization and geo-blocking without an extra hop.
+      Drop-in middleware for Vercel, Cloudflare Workers, and other edge runtimes for personalization and geo-blocking
+      without an extra hop.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
