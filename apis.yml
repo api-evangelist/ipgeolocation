@@ -44,46 +44,46 @@ apis:
         url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
       - type: OpenAPI
         url: openapi/ipgeolocation-ip-location-openapi.yml
-      - type: SDK
+      - type: SDKs
         title: PHP SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-php
-      - type: SDK
+      - type: SDKs
         title: Python SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
-      - type: SDK
+      - type: SDKs
         title: Java SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
-      - type: SDK
+      - type: SDKs
         title: JavaScript SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
-      - type: SDK
+      - type: SDKs
         title: TypeScript SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
-      - type: SDK
+      - type: SDKs
         title: Node.js SDK
         url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
-      - type: SDK
+      - type: SDKs
         title: Ruby SDK
         url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
-      - type: SDK
+      - type: SDKs
         title: Go SDK
         url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
-      - type: SDK
+      - type: SDKs
         title: .NET SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
-      - type: SDK
+      - type: SDKs
         title: Kotlin SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
-      - type: SDK
+      - type: SDKs
         title: Swift SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
-      - type: SDK
+      - type: SDKs
         title: Rust SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
-      - type: SDK
+      - type: SDKs
         title: C++ SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
-      - type: SDK
+      - type: SDKs
         title: jQuery SDK
         url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
   - name: IP Security
@@ -184,7 +184,7 @@ common:
     url: https://ipgeolocation.io/documentation
   - type: Pricing
     url: https://ipgeolocation.io/pricing.html
-  - type: SignUp
+  - type: Signup
     url: https://app.ipgeolocation.io/signup
   - type: Dashboard
     url: https://app.ipgeolocation.io/
