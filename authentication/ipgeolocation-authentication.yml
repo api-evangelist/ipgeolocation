@@ -1,0 +1,28 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/ipgeolocation-abuse-openapi.yml, openapi/ipgeolocation-asn-openapi.yml, openapi/ipgeolocation-astronomy-openapi.yml,
+  openapi/ipgeolocation-ip-location-openapi.yml, openapi/ipgeolocation-security-openapi.yml,
+  openapi/ipgeolocation-timezone-openapi.yml, openapi/ipgeolocation-user-agent-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - query
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: query
+  parameter: apiKey
+  description: |-
+    API key passed as the `apiKey` query parameter. Get yours from the
+    [IPGeolocation dashboard](https://app.ipgeolocation.io/). For client-side
+    usage, consider using Request Origin (CORS) authentication instead to
+    avoid exposing your key.
+  sources:
+  - openapi/ipgeolocation-abuse-openapi.yml
+  - openapi/ipgeolocation-asn-openapi.yml
+  - openapi/ipgeolocation-astronomy-openapi.yml
+  - openapi/ipgeolocation-ip-location-openapi.yml
+  - openapi/ipgeolocation-security-openapi.yml
+  - openapi/ipgeolocation-timezone-openapi.yml
+  - openapi/ipgeolocation-user-agent-openapi.yml
