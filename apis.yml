@@ -1,4 +1,18 @@
 aid: ipgeolocation
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ipgeolocation.png
 name: IPGeolocation.io
 description: >-
   IPGeolocation.io is a multi-product IP intelligence platform offering IP geolocation, IP security/threat intelligence,
@@ -28,155 +42,475 @@ tags:
   - Threat Intelligence
   - Public APIs
 apis:
-  - name: IP Geolocation
-    description: >-
-      Resolve any IPv4 / IPv6 address or domain name to a rich geolocation payload — country, region, city, lat/long,
-      postal, currency, ASN, company, timezone, security signals, abuse contact, and user-agent enrichment. Includes
-      single lookup (GET /v3/ipgeo) and bulk lookup (POST /v3/ipgeo-bulk, up to 50,000 entries per request, paid plans).
-    humanURL: https://ipgeolocation.io/ip-location-api.html
-    baseURL: https://api.ipgeolocation.io
-    tags:
-      - IP Geolocation
-      - Geocoding
-      - IP Intelligence
-    properties:
-      - type: Documentation
-        url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
-      - type: OpenAPI
-        url: openapi/ipgeolocation-ip-location-openapi.yml
-      - type: SDKs
-        title: PHP SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-php
-      - type: SDKs
-        title: Python SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
-      - type: SDKs
-        title: Java SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
-      - type: SDKs
-        title: JavaScript SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
-      - type: SDKs
-        title: TypeScript SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
-      - type: SDKs
-        title: Node.js SDK
-        url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
-      - type: SDKs
-        title: Ruby SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
-      - type: SDKs
-        title: Go SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
-      - type: SDKs
-        title: .NET SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
-      - type: SDKs
-        title: Kotlin SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
-      - type: SDKs
-        title: Swift SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
-      - type: SDKs
-        title: Rust SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
-      - type: SDKs
-        title: C++ SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
-      - type: SDKs
-        title: jQuery SDK
-        url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
-  - name: IP Security
-    description: >-
-      Threat-intelligence API that detects VPNs, proxies, Tor exit nodes, relay networks, bot activity, spam sources,
-      residential proxies, cloud and data-center IPs, and assigns a threat score. Single lookup (GET /v3/security) and
-      bulk lookup (POST /v3/security-bulk).
-    humanURL: https://ipgeolocation.io/ip-security-api.html
-    baseURL: https://api.ipgeolocation.io
-    tags:
-      - IP Security
-      - Threat Intelligence
-      - VPN Detection
-      - Proxy Detection
-    properties:
-      - type: Documentation
-        url: https://ipgeolocation.io/documentation/ip-security-api.html
-      - type: OpenAPI
-        url: openapi/ipgeolocation-security-openapi.yml
-  - name: ASN Lookup
-    description: >-
-      Resolve an IP or ASN to Autonomous System metadata — owning organization, country, type (ISP, hosting, education,
-      government), IP ranges, peers, and upstream/downstream relationships.
-    humanURL: https://ipgeolocation.io/asn-api.html
-    baseURL: https://api.ipgeolocation.io
-    tags:
-      - ASN Lookup
-      - Network Intelligence
-    properties:
-      - type: Documentation
-        url: https://ipgeolocation.io/documentation/asn-api.html
-      - type: OpenAPI
-        url: openapi/ipgeolocation-asn-openapi.yml
-  - name: IP Abuse Contact
-    description: >-
-      Registry-sourced abuse contact information for any IPv4/IPv6 address — RIR, abuse email, network/route, country,
-      and registry metadata. Useful for security operations, takedown workflows, and compliance.
-    humanURL: https://ipgeolocation.io/abuse-contact-api.html
-    baseURL: https://api.ipgeolocation.io
-    tags:
-      - Abuse Contact
-      - Security Operations
-    properties:
-      - type: Documentation
-        url: https://ipgeolocation.io/documentation/abuse-contact-api.html
-      - type: OpenAPI
-        url: openapi/ipgeolocation-abuse-openapi.yml
-  - name: Timezone
-    description: >-
-      Resolve a timezone from name (e.g. America/New_York), IP address, or lat/long coordinates. Returns current
-      date/time, UTC offset, DST status, DST transition windows, airport/locode metadata, and a convert endpoint to
-      translate a timestamp between two zones.
-    humanURL: https://ipgeolocation.io/timezone-api.html
-    baseURL: https://api.ipgeolocation.io
-    tags:
-      - Timezone
-      - Date and Time
-    properties:
-      - type: Documentation
-        url: https://ipgeolocation.io/documentation/timezone-api.html
-      - type: OpenAPI
-        url: openapi/ipgeolocation-timezone-openapi.yml
-  - name: Astronomy
-    description: >-
-      Astronomy data for any date and location — sunrise, sunset, solar noon, civil/nautical/astronomical twilight
-      phases, moonrise, moonset, moon phase, illumination percentage, and altitude/azimuth for the sun and moon.
-      Includes a /astronomy/timeSeries endpoint for date ranges.
-    humanURL: https://ipgeolocation.io/astronomy-api.html
-    baseURL: https://api.ipgeolocation.io
-    tags:
-      - Astronomy
-      - Sunrise Sunset
-      - Moon Phase
-    properties:
-      - type: Documentation
-        url: https://ipgeolocation.io/documentation/astronomy-api.html
-      - type: OpenAPI
-        url: openapi/ipgeolocation-astronomy-openapi.yml
-  - name: User Agent
-    description: >-
-      Parse a User-Agent string into browser, engine, device, and operating system attributes. Supports single (GET
-      /v3/user-agent — header-based, or POST /v3/user-agent — body-based) and bulk lookup (POST /v3/user-agent-bulk).
-    humanURL: https://ipgeolocation.io/user-agent-api.html
-    baseURL: https://api.ipgeolocation.io
-    tags:
-      - User Agent
-      - Device Detection
-      - Browser Detection
-    properties:
-      - type: Documentation
-        url: https://ipgeolocation.io/documentation/user-agent-api.html
-      - type: OpenAPI
-        url: openapi/ipgeolocation-user-agent-openapi.yml
+- aid: ipgeolocation:ipgeolocation-asn-lookup-api
+  name: IPGeolocation.io ASN Lookup API
+  description: >-
+    API endpoint for retrieving Autonomous System Number (ASN) information
+
+    associated with IPv4 addresses, IPv6 addresses, or specific ASN numbers.
+
+
+    The response includes ASN metadata such as the ASN number, organization
+
+    name, country of registration, ASN type, domain, allocation details,
+
+    routing statistics, and the Regional Internet Registry (RIR) responsible
+
+    for the allocation.
+
+
+    Additional routing intelligence such as peers, upstreams, downstreams,
+
+    announced routes, and raw WHOIS registry data can also be retrieved
+
+    using the `include` parameter.
+
+
+    This information helps analyze internet routing, identify network
+
+    operators, and understand how Autonomous Systems interconnect
+
+    across the internet.
+  humanURL: https://ipgeolocation.io/ip-location-api.html
+  baseURL: https://api.ipgeolocation.io
+  tags:
+  - ASN Lookup
+  properties:
+  - type: OpenAPI
+    url: openapi/ipgeolocation-asn-lookup-api-openapi.yml
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-php
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
+  - type: SDKs
+    url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-security-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/asn-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/abuse-contact-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/timezone-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/astronomy-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/user-agent-api.html
+- aid: ipgeolocation:ipgeolocation-astronomy-api
+  name: IPGeolocation.io Astronomy API
+  description: >-
+    API endpoints for retrieving astronomical information for a given
+
+    location, including sunrise and sunset times, moonrise and moonset
+
+    times, twilight phases, golden hour and blue hour windows, solar noon,
+
+    sun and moon position data (altitude, azimuth, distance), and moon
+
+    phase.
+
+
+    A time series endpoint is also available to retrieve daily astronomical
+
+    data across a date range of up to 90 days.
+  humanURL: https://ipgeolocation.io/ip-location-api.html
+  baseURL: https://api.ipgeolocation.io
+  tags:
+  - Astronomy
+  properties:
+  - type: OpenAPI
+    url: openapi/ipgeolocation-astronomy-api-openapi.yml
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-php
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
+  - type: SDKs
+    url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-security-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/asn-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/abuse-contact-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/timezone-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/astronomy-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/user-agent-api.html
+- aid: ipgeolocation:ipgeolocation-ip-abuse-contact-api
+  name: IPGeolocation.io IP Abuse Contact API
+  description: >-
+    API endpoint for retrieving abuse contact information associated
+
+    with IPv4 and IPv6 addresses. The response contains registry-based
+
+    contact details for reporting malicious or abusive network activity
+
+    such as spam, phishing, DDoS attacks, or unauthorized access attempts.
+  humanURL: https://ipgeolocation.io/ip-location-api.html
+  baseURL: https://api.ipgeolocation.io
+  tags:
+  - IP Abuse Contact
+  properties:
+  - type: OpenAPI
+    url: openapi/ipgeolocation-ip-abuse-contact-api-openapi.yml
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-php
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
+  - type: SDKs
+    url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-security-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/asn-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/abuse-contact-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/timezone-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/astronomy-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/user-agent-api.html
+- aid: ipgeolocation:ipgeolocation-ip-geolocation-api
+  name: IPGeolocation.io IP Geolocation API
+  description: >-
+    IP geolocation API endpoints for looking up geographic location, network routing,
+
+    ASN ownership, company attribution, timezone, currency, security threat intelligence,
+
+    abuse contact, and User-Agent data. Accepts IPv4 addresses, IPv6 addresses, and
+
+    domain names. The single lookup endpoint (`GET /v3/ipgeo`) resolves one IP or domain
+
+    per request. The bulk lookup endpoint (`POST /v3/ipgeo-bulk`) accepts up to 50,000
+
+    entries per request and requires a paid plan.
+  humanURL: https://ipgeolocation.io/ip-location-api.html
+  baseURL: https://api.ipgeolocation.io
+  tags:
+  - IP Geolocation
+  properties:
+  - type: OpenAPI
+    url: openapi/ipgeolocation-ip-geolocation-api-openapi.yml
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-php
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
+  - type: SDKs
+    url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-security-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/asn-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/abuse-contact-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/timezone-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/astronomy-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/user-agent-api.html
+- aid: ipgeolocation:ipgeolocation-ip-security-api
+  name: IPGeolocation.io IP Security API
+  description: >-
+    IP security intelligence endpoints used to detect VPNs,
+
+    proxies, Tor exit nodes, relay networks, bot activity,
+
+    spam activity, cloud providers, and other anonymization
+
+    technologies associated with IP addresses.
+
+
+    The single lookup endpoint (`GET /v3/security`) analyzes
+
+    one IP per request.
+
+
+    The bulk lookup endpoint (`POST /v3/security-bulk`)
+
+    accepts up to 50,000 IP addresses per request.
+  humanURL: https://ipgeolocation.io/ip-location-api.html
+  baseURL: https://api.ipgeolocation.io
+  tags:
+  - IP Security
+  properties:
+  - type: OpenAPI
+    url: openapi/ipgeolocation-ip-security-api-openapi.yml
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-php
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
+  - type: SDKs
+    url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-security-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/asn-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/abuse-contact-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/timezone-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/astronomy-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/user-agent-api.html
+- aid: ipgeolocation:ipgeolocation-timezone-api
+  name: IPGeolocation.io Timezone API
+  description: >-
+    API endpoints for retrieving current date, time, and timezone
+
+    information for a given input such as an IANA timezone identifier,
+
+    geographic coordinates, location address, IPv4 or IPv6 address,
+
+    airport codes (IATA or ICAO), or UN/LOCODE.
+
+
+    The API can also convert timestamps between different timezones,
+
+    locations, coordinates, airports, or UN/LOCODE identifiers.
+
+
+    Responses include detailed timezone metadata such as UTC offset,
+
+    daylight saving time (DST) status, formatted timestamps, and
+
+    upcoming DST transition information. Depending on the lookup
+
+    method used, the response may also include geolocation data,
+
+    airport details, or city information.
+  humanURL: https://ipgeolocation.io/ip-location-api.html
+  baseURL: https://api.ipgeolocation.io
+  tags:
+  - Timezone
+  properties:
+  - type: OpenAPI
+    url: openapi/ipgeolocation-timezone-api-openapi.yml
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-php
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
+  - type: SDKs
+    url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-security-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/asn-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/abuse-contact-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/timezone-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/astronomy-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/user-agent-api.html
+- aid: ipgeolocation:ipgeolocation-user-agent-api
+  name: IPGeolocation.io User Agent API
+  description: >-
+    API endpoints for parsing user agent strings into browser, device, layout engine,
+
+    and operating system details. Supports single lookups via request header, custom
+
+    string lookups via JSON body, and bulk parsing of up to 50,000 strings per request.
+
+    Also detects bots, crawlers, and malicious or malformed user agent strings.
+  humanURL: https://ipgeolocation.io/ip-location-api.html
+  baseURL: https://api.ipgeolocation.io
+  tags:
+  - User Agent
+  properties:
+  - type: OpenAPI
+    url: openapi/ipgeolocation-user-agent-api-openapi.yml
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-geolocation-api.html
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-php
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-python-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-java-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk
+  - type: SDKs
+    url: https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-ruby-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-go-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk
+  - type: SDKs
+    url: https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/ip-security-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/asn-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/abuse-contact-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/timezone-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/astronomy-api.html
+  - type: Documentation
+    url: https://ipgeolocation.io/documentation/user-agent-api.html
 common:
   - type: AgenticAccess
     url: agentic-access/ipgeolocation-agentic-access.yml
