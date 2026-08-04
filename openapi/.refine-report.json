@@ -1,0 +1,26 @@
+{
+  "provider": "ipgeolocation",
+  "sources": [
+    "ipgeolocation-asn-lookup-api-openapi.yml",
+    "ipgeolocation-astronomy-api-openapi.yml",
+    "ipgeolocation-ip-abuse-contact-api-openapi.yml",
+    "ipgeolocation-ip-geolocation-api-openapi.yml",
+    "ipgeolocation-ip-security-api-openapi.yml",
+    "ipgeolocation-timezone-api-openapi.yml",
+    "ipgeolocation-user-agent-api-openapi.yml"
+  ],
+  "outputs": [
+    "ipgeolocation-asn-lookup-api-openapi.yml",
+    "ipgeolocation-astronomy-api-openapi.yml",
+    "ipgeolocation-ip-abuse-contact-api-openapi.yml",
+    "ipgeolocation-ip-geolocation-api-openapi.yml",
+    "ipgeolocation-ip-security-api-openapi.yml",
+    "ipgeolocation-timezone-api-openapi.yml",
+    "ipgeolocation-user-agent-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
