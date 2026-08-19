@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IPGeolocation.io: Abuse Contact ASN Lookup IP Geolocation API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "IP Geolocation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IPGeolocation.io Single IP Geolocation Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ipgeolocation.io/v3/ipgeo",
+            "params": [
+              {
+                "name": "ip",
+                "value": "",
+                "type": "query",
+                "description": "An IPv4 address, IPv6 address, or domain name to look up. When omitted, the API\nresolves the public IP of the requesting client. Empty or whitespace-only values\nare treated the same as omission and resolve caller IP. Domain lookups require a\npaid plan. Pass `ip` only once. If multiple `ip` query parameters are sent,\nvalues may be merged and treated as invalid input (HTTP 400).\n"
+              },
+              {
+                "name": "lang",
+                "value": "",
+                "type": "query",
+                "description": "Language code for translated location names. Defaults to `en`. Non-English\nresponses require a paid plan. Free plans always receive English regardless\nof this parameter. Unsupported `lang` values return HTTP 400.\n"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of optional data modules to add to the response. These are\nnot returned by default. Requires a paid plan.\n\n**Available values:**\n\n| Value | What it adds | Extra credits |\n|---|---|---|\n| `geo_accuracy` | `location.locality`, `location.accuracy_radius`, `location.confidence` | 0 |\n| `dma_code` | `location.dma_code` (US IPs only) | 0 |\n| `user_agent` | `user_agent` object (parses the `User-Agent` header) | 0 |\n| `security` | `security` object with threat signals | +2 |\n| `abuse` | `abuse` object with abuse contact info | +1 |\n| `hostname` | `hostname` field (from local database, fast, experimental) | 0 |\n| `liveHostname` | `hostname` field (live DNS lookup, slower, accurate) | 0 |\n| `hostnameFallbackLive` | `hostname` field (local first, falls back to live) | 0 |\n| `*` | All of the above | +3 |\n\nIf multiple hostname options are passed in `include`, hostname resolution uses\nthis precedence order: `liveHostname` first, then `hostname`, then\n`hostnameFallbackLive`.\nIf none is specified, the `hostname` field is not returned.\n\nFor `user_agent`, the API parses the `User-Agent` header from the request. For\nserver-side calls, forward your visitor's User-Agent string in the header so the\nparsed result matches the actual visitor.\n\nFor additional query parameters (`include`, `fields`, `excludes`, `output`),\nunknown values are ignored. The API still returns HTTP 200 and applies only\nrecognized values.\n\nFree plan behavior for `include=*`: the API returns HTTP 200 and ignores the\ninclude request, returning only base response fields. In contrast, specific\ninclude values such as `include=security` return HTTP 401 on free plans.\n"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to return. Everything else is omitted.\nThe `ip` field is always returned regardless of this filter.\n\nSupports dot-notation for nested fields: `location.city`, `asn.organization`.\nTo return an entire object, use the object key: `location`, `security`.\n\nIf a field belongs to an optional module (e.g. `security.threat_score`), you\nmust also pass the corresponding `include` value.\nIf you omit `include`, the request still succeeds, but fields from optional\nmodules are not returned.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\nIf the same field or object is specified in `include`, `fields`, and `excludes`,\n`include` takes priority over both `fields` and `excludes`.\n\nIf you list both an object key and one of its nested fields separated by comma\n(e.g. `security,security.threat_score`), the full object is returned.\n\nUnknown field paths are ignored. The API still returns HTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "excludes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to remove from the response. The `ip`\nfield cannot be excluded.\n\nSupports dot-notation for nested fields: `location.continent_code`.\nTo exclude an entire object, use the object key: `currency`, `time_zone`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\nIf the same field or object is specified in `include`, `fields`, and `excludes`,\n`include` takes priority over both `fields` and `excludes`.\n\nUnknown fields or object keys in `excludes` are ignored. The API still returns\nHTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "output",
+                "value": "",
+                "type": "query",
+                "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+              }
+            ]
+          },
+          "docs": "Returns geolocation and enrichment data for a single IPv4 address, IPv6 address,\nor domain name. When `ip` is omitted, the API resolves the caller's public IP\nautomatically, which is useful for client-side lookups.\n\nThe base response always includes `location`, `country_metadata`, `currency`,\n`asn`, and `time_zone`. Paid plans also get `network` and `company` by default.\n\nUse the `include` parameter to add optional modules such as `security`, `abuse`,\n`user_agent`, `geo_accuracy`, `dma_code`, an"
+        },
+        {
+          "info": {
+            "name": "IPGeolocation.io Bulk IP Geolocation Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ipgeolocation.io/v3/ipgeo-bulk",
+            "params": [
+              {
+                "name": "lang",
+                "value": "",
+                "type": "query",
+                "description": "Language code for translated location names. Defaults to `en`. Non-English\nresponses require a paid plan. Free plans always receive English regardless\nof this parameter. Unsupported `lang` values return HTTP 400.\n"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of optional data modules to add to the response. These are\nnot returned by default. Requires a paid plan.\n\n**Available values:**\n\n| Value | What it adds | Extra credits |\n|---|---|---|\n| `geo_accuracy` | `location.locality`, `location.accuracy_radius`, `location.confidence` | 0 |\n| `dma_code` | `location.dma_code` (US IPs only) | 0 |\n| `user_agent` | `user_agent` object (parses the `User-Agent` header) | 0 |\n| `security` | `security` object with threat signals | +2 |\n| `abuse` | `abuse` object with abuse contact info | +1 |\n| `hostname` | `hostname` field (from local database, fast, experimental) | 0 |\n| `liveHostname` | `hostname` field (live DNS lookup, slower, accurate) | 0 |\n| `hostnameFallbackLive` | `hostname` field (local first, falls back to live) | 0 |\n| `*` | All of the above | +3 |\n\nIf multiple hostname options are passed in `include`, hostname resolution uses\nthis precedence order: `liveHostname` first, then `hostname`, then\n`hostnameFallbackLive`.\nIf none is specified, the `hostname` field is not returned.\n\nFor `user_agent`, the API parses the `User-Agent` header from the request. For\nserver-side calls, forward your visitor's User-Agent string in the header so the\nparsed result matches the actual visitor.\n\nFor additional query parameters (`include`, `fields`, `excludes`, `output`),\nunknown values are ignored. The API still returns HTTP 200 and applies only\nrecognized values.\n\nFree plan behavior for `include=*`: the API returns HTTP 200 and ignores the\ninclude request, returning only base response fields. In contrast, specific\ninclude values such as `include=security` return HTTP 401 on free plans.\n"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to return. Everything else is omitted.\nThe `ip` field is always returned regardless of this filter.\n\nSupports dot-notation for nested fields: `location.city`, `asn.organization`.\nTo return an entire object, use the object key: `location`, `security`.\n\nIf a field belongs to an optional module (e.g. `security.threat_score`), you\nmust also pass the corresponding `include` value.\nIf you omit `include`, the request still succeeds, but fields from optional\nmodules are not returned.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\nIf the same field or object is specified in `include`, `fields`, and `excludes`,\n`include` takes priority over both `fields` and `excludes`.\n\nIf you list both an object key and one of its nested fields separated by comma\n(e.g. `security,security.threat_score`), the full object is returned.\n\nUnknown field paths are ignored. The API still returns HTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "excludes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to remove from the response. The `ip`\nfield cannot be excluded.\n\nSupports dot-notation for nested fields: `location.continent_code`.\nTo exclude an entire object, use the object key: `currency`, `time_zone`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\nIf the same field or object is specified in `include`, `fields`, and `excludes`,\n`include` takes priority over both `fields` and `excludes`.\n\nUnknown fields or object keys in `excludes` are ignored. The API still returns\nHTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "output",
+                "value": "",
+                "type": "query",
+                "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns geolocation and enrichment data for up to 50,000 IPv4 addresses, IPv6\naddresses, or domain names in a single request. The request body must be a JSON\nobject with an `ips` array.\n\nThis endpoint requires a paid plan. Calling it with a free\nplan API key returns HTTP 401.\n\nThe response is a JSON array with one element per IP in the request. Each element\nis either a full geolocation response object or an error object with only a\n`message` field. Invalid, bogon, and unresolvable entries appear"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

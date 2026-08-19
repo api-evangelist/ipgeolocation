@@ -1,0 +1,2201 @@
+{
+  "item": [
+    {
+      "id": "fd5cb4e9-bf23-42ac-b0ed-cecc27f7a65b",
+      "name": "Astronomy",
+      "description": {
+        "content": "API endpoints for retrieving astronomical information for a given\nlocation, including sunrise and sunset times, moonrise and moonset\ntimes, twilight phases, golden hour and blue hour windows, solar noon,\nsun and moon position data (altitude, azimuth, distance), and moon\nphase.\n\nA time series endpoint is also available to retrieve daily astronomical\ndata across a date range of up to 90 days.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5716202c-e782-468f-bf37-dde969be8a8a",
+          "name": "IPGeolocation.io Astronomy Lookup",
+          "request": {
+            "name": "IPGeolocation.io Astronomy Lookup",
+            "description": {
+              "content": "Returns astronomical information for a specific location and date,\nincluding:\n\n- Sunrise and sunset times\n- Moonrise and moonset times\n- Morning and evening twilight phases (astronomical, nautical, civil)\n- Golden hour and blue hour windows (morning and evening)\n- Solar noon, day length, and astronomical midnight\n- Sun position: altitude, azimuth, distance from Earth\n- Moon position: altitude, azimuth, distance from Earth, parallactic angle\n- Moon phase, illumination percentage, and angular diameter\n\nThe location can be resolved using geographic coordinates (`lat` and\n`long`), a location address (`location`), or an IP address (`ip`).\n\nIf multiple lookup parameters are provided, the API resolves the\nlocation using the following priority order:\n\n1. `lat` and `long`\n2. `location`\n3. `ip`\n\nIf none of the lookup parameters are provided, the API resolves the\nlocation using the public IP address of the requesting client.\n\nBy default, results are calculated for the current date. Pass the\n`date` parameter to retrieve data for a specific date.\n\nEach successful lookup consumes **1 credit**.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "astronomy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<float>",
+                  "description": "Latitude coordinate of the location. Must be provided together with\nthe `long` parameter.\n\nValid latitude values range from **-90 to 90**.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "long",
+                  "value": "<float>",
+                  "description": "Longitude coordinate of the location. Must be provided together with\nthe `lat` parameter.\n\nValid longitude values range from **-180 to 180**.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "location",
+                  "value": "<string>",
+                  "description": "Address or location name used to determine the astronomical\ninformation. Typically a city-level or region-level address such as\n`New York, USA` or `London, UK`.\n\nWhen this parameter is used, the API returns a `location` object\ncontaining geolocation details alongside the `astronomy` object.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "ip",
+                  "value": "<string>",
+                  "description": "An IPv4 or IPv6 address used to resolve the location for the\nastronomical lookup. When omitted, the API resolves the public IP\nof the requesting client.\n\nWhen the lookup is performed using an IP address, the response\nincludes additional geolocation fields in the `location` object\nsuch as continent, country codes, district, and zipcode.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "Date for which to retrieve astronomical information.\n\nMust be in `yyyy-MM-dd` format. Defaults to the current date if\nnot provided. All astronomical information is calculated at the\ncurrent time of day at the resolved location.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "elevation",
+                  "value": "0",
+                  "description": "Elevation of the location above sea level in meters. Used to\nrefine astronomical calculations.\n\nDefaults to `0` if not provided. Maximum allowed value is\n**10,000 meters**. Negative values are treated as `0`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "time_zone",
+                  "value": "<string>",
+                  "description": "IANA timezone identifier used to convert all astronomical event\ntimestamps into the specified timezone.\n\nWhen provided, all event times (sunrise, sunset, moonrise, moonset,\ntwilight phases, solar noon, etc.) are returned as full date-time\nvalues (`yyyy-MM-dd HH:mm`) instead of time-only values (`HH:mm`),\nand a `time_zone` field is included in the `astronomy` object.\n\nThe geographic location used for astronomical calculations remains\nunchanged. Only the timestamp representation is converted.\n\nExample: `Europe/London`, `America/New_York`, `Asia/Karachi`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "lang",
+                  "value": "en",
+                  "description": "Language code for translated location names in the `location` object.\nOnly applies when the lookup is performed via an IP address.\n\nDefaults to `en`. Non-English responses require a paid plan. Free\nplans always receive English regardless of this parameter. Unsupported\n`lang` values return HTTP 400.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d69b222a-e40e-4995-8c84-c458a7528630",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of API credits consumed by this request.",
+                  "key": "X-Credits-Charged",
+                  "value": "1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"location\": {\n    \"latitude\": \"40.76473\",\n    \"longitude\": \"-74.00084\",\n    \"country_name\": \"United States\",\n    \"state_prov\": \"New York\",\n    \"city\": \"New York\",\n    \"locality\": \"Midtown West\",\n    \"elevation\": \"9\"\n  },\n  \"astronomy\": {\n    \"date\": \"2026-03-18\",\n    \"current_time\": \"10:15:00.000\",\n    \"mid_night\": \"00:06\",\n    \"night_end\": \"04:49\",\n    \"morning\": {\n      \"astronomical_twilight_begin\": \"04:49\",\n      \"astronomical_twilight_end\": \"05:21\",\n      \"nautical_twilight_begin\": \"05:21\",\n      \"nautical_twilight_end\": \"05:53\",\n      \"civil_twilight_begin\": \"05:53\",\n      \"civil_twilight_end\": \"06:20\",\n      \"blue_hour_begin\": \"05:42\",\n      \"blue_hour_end\": \"06:03\",\n      \"golden_hour_begin\": \"06:03\",\n      \"golden_hour_end\": \"06:57\"\n    },\n    \"sunrise\": \"06:20\",\n    \"sunset\": \"19:00\",\n    \"evening\": {\n      \"golden_hour_begin\": \"18:23\",\n      \"golden_hour_end\": \"19:16\",\n      \"blue_hour_begin\": \"19:16\",\n      \"blue_hour_end\": \"19:38\",\n      \"civil_twilight_begin\": \"19:00\",\n      \"civil_twilight_end\": \"19:27\",\n      \"nautical_twilight_begin\": \"19:27\",\n      \"nautical_twilight_end\": \"19:59\",\n      \"astronomical_twilight_begin\": \"19:59\",\n      \"astronomical_twilight_end\": \"20:31\"\n    },\n    \"night_begin\": \"20:31\",\n    \"sun_status\": \"-\",\n    \"solar_noon\": \"12:40\",\n    \"day_length\": \"12:40\",\n    \"sun_altitude\": 42.5,\n    \"sun_distance\": 148900000,\n    \"sun_azimuth\": 150.3,\n    \"moon_phase\": \"WAXING_CRESCENT\",\n    \"moonrise\": \"08:45\",\n    \"moonset\": \"22:10\",\n    \"moon_status\": \"-\",\n    \"moon_altitude\": 15.2,\n    \"moon_distance\": 384400,\n    \"moon_azimuth\": 220.5,\n    \"moon_parallactic_angle\": 30.1,\n    \"moon_illumination_percentage\": \"25.40\",\n    \"moon_angle\": 0.52\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd3ed565-d764-4061-860a-b79607523359",
+              "name": "Bad Request – Possible reasons include:\n  - If the provided IPv4 or IPv6 address is invalid.\n  - If special character(s) `( ) [ ] { } | ^ \\`` is passed in the\n    API URL either as a parameter or its value, especially in the\n    case of an API key.\n  - If the provided `date` is not in the format `yyyy-MM-dd`.\n  - If an invalid or unsupported `lang` parameter is provided.\n  - If the provided values for `lat` and `long` are not numbers,\n    or fall outside the acceptable ranges. Valid latitude range is\n    **-90 to 90**; valid longitude range is **-180 to 180**.\n  - If the provided `elevation` value exceeds the maximum allowed\n    value of **10,000 meters**.\n  - If the provided `time_zone` is invalid or unrecognized.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided name, service or IP address '999.999.999.999' is not valid.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7c8f026-47bf-4957-9a56-66d059aa2417",
+              "name": "Unauthorized – Possible reasons include:\n  - Missing or invalid API key.\n  - If your account has been disabled or locked by the admin due\n    to abuse or illegal activity.\n  - When the request is made using an API key for a database\n    subscription.\n  - When the request is made on a paused subscription.\n  - If you are making API requests after your subscription trial\n    has expired.\n  - If your active-until date has passed and you need to renew\n    or upgrade your subscription.\n  - A language other than English is specified in the `lang`\n    parameter while using a Free/Developer plan API key.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c37ce93c-ae25-4c2e-8e1d-1ecd86155d73",
+              "name": "Not Found. Returned for one of the following reasons:\n  - If the IPv4 or IPv6 address does not exist in the database.\n  - If the IPv4 or IPv6 address is passed as a path variable instead\n    of a URL parameter (`ip=`).\n  - If the location address provided to the `location` parameter is\n    invalid. A city-level or state-level address must be provided.\n  - If the wrong endpoint is called that does not exist in the API.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided IPv4 or IPv6 address does not exist in our database.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60a1b034-61fa-43c2-a387-be0f3742b7de",
+              "name": "Method Not Allowed. Only the **GET** method is supported for\nAstronomy API endpoints. Any other HTTP method results in HTTP 405.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Request method 'POST' is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "67bb1c2a-7961-46a7-8952-6d2e2f9d59e6",
+              "name": "Locked. The provided IP address belongs to a bogon IP range or a\nprivate network and cannot be looked up.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Locked (WebDAV) (RFC 4918)",
+              "code": 423,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"'10.0.0.1' is a bogon IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab14d079-54df-4425-8415-a502f45b5152",
+              "name": "Too Many Requests. Returned for one of the following reasons:\n  - The API usage limit has been reached for a free subscription or a\n    paid subscription with status `past due`, `deleted`, or\n    `trial expired`.\n  - The surcharge API usage limit has been reached for the subscribed\n    plan.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INTERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "481c6c76-3132-47fa-8cb9-9dc483c777db",
+              "name": "The client closed the connection before the server finished processing\nthe request. This usually happens when the client sets a very short\nrequest or connection timeout. Increase the timeout on the client side.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Client Closed Request",
+              "code": 499,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Client closed the request before the server could respond.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d262bf6-da70-46b9-a2af-98542ad9ce01",
+              "name": "Internal Server Error. The server encountered an unexpected condition\nthat prevented it from fulfilling the request. If the issue persists,\ncontact support@ipgeolocation.io.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong on the server side.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "316488d2-077c-4972-b7cc-f9b6f4bcc6d8",
+              "name": "Bad Gateway. The API server received an invalid response from an\nupstream server. This is usually temporary.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Upstream service error. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb100371-0ad0-4df3-b76c-30ff9eda0a0a",
+              "name": "Service Unavailable. The API is temporarily unavailable due to\nmaintenance or overload. Please try again later.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8d0c6e0a-d0ed-40c0-ae33-8a2a3f2a32ac",
+              "name": "Gateway Timeout. The API server did not receive a timely response\nfrom an upstream server.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The server timed out while processing the request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0694094b-cf6b-45d8-8054-a84965af7515",
+              "name": "HTTP Version Not Supported. The server does not support the HTTP\nprotocol version used in the request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "HTTP Version Not Supported",
+              "code": 505,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"HTTP version not supported.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3deb9871-bcb2-4022-856b-f465bd96f081",
+          "name": "IPGeolocation.io Astronomy Time Series Lookup",
+          "request": {
+            "name": "IPGeolocation.io Astronomy Time Series Lookup",
+            "description": {
+              "content": "Returns daily astronomical information for a specific location across\na date range.\n\nThe response contains an array of daily astronomy records, each\nincluding sunrise, sunset, moonrise, moonset, twilight phases,\nsolar noon, day length, and moon phase. Real-time positional data\n(altitude, azimuth, distance) is not included in time series\nresponses.\n\nThe location can be resolved using geographic coordinates (`lat` and\n`long`), a location address (`location`), or an IP address (`ip`).\n\n**Date range constraints:**\n- Both `dateStart` and `dateEnd` are required.\n- The maximum allowed span between `dateStart` and `dateEnd` is\n  **90 days**.\n- Both past and future dates are supported within the 90-day window.\n\nEach successful lookup consumes **1 credit** per request.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "astronomy",
+                "timeSeries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<float>",
+                  "description": "Latitude coordinate of the location. Must be provided together with\nthe `long` parameter.\n\nValid latitude values range from **-90 to 90**.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "long",
+                  "value": "<float>",
+                  "description": "Longitude coordinate of the location. Must be provided together with\nthe `lat` parameter.\n\nValid longitude values range from **-180 to 180**.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "location",
+                  "value": "<string>",
+                  "description": "Address or location name used to determine the astronomical\ninformation. Typically a city-level or region-level address such as\n`New York, USA` or `London, UK`.\n\nWhen this parameter is used, the API returns a `location` object\ncontaining geolocation details alongside the `astronomy` object.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "ip",
+                  "value": "<string>",
+                  "description": "An IPv4 or IPv6 address used to resolve the location for the\nastronomical lookup. When omitted, the API resolves the public IP\nof the requesting client.\n\nWhen the lookup is performed using an IP address, the response\nincludes additional geolocation fields in the `location` object\nsuch as continent, country codes, district, and zipcode.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "dateStart",
+                  "value": "<date>",
+                  "description": "(Required) Start date of the time series range.\n\nMust be in `yyyy-MM-dd` format. The maximum allowed span between\n`dateStart` and `dateEnd` is **90 days**.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "dateEnd",
+                  "value": "<date>",
+                  "description": "(Required) End date of the time series range.\n\nMust be in `yyyy-MM-dd` format. The maximum allowed span between\n`dateStart` and `dateEnd` is **90 days**.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "elevation",
+                  "value": "0",
+                  "description": "Elevation of the location above sea level in meters. Used to\nrefine astronomical calculations.\n\nDefaults to `0` if not provided. Maximum allowed value is\n**10,000 meters**. Negative values are treated as `0`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "time_zone",
+                  "value": "<string>",
+                  "description": "IANA timezone identifier used to convert all astronomical event\ntimestamps into the specified timezone.\n\nWhen provided, all event times (sunrise, sunset, moonrise, moonset,\ntwilight phases, solar noon, etc.) are returned as full date-time\nvalues (`yyyy-MM-dd HH:mm`) instead of time-only values (`HH:mm`),\nand a `time_zone` field is included in the `astronomy` object.\n\nThe geographic location used for astronomical calculations remains\nunchanged. Only the timestamp representation is converted.\n\nExample: `Europe/London`, `America/New_York`, `Asia/Karachi`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "lang",
+                  "value": "en",
+                  "description": "Language code for translated location names in the `location` object.\nOnly applies when the lookup is performed via an IP address.\n\nDefaults to `en`. Non-English responses require a paid plan. Free\nplans always receive English regardless of this parameter. Unsupported\n`lang` values return HTTP 400.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "45dbde91-8f24-4942-bd6d-03787ef1b68d",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of API credits consumed by this request.",
+                  "key": "X-Credits-Charged",
+                  "value": "1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"location\": {\n    \"latitude\": \"40.76473\",\n    \"longitude\": \"-74.00084\",\n    \"country_name\": \"United States\",\n    \"state_prov\": \"New York\",\n    \"city\": \"New York\",\n    \"locality\": \"Midtown West\",\n    \"elevation\": \"9\"\n  },\n  \"astronomy\": [\n    {\n      \"date\": \"2026-03-18\",\n      \"mid_night\": \"00:06\",\n      \"night_end\": \"04:49\",\n      \"morning\": {\n        \"astronomical_twilight_begin\": \"04:49\",\n        \"astronomical_twilight_end\": \"05:21\",\n        \"nautical_twilight_begin\": \"05:21\",\n        \"nautical_twilight_end\": \"05:53\",\n        \"civil_twilight_begin\": \"05:53\",\n        \"civil_twilight_end\": \"06:20\",\n        \"blue_hour_begin\": \"05:42\",\n        \"blue_hour_end\": \"06:03\",\n        \"golden_hour_begin\": \"06:03\",\n        \"golden_hour_end\": \"06:57\"\n      },\n      \"sunrise\": \"06:20\",\n      \"sunset\": \"19:00\",\n      \"evening\": {\n        \"golden_hour_begin\": \"18:23\",\n        \"golden_hour_end\": \"19:16\",\n        \"blue_hour_begin\": \"19:16\",\n        \"blue_hour_end\": \"19:38\",\n        \"civil_twilight_begin\": \"19:00\",\n        \"civil_twilight_end\": \"19:27\",\n        \"nautical_twilight_begin\": \"19:27\",\n        \"nautical_twilight_end\": \"19:59\",\n        \"astronomical_twilight_begin\": \"19:59\",\n        \"astronomical_twilight_end\": \"20:31\"\n      },\n      \"night_begin\": \"20:31\",\n      \"sun_status\": \"-\",\n      \"solar_noon\": \"12:40\",\n      \"day_length\": \"12:40\",\n      \"moon_phase\": \"WAXING_CRESCENT\",\n      \"moonrise\": \"08:45\",\n      \"moonset\": \"22:10\",\n      \"moon_status\": \"-\"\n    },\n    {\n      \"date\": \"2026-03-19\",\n      \"mid_night\": \"00:06\",\n      \"night_end\": \"04:47\",\n      \"morning\": {\n        \"astronomical_twilight_begin\": \"04:47\",\n        \"astronomical_twilight_end\": \"05:19\",\n        \"nautical_twilight_begin\": \"05:19\",\n        \"nautical_twilight_end\": \"05:51\",\n        \"civil_twilight_begin\": \"05:51\",\n        \"civil_twilight_end\": \"06:18\",\n        \"blue_hour_begin\": \"05:40\",\n        \"blue_hour_end\": \"06:01\",\n        \"golden_hour_begin\": \"06:01\",\n        \"golden_hour_end\": \"06:55\"\n      },\n      \"sunrise\": \"06:18\",\n      \"sunset\": \"19:02\",\n      \"evening\": {\n        \"golden_hour_begin\": \"18:25\",\n        \"golden_hour_end\": \"19:18\",\n        \"blue_hour_begin\": \"19:18\",\n        \"blue_hour_end\": \"19:40\",\n        \"civil_twilight_begin\": \"19:02\",\n        \"civil_twilight_end\": \"19:29\",\n        \"nautical_twilight_begin\": \"19:29\",\n        \"nautical_twilight_end\": \"20:01\",\n        \"astronomical_twilight_begin\": \"20:01\",\n        \"astronomical_twilight_end\": \"20:33\"\n      },\n      \"night_begin\": \"20:33\",\n      \"sun_status\": \"-\",\n      \"solar_noon\": \"12:40\",\n      \"day_length\": \"12:44\",\n      \"moon_phase\": \"WAXING_CRESCENT\",\n      \"moonrise\": \"09:30\",\n      \"moonset\": \"23:05\",\n      \"moon_status\": \"-\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49822ecf-0989-4a45-bd79-c9948219c012",
+              "name": "Bad Request – Possible reasons include:\n  - If the provided IPv4 or IPv6 address is invalid.\n  - If special character(s) `( ) [ ] { } | ^ \\`` is passed in the\n    API URL either as a parameter or its value.\n  - If `dateStart` or `dateEnd` is not in the format `yyyy-MM-dd`.\n  - If the span between `dateStart` and `dateEnd` is greater than\n    **90 days**.\n  - If the provided values for `lat` and `long` are not numbers,\n    or fall outside the acceptable ranges.\n  - If the provided `elevation` value exceeds **10,000 meters**.\n  - If the provided `time_zone` is invalid or unrecognized.\n  - If an invalid or unsupported `lang` parameter is provided.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided name, service or IP address '999.999.999.999' is not valid.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5a706ee-4a5e-4fd4-b030-91227a2ed793",
+              "name": "Unauthorized – Possible reasons include:\n  - Missing or invalid API key.\n  - If your account has been disabled or locked by the admin.\n  - When the request is made using an API key for a database\n    subscription.\n  - When the request is made on a paused subscription.\n  - If your subscription trial has expired.\n  - If your active-until date has passed.\n  - A language other than English is specified in the `lang`\n    parameter while using a Free/Developer plan API key.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b666ab17-fe6f-4ddc-a1e9-c27a050bf2da",
+              "name": "Not Found. Returned for one of the following reasons:\n  - If the IPv4 or IPv6 address does not exist in the database.\n  - If the IPv4 or IPv6 address is passed as a path variable instead\n    of a URL parameter (`ip=`).\n  - If the location address provided to the `location` parameter is\n    invalid. A city-level or state-level address must be provided.\n  - If the wrong endpoint is called that does not exist in the API.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided IPv4 or IPv6 address does not exist in our database.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea408bf9-49aa-4029-8651-be01097678ee",
+              "name": "Method Not Allowed. Only the **GET** method is supported for\nAstronomy API endpoints. Any other HTTP method results in HTTP 405.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Request method 'POST' is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97b97178-6ad7-4c4f-8729-4e4791a77db1",
+              "name": "Locked. The provided IP address belongs to a bogon IP range or a\nprivate network and cannot be looked up.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Locked (WebDAV) (RFC 4918)",
+              "code": 423,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"'10.0.0.1' is a bogon IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d89e82ae-deb2-4c2e-bb9c-faf1780a6303",
+              "name": "Too Many Requests. Returned for one of the following reasons:\n  - The API usage limit has been reached for a free subscription or a\n    paid subscription with status `past due`, `deleted`, or\n    `trial expired`.\n  - The surcharge API usage limit has been reached for the subscribed\n    plan.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INTERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7bf3ad46-a744-46ee-a8ec-1815962fca49",
+              "name": "The client closed the connection before the server finished processing\nthe request. This usually happens when the client sets a very short\nrequest or connection timeout. Increase the timeout on the client side.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Client Closed Request",
+              "code": 499,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Client closed the request before the server could respond.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27aecc2f-51af-4fbe-8d39-1cf1c6d06c50",
+              "name": "Internal Server Error. The server encountered an unexpected condition\nthat prevented it from fulfilling the request. If the issue persists,\ncontact support@ipgeolocation.io.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong on the server side.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6e64e01-3911-4062-bc67-f8171e62edeb",
+              "name": "Bad Gateway. The API server received an invalid response from an\nupstream server. This is usually temporary.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Upstream service error. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0a76648-c352-4952-8b00-785c5dd4e302",
+              "name": "Service Unavailable. The API is temporarily unavailable due to\nmaintenance or overload. Please try again later.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd302ca5-7f9a-458d-898f-08c927e80473",
+              "name": "Gateway Timeout. The API server did not receive a timely response\nfrom an upstream server.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The server timed out while processing the request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad3bb0dd-9b74-4a80-b765-cb89de7ce56e",
+              "name": "HTTP Version Not Supported. The server does not support the HTTP\nprotocol version used in the request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "astronomy",
+                    "timeSeries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "long",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "location",
+                      "value": ""
+                    },
+                    {
+                      "key": "ip",
+                      "value": ""
+                    },
+                    {
+                      "key": "dateStart",
+                      "value": "2026-03-18"
+                    },
+                    {
+                      "key": "dateEnd",
+                      "value": "2026-04-18"
+                    },
+                    {
+                      "key": "elevation",
+                      "value": "0"
+                    },
+                    {
+                      "key": "time_zone",
+                      "value": ""
+                    },
+                    {
+                      "key": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "HTTP Version Not Supported",
+              "code": 505,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"HTTP version not supported.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ipgeolocation.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c2bc9cc1-2029-4c14-9b8f-21cc3e38e52d",
+    "name": "IPGeolocation.io: Abuse Contact ASN Lookup Astronomy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Retrieve abuse contact information associated with an IPv4 address or IPv6 address.\nThe API returns the organization responsible for handling abuse complaints related\nto the queried IP address, including the abuse contact role, organization name,\nregistered address, email contacts, and phone numbers.\n\nThe abuse contact data helps organizations report malicious activities such as\nspam, phishing, DDoS attacks, IP spoofing, and other network abuse to the\nresponsible network operator.\n\nOne endpoint is available:\n\n- **Abuse lookup** (`GET /v3/abuse`) returns abuse contact information for a\n  single IPv4 or IPv6 address per request.\n\nUse query parameters to control which fields are returned and which fields are\nexcluded from the response to reduce payload size when only specific data\nis required.\n\n## Authentication\n\nTwo authentication methods are supported:\n\n### API Key\n\nPass your API key as the `apiKey` query parameter on every request. You can find your\nkey in the [IPGeolocation dashboard](https://app.ipgeolocation.io/). Store it in\nserver-side environment variables. Avoid exposing it in client-side JavaScript.\n\n### Request Origin (CORS)\n\nAvailable on paid plans only. Whitelist your domain in the dashboard under the\n\"API Keys\" section. Once configured, requests from that domain (and all its subdomains)\nare accepted without passing `apiKey`. Enter your root domain (e.g. `example.com`),\nnot the full URL.\n\nEach plan has a limit on the number of extra API keys and request origins:\n\n| Plan | Extra API Keys + Request Origins |\n|---|---|\n| Starter (150K requests) | 1 |\n| Core (250K requests) | 1 |\n| Plus (500K requests) | 2 |\n| Pro (1M requests) | 2 |\n| Business (2M requests) | 3 |\n| Premium (5M requests) | 3 |\n\nAdditional keys or origins can be added for $2.50 per month each.\n\n## Response Formats\n\nThe API supports JSON (default) and XML output.\n\n- Set the `output` query parameter to `json` or `xml`.\n- Alternatively, set the `Accept` header to `application/json`, `application/xml`,\n  or `text/xml`.\n\nIf neither is specified, the response is returned as JSON. XML responses use a\n`LinkedHashMap` root element.\n\n## Credit Usage\n\nCredits are charged only for successful **HTTP 200** responses. The exact number of\ncredits consumed by a request is returned in the `X-Credits-Charged` response header.\n\nA **single IP abuse contact lookup** (`GET /v3/abuse`) consumes **1 credit** per request.\n\n\n## Field Filtering\n\nUse `fields` to cherry-pick specific fields, or `excludes` to drop fields you do not\nneed. Both accept dot-notation for nested fields (e.g. `abuse.route`,\n`abuse.organization`). The `ip` field is always present regardless of filters.\n\n## Parameter Name Casing\n\nQuery parameter names are case-sensitive. Use exact names such as\n`apiKey`, `ip`, `fields`, `excludes`, and `output`.\n\n## Plan Availability and Usage Limits\n\nThe IP Abuse Contact API is available **only on paid plans**.\n\nPaid subscriptions do not have fixed daily, hourly, or monthly rate limits.  \nIf the monthly quota is exceeded, requests continue and a surcharge may be applied according to the subscribed plan.\n\nFree plans cannot access the IP Abuse Contact API. Requests made with a free plan API key return **HTTP 401 Unauthorized**.\n\n\nContact Support:\n Name: IPGeolocation Support\n Email: support@ipgeolocation.io",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,857 @@
+{
+  "item": [
+    {
+      "id": "8795517a-b436-43b6-9c4a-dd4966862c04",
+      "name": "IP Abuse Contact",
+      "description": {
+        "content": "API endpoint for retrieving abuse contact information associated\nwith IPv4 and IPv6 addresses. The response contains registry-based\ncontact details for reporting malicious or abusive network activity\nsuch as spam, phishing, DDoS attacks, or unauthorized access attempts.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a9823a2f-a856-44e4-bfe3-33d2d8896199",
+          "name": "IPGeolocation.io IP Abuse Contact Lookup",
+          "request": {
+            "name": "IPGeolocation.io IP Abuse Contact Lookup",
+            "description": {
+              "content": "Returns abuse contact information for a single IPv4 or IPv6 address.\n\nThe response includes the organization responsible for handling abuse\ncomplaints related to the queried IP address. This typically contains\nthe abuse contact role, organization name, contact emails, phone\nnumbers, and the registered address.\n\nThis endpoint is intended for reporting malicious activities such as\nspam, phishing, DDoS attacks, and other network abuse.\n\nWhen only abuse contact information is required, using this endpoint is\nrecommended instead of `/v3/ipgeo?include=abuse` because it returns a\nsmaller response payload and predictable credit usage.\n\nEach successful lookup consumes **1 credit**.\n\nUse the `fields` and `excludes` parameters to control which parts of\nthe response are returned.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "abuse"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ip",
+                  "value": "<string>",
+                  "description": "An IPv4 address or IPv6 address to look up. When omitted, the API\nresolves the public IP of the requesting client. Empty or whitespace-only values\nare treated the same as omission and resolve caller IP. Pass `ip` only once. If multiple `ip` query parameters are sent,\nvalues may be merged and treated as invalid input (HTTP 400).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Comma-separated list of fields or objects to return. Everything else is omitted.\nThe `ip` field is always returned regardless of this filter.\n\nSupports dot-notation for nested fields: `abuse.route`, `abuse.organization`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nIf you list both an object key and one of its nested fields separated by comma\n(e.g. `abuse,abuse.name`), the full object is returned.\n\nUnknown field paths are ignored. The API still returns HTTP 200.\n\nAvailable on all plans including Free.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "excludes",
+                  "value": "<string>",
+                  "description": "Comma-separated list of fields or objects to remove from the response. The `ip`\nfield cannot be excluded.\n\nSupports dot-notation for nested fields: `abuse.name`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nUnknown fields or object keys in `excludes` are ignored. The API still returns\nHTTP 200.\n\nAvailable on all plans including Free.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "output",
+                  "value": "json",
+                  "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c0606566-224d-4532-8468-dca0a967f268",
+              "name": "Abuse contact information for the requested IP address.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of API credits consumed by this request.",
+                  "key": "X-Credits-Charged",
+                  "value": "1"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ip\": \"1.0.0.0\",\n  \"abuse\": {\n    \"route\": \"91.128.0.0/14\",\n    \"country\": \"SE\",\n    \"name\": \"Swipnet Staff\",\n    \"organization\": \"\",\n    \"kind\": \"group\",\n    \"address\": \"Tele2 AB/Swedish IP Network, IP Registry, Torshamnsgatan 17 164 40 Kista SWEDEN\",\n    \"emails\": [\n      \"abuse@tele2.com\"\n    ],\n    \"phone_numbers\": [\n      \"+46 8 5626 42 10\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69ce9e4e-995d-49f6-9360-766ee8203693",
+              "name": "Bad request. Returned for one of the following reasons:\n- The provided IPv4 address or IPv6 address is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided name, service or IP address '999.999.999.999' is not valid.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0dea755-972d-4a85-9e12-bfc323a1ef8b",
+              "name": "Unauthorized. Returned for one of the following reasons:\n\n- The `apiKey` URL parameter is missing.\n- An invalid (random or incorrect) API key is provided.\n- The account has been disabled or locked due to abuse or illegal activity.\n- The API request is made using an API key for a database subscription.\n- The API request is made using a free subscription API key.\n- The subscription is in a 'paused' state.\n- The subscription trial has expired.\n- The account’s active-until date has passed and renewal or upgrade is required.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "01f99153-08fa-4c6a-b7d6-4b1570483bcf",
+              "name": "Not found. Returned for one of the following reasons:\n\n- A syntactically valid IPv4 or IPv6 address does not exist in the IPGeolocation database.\n- An IPv4 address or IPv6 address is passed as a path variable\n  instead of as a URL query parameter (e.g., using `/v3/ipgeo/8.8.8.8`\n  instead of `/v3/ipgeo?ip=8.8.8.8`).\n- A non-existent or incorrect API endpoint is called.\n\nInvalid or malformed IPv4, IPv6, or domain input returns HTTP 400 instead.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Provided IPv4 or IPv6 address does not exist in our database.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "204d2459-f951-43bc-a3c5-4a05abdfbd87",
+              "name": "Method Not Allowed. Returned when an unsupported HTTP method is used\nto call an endpoint.\n\nOnly the **GET** method is supported for the Abuse Contact API endpoint.\n\nAny other HTTP method results in HTTP 405.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Method Not Allowed",
+              "code": 405,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Request method 'POST' is not supported\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34c80153-7201-43fa-860f-3bc7ca138966",
+              "name": "Locked. The provided IP address belongs to a bogon IP range or a private\nnetwork and cannot be looked up.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Locked (WebDAV) (RFC 4918)",
+              "code": 423,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"'10.0.0.1' is a bogon IP address.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a2a4b5f-6084-4ff3-9832-834b7e3464b6",
+              "name": "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8d8e7a6d-3ebd-4f35-98be-03af2e460cd0",
+              "name": "The client closed the connection before the server finished processing the\nrequest. This usually happens when the client sets a very short request or\nconnection timeout. Increase the timeout on the client side.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Client Closed Request",
+              "code": 499,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Client closed the request before the server could respond.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ef43e06-8fb4-46c8-91d7-1f1ef483acb6",
+              "name": "Internal Server Error. The server encountered an unexpected condition\nthat prevented it from fulfilling the request. If the issue persists,\ncontact support@ipgeolocation.io.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Something went wrong on the server side.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54cdef28-29cb-4b20-927b-ddf56d05a799",
+              "name": "Bad Gateway. The API server received an invalid response from an upstream\nserver while processing the request. This is usually temporary.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Upstream service error. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79eb192c-7dca-4e41-a828-11388bbf8f97",
+              "name": "Service Unavailable. The API is temporarily unavailable due to maintenance\nor overload. Please try again later.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable. Please try again later.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d23062b-5628-432f-8fcc-403d972b75a2",
+              "name": "Gateway Timeout. The API server did not receive a timely response from\nan upstream server.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The server timed out while processing the request.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "432d801c-ed24-41a7-bf98-7f6ccd015dfd",
+              "name": "HTTP Version Not Supported. The server does not support the HTTP protocol\nversion used in the request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "abuse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ip",
+                      "value": "91.128.103.196"
+                    },
+                    {
+                      "key": "fields",
+                      "value": ""
+                    },
+                    {
+                      "key": "excludes",
+                      "value": ""
+                    },
+                    {
+                      "key": "output",
+                      "value": "json"
+                    },
+                    {
+                      "key": "apiKey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "HTTP Version Not Supported",
+              "code": 505,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"HTTP version not supported.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ipgeolocation.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apiKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3ee91fd7-5a09-4816-ba98-cb89b592e7bd",
+    "name": "IPGeolocation.io: Abuse Contact ASN Lookup IP Abuse Contact API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Retrieve abuse contact information associated with an IPv4 address or IPv6 address.\nThe API returns the organization responsible for handling abuse complaints related\nto the queried IP address, including the abuse contact role, organization name,\nregistered address, email contacts, and phone numbers.\n\nThe abuse contact data helps organizations report malicious activities such as\nspam, phishing, DDoS attacks, IP spoofing, and other network abuse to the\nresponsible network operator.\n\nOne endpoint is available:\n\n- **Abuse lookup** (`GET /v3/abuse`) returns abuse contact information for a\n  single IPv4 or IPv6 address per request.\n\nUse query parameters to control which fields are returned and which fields are\nexcluded from the response to reduce payload size when only specific data\nis required.\n\n## Authentication\n\nTwo authentication methods are supported:\n\n### API Key\n\nPass your API key as the `apiKey` query parameter on every request. You can find your\nkey in the [IPGeolocation dashboard](https://app.ipgeolocation.io/). Store it in\nserver-side environment variables. Avoid exposing it in client-side JavaScript.\n\n### Request Origin (CORS)\n\nAvailable on paid plans only. Whitelist your domain in the dashboard under the\n\"API Keys\" section. Once configured, requests from that domain (and all its subdomains)\nare accepted without passing `apiKey`. Enter your root domain (e.g. `example.com`),\nnot the full URL.\n\nEach plan has a limit on the number of extra API keys and request origins:\n\n| Plan | Extra API Keys + Request Origins |\n|---|---|\n| Starter (150K requests) | 1 |\n| Core (250K requests) | 1 |\n| Plus (500K requests) | 2 |\n| Pro (1M requests) | 2 |\n| Business (2M requests) | 3 |\n| Premium (5M requests) | 3 |\n\nAdditional keys or origins can be added for $2.50 per month each.\n\n## Response Formats\n\nThe API supports JSON (default) and XML output.\n\n- Set the `output` query parameter to `json` or `xml`.\n- Alternatively, set the `Accept` header to `application/json`, `application/xml`,\n  or `text/xml`.\n\nIf neither is specified, the response is returned as JSON. XML responses use a\n`LinkedHashMap` root element.\n\n## Credit Usage\n\nCredits are charged only for successful **HTTP 200** responses. The exact number of\ncredits consumed by a request is returned in the `X-Credits-Charged` response header.\n\nA **single IP abuse contact lookup** (`GET /v3/abuse`) consumes **1 credit** per request.\n\n\n## Field Filtering\n\nUse `fields` to cherry-pick specific fields, or `excludes` to drop fields you do not\nneed. Both accept dot-notation for nested fields (e.g. `abuse.route`,\n`abuse.organization`). The `ip` field is always present regardless of filters.\n\n## Parameter Name Casing\n\nQuery parameter names are case-sensitive. Use exact names such as\n`apiKey`, `ip`, `fields`, `excludes`, and `output`.\n\n## Plan Availability and Usage Limits\n\nThe IP Abuse Contact API is available **only on paid plans**.\n\nPaid subscriptions do not have fixed daily, hourly, or monthly rate limits.  \nIf the monthly quota is exceeded, requests continue and a surcharge may be applied according to the subscribed plan.\n\nFree plans cannot access the IP Abuse Contact API. Requests made with a free plan API key return **HTTP 401 Unauthorized**.\n\n\nContact Support:\n Name: IPGeolocation Support\n Email: support@ipgeolocation.io",
+      "type": "text/plain"
+    }
+  }
+}

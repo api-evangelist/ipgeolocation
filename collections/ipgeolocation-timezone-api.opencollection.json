@@ -1,0 +1,198 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IPGeolocation.io: Abuse Contact ASN Lookup Timezone API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Timezone",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IPGeolocation.io Timezone Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ipgeolocation.io/v3/timezone",
+            "params": [
+              {
+                "name": "tz",
+                "value": "",
+                "type": "query",
+                "description": "IANA timezone identifier to retrieve timezone information.\n\nWhen provided, the API returns the current date, time, and timezone\nmetadata for the specified timezone.\n\nIf multiple lookup parameters are provided in the same request,\nthe `tz` parameter takes the highest priority.\n\nExample identifiers include `Europe/London`, `America/New_York`,\nand `Asia/Tokyo`.\n"
+              },
+              {
+                "name": "location",
+                "value": "",
+                "type": "query",
+                "description": "Address or location name used to determine the timezone.\n\nTypically a city-level or region-level address such as\n`London, UK` or `New York, USA`.\n\nWhen this parameter is used, the API returns a `location`\nobject containing geolocation details alongside the\n`time_zone` object.\n"
+              },
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate of the location used to determine the\ntimezone. Must be provided together with the `long` parameter.\n\nValid latitude values range from **-90 to 90**.\n"
+              },
+              {
+                "name": "long",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate of the location used to determine the\ntimezone. Must be provided together with the `lat` parameter.\n\nValid longitude values range from **-180 to 180**.\n"
+              },
+              {
+                "name": "ip",
+                "value": "",
+                "type": "query",
+                "description": "An IPv4 address, IPv6 address, or domain name to look up. When omitted, the API\nresolves the public IP of the requesting client. Empty or whitespace-only values\nare treated the same as omission and resolve caller IP. Domain lookups require a\npaid plan. Pass `ip` only once. If multiple `ip` query parameters are sent,\nvalues may be merged and treated as invalid input (HTTP 400).\n"
+              },
+              {
+                "name": "iata_code",
+                "value": "",
+                "type": "query",
+                "description": "Three-letter IATA airport code used to determine the timezone\nof the airport location.\n\nWhen used, the response includes an `airport_details` object\ncontaining airport metadata alongside the `time_zone` object.\n"
+              },
+              {
+                "name": "icao_code",
+                "value": "",
+                "type": "query",
+                "description": "Four-letter ICAO airport code used to determine the timezone\nof the airport location.\n\nWhen used, the response includes an `airport_details` object\ncontaining airport metadata alongside the `time_zone` object.\n"
+              },
+              {
+                "name": "lo_code",
+                "value": "",
+                "type": "query",
+                "description": "UN/LOCODE used to determine the timezone of a city or location.\n\nThe code consists of a two-letter country code followed by\nthree alphanumeric characters representing the location.\n\nWhen used, the response includes a `lo_code_details` object\nalongside the `time_zone` object.\n"
+              },
+              {
+                "name": "lang",
+                "value": "",
+                "type": "query",
+                "description": "Language code for translated location names. Defaults to `en`. Non-English\nresponses require a paid plan. Free plans always receive English regardless\nof this parameter. Unsupported `lang` values return HTTP 400.\n"
+              },
+              {
+                "name": "output",
+                "value": "",
+                "type": "query",
+                "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+              }
+            ]
+          },
+          "docs": "Returns current date, time, and timezone information for a\nspecific location or identifier.\n\nThe timezone can be resolved using one of several inputs,\nincluding an IANA timezone name (`tz`), geographic coordinates\n(`lat` and `long`), location address (`location`), IPv4 or IPv6\naddress (`ip`), airport codes (`iata_code` or `icao_code`), or\na UN/LOCODE (`lo_code`).\n\nDepending on the lookup method used, additional contextual\ninformation may also be returned in the response:\n\n- `location` object for"
+        },
+        {
+          "info": {
+            "name": "IPGeolocation.io Timezone Time Conversion",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ipgeolocation.io/v3/timezone/convert",
+            "params": [
+              {
+                "name": "tz_from",
+                "value": "",
+                "type": "query",
+                "description": "Source timezone identifier (IANA format) used for time conversion.\n"
+              },
+              {
+                "name": "tz_to",
+                "value": "",
+                "type": "query",
+                "description": "Destination timezone identifier (IANA format) used for time conversion.\n"
+              },
+              {
+                "name": "location_from",
+                "value": "",
+                "type": "query",
+                "description": "Source location address used to determine the source timezone.\n"
+              },
+              {
+                "name": "location_to",
+                "value": "",
+                "type": "query",
+                "description": "Destination location address used to determine the target timezone.\n"
+              },
+              {
+                "name": "lat_from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "lat_to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "long_from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "long_to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "iata_from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "iata_to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "icao_from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "icao_to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "locode_from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "locode_to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "time",
+                "value": "",
+                "type": "query",
+                "description": "Date and time to convert.\n\nSupported formats:\n\n- `yyyy-MM-dd HH:mm`\n- `yyyy-MM-dd HH:mm:ss`\n\nIf omitted, the current time is used.\n"
+              },
+              {
+                "name": "output",
+                "value": "",
+                "type": "query",
+                "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+              }
+            ]
+          },
+          "docs": "Converts a given time between two timezones, locations,\ncoordinates, airports, or UN/LOCODE identifiers.\n\nThe conversion can be performed using one of the following\nparameter combinations:\n\n- `tz_from` and `tz_to`\n- `location_from` and `location_to`\n- `lat_from`, `long_from`, `lat_to`, `long_to`\n- `iata_from` and `iata_to`\n- `icao_from` and `icao_to`\n- `locode_from` and `locode_to`\n\nThe optional `time` parameter specifies the time to convert.\n\nSupported formats:\n\n- `yyyy-MM-dd HH:mm`\n- `yyyy-MM-"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IPGeolocation.io: Abuse Contact ASN Lookup API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ASN Lookup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IPGeolocation.io ASN Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ipgeolocation.io/v3/asn",
+            "params": [
+              {
+                "name": "ip",
+                "value": "",
+                "type": "query",
+                "description": "An IPv4 address or IPv6 address to look up. When omitted, the API\nresolves the public IP of the requesting client.\n\nIf the `asn` parameter is provided, the `ip` parameter must not be used,\nbecause the lookup will be performed directly using the specified ASN.\n\nEmpty or whitespace-only values are treated the same as omission and resolve\nthe caller IP.\n\nPass `ip` only once. If multiple `ip` query parameters are sent,\nvalues may be merged and treated as invalid input (HTTP 400).\n"
+              },
+              {
+                "name": "asn",
+                "value": "",
+                "type": "query",
+                "description": "An Autonomous System Number (ASN) to look up.\n\nWhen provided, the lookup is performed directly using the specified ASN,\nand the `ip` parameter must not be included in the request.\n\nThe API returns detailed information about the ASN including the\norganization name, country of registration, ASN type, routing statistics,\nand other related network metadata.\n\nPass `asn` only once. If multiple `asn` query parameters are sent,\nvalues may be merged and treated as invalid input (HTTP 400).\n"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of optional data modules to add to the response. These are\nnot returned by default.\n\nSupported ASN modules include:\n\n- `peers`\n- `downstreams`\n- `upstreams`\n- `routes`\n- `whois_response`\n\nIf multiple values are provided, they must be comma-separated.\n\nFor additional query parameters (`include`, `fields`, `excludes`, `output`),\nunknown values are ignored. The API still returns HTTP 200 and applies only\nrecognized values.\n"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to return. Everything else is omitted.\nThe `ip` field is always returned when the lookup is performed using an IP address.\n\nSupports dot-notation for nested fields: `asn.organization`, `asn.domain`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nIf you list both an object key and one of its nested fields separated by comma\n(e.g. `asn,asn.organization`), the full object is returned.\n\nUnknown field paths are ignored. The API still returns HTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "excludes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields or objects to remove from the response.\nThe `ip` field cannot be excluded.\n\nSupports dot-notation for nested fields: `asn.domain`.\n\nIf the same field or object is specified in both `fields` and `excludes`, the\nobject is still returned, but it will be empty.\n\nUnknown fields or object keys in `excludes` are ignored. The API still returns\nHTTP 200.\n\nAvailable on all plans including Free.\n"
+              },
+              {
+                "name": "output",
+                "value": "",
+                "type": "query",
+                "description": "Desired response format. Defaults to `json` if not specified. You can also\ncontrol the format using the `Accept` header (`application/json`,\n`application/xml`, or `text/xml`). If both are provided, the `output` parameter\ntakes precedence.\n\nIf `output` is unknown or unsupported, it is ignored and the response defaults\nto JSON (`application/json`) with HTTP 200.\n"
+              }
+            ]
+          },
+          "docs": "Returns ASN details for a single IPv4 address, IPv6 address,\nor ASN number.\n\nThe response contains information about the Autonomous System\nresponsible for routing the queried IP address or ASN.\n\nBasic ASN metadata is always returned, while additional routing\nrelationships such as peers, upstreams, downstreams, routes,\nand WHOIS data can be retrieved using the `include` parameter.\n\nWhen the lookup is performed using the `asn` parameter,\nthe `ip` field is not included in the response.\n\nEach succes"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IPGeolocation.io: Abuse Contact ASN Lookup Astronomy API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "apiKey",
+      "value": "{{apiKey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Astronomy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IPGeolocation.io Astronomy Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ipgeolocation.io/v3/astronomy",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate of the location. Must be provided together with\nthe `long` parameter.\n\nValid latitude values range from **-90 to 90**.\n"
+              },
+              {
+                "name": "long",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate of the location. Must be provided together with\nthe `lat` parameter.\n\nValid longitude values range from **-180 to 180**.\n"
+              },
+              {
+                "name": "location",
+                "value": "",
+                "type": "query",
+                "description": "Address or location name used to determine the astronomical\ninformation. Typically a city-level or region-level address such as\n`New York, USA` or `London, UK`.\n\nWhen this parameter is used, the API returns a `location` object\ncontaining geolocation details alongside the `astronomy` object.\n"
+              },
+              {
+                "name": "ip",
+                "value": "",
+                "type": "query",
+                "description": "An IPv4 or IPv6 address used to resolve the location for the\nastronomical lookup. When omitted, the API resolves the public IP\nof the requesting client.\n\nWhen the lookup is performed using an IP address, the response\nincludes additional geolocation fields in the `location` object\nsuch as continent, country codes, district, and zipcode.\n"
+              },
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "Date for which to retrieve astronomical information.\n\nMust be in `yyyy-MM-dd` format. Defaults to the current date if\nnot provided. All astronomical information is calculated at the\ncurrent time of day at the resolved location.\n"
+              },
+              {
+                "name": "elevation",
+                "value": "",
+                "type": "query",
+                "description": "Elevation of the location above sea level in meters. Used to\nrefine astronomical calculations.\n\nDefaults to `0` if not provided. Maximum allowed value is\n**10,000 meters**. Negative values are treated as `0`.\n"
+              },
+              {
+                "name": "time_zone",
+                "value": "",
+                "type": "query",
+                "description": "IANA timezone identifier used to convert all astronomical event\ntimestamps into the specified timezone.\n\nWhen provided, all event times (sunrise, sunset, moonrise, moonset,\ntwilight phases, solar noon, etc.) are returned as full date-time\nvalues (`yyyy-MM-dd HH:mm`) instead of time-only values (`HH:mm`),\nand a `time_zone` field is included in the `astronomy` object.\n\nThe geographic location used for astronomical calculations remains\nunchanged. Only the timestamp representation is converted.\n\nExample: `Europe/London`, `America/New_York`, `Asia/Karachi`.\n"
+              },
+              {
+                "name": "lang",
+                "value": "",
+                "type": "query",
+                "description": "Language code for translated location names in the `location` object.\nOnly applies when the lookup is performed via an IP address.\n\nDefaults to `en`. Non-English responses require a paid plan. Free\nplans always receive English regardless of this parameter. Unsupported\n`lang` values return HTTP 400.\n"
+              }
+            ]
+          },
+          "docs": "Returns astronomical information for a specific location and date,\nincluding:\n\n- Sunrise and sunset times\n- Moonrise and moonset times\n- Morning and evening twilight phases (astronomical, nautical, civil)\n- Golden hour and blue hour windows (morning and evening)\n- Solar noon, day length, and astronomical midnight\n- Sun position: altitude, azimuth, distance from Earth\n- Moon position: altitude, azimuth, distance from Earth, parallactic angle\n- Moon phase, illumination percentage, and angular diam"
+        },
+        {
+          "info": {
+            "name": "IPGeolocation.io Astronomy Time Series Lookup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ipgeolocation.io/v3/astronomy/timeSeries",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate of the location. Must be provided together with\nthe `long` parameter.\n\nValid latitude values range from **-90 to 90**.\n"
+              },
+              {
+                "name": "long",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate of the location. Must be provided together with\nthe `lat` parameter.\n\nValid longitude values range from **-180 to 180**.\n"
+              },
+              {
+                "name": "location",
+                "value": "",
+                "type": "query",
+                "description": "Address or location name used to determine the astronomical\ninformation. Typically a city-level or region-level address such as\n`New York, USA` or `London, UK`.\n\nWhen this parameter is used, the API returns a `location` object\ncontaining geolocation details alongside the `astronomy` object.\n"
+              },
+              {
+                "name": "ip",
+                "value": "",
+                "type": "query",
+                "description": "An IPv4 or IPv6 address used to resolve the location for the\nastronomical lookup. When omitted, the API resolves the public IP\nof the requesting client.\n\nWhen the lookup is performed using an IP address, the response\nincludes additional geolocation fields in the `location` object\nsuch as continent, country codes, district, and zipcode.\n"
+              },
+              {
+                "name": "dateStart",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the time series range.\n\nMust be in `yyyy-MM-dd` format. The maximum allowed span between\n`dateStart` and `dateEnd` is **90 days**.\n"
+              },
+              {
+                "name": "dateEnd",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series range.\n\nMust be in `yyyy-MM-dd` format. The maximum allowed span between\n`dateStart` and `dateEnd` is **90 days**.\n"
+              },
+              {
+                "name": "elevation",
+                "value": "",
+                "type": "query",
+                "description": "Elevation of the location above sea level in meters. Used to\nrefine astronomical calculations.\n\nDefaults to `0` if not provided. Maximum allowed value is\n**10,000 meters**. Negative values are treated as `0`.\n"
+              },
+              {
+                "name": "time_zone",
+                "value": "",
+                "type": "query",
+                "description": "IANA timezone identifier used to convert all astronomical event\ntimestamps into the specified timezone.\n\nWhen provided, all event times (sunrise, sunset, moonrise, moonset,\ntwilight phases, solar noon, etc.) are returned as full date-time\nvalues (`yyyy-MM-dd HH:mm`) instead of time-only values (`HH:mm`),\nand a `time_zone` field is included in the `astronomy` object.\n\nThe geographic location used for astronomical calculations remains\nunchanged. Only the timestamp representation is converted.\n\nExample: `Europe/London`, `America/New_York`, `Asia/Karachi`.\n"
+              },
+              {
+                "name": "lang",
+                "value": "",
+                "type": "query",
+                "description": "Language code for translated location names in the `location` object.\nOnly applies when the lookup is performed via an IP address.\n\nDefaults to `en`. Non-English responses require a paid plan. Free\nplans always receive English regardless of this parameter. Unsupported\n`lang` values return HTTP 400.\n"
+              }
+            ]
+          },
+          "docs": "Returns daily astronomical information for a specific location across\na date range.\n\nThe response contains an array of daily astronomy records, each\nincluding sunrise, sunset, moonrise, moonset, twilight phases,\nsolar noon, day length, and moon phase. Real-time positional data\n(altitude, azimuth, distance) is not included in time series\nresponses.\n\nThe location can be resolved using geographic coordinates (`lat` and\n`long`), a location address (`location`), or an IP address (`ip`).\n\n**Date range"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
