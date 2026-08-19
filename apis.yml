@@ -21,7 +21,7 @@ description: >-
   offers 1,000 credits/day; paid plans (Starter through Premium) scale from 150K to 5M requests/month, with custom
   Enterprise pricing on top.
 url: https://ipgeolocation.io/
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-05-28'
 modified: '2026-05-29'
 x-source: public-apis/public-apis
