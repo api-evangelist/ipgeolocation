@@ -1,8 +1,8 @@
-openapi: 3.0.7
+openapi: 3.2.0
 info:
-  title: 'IPGeolocation.io: Abuse Contact ASN Lookup User Agent API'
+  title: 'IPGeolocation.io: User Agent API'
   version: '3.0'
-  description: "Retrieve abuse contact information associated with an IPv4 address or IPv6 address.\nThe API returns the organization responsible for handling abuse complaints related\nto the queried IP address, including the abuse contact role, organization name,\nregistered address, email contacts, and phone numbers.\n\nThe abuse contact data helps organizations report malicious activities such as\nspam, phishing, DDoS attacks, IP spoofing, and other network abuse to the\nresponsible network operator.\n\nOne endpoint is available:\n\n- **Abuse lookup** (`GET /v3/abuse`) returns abuse contact information for a\n  single IPv4 or IPv6 address per request.\n\nUse query parameters to control which fields are returned and which fields are\nexcluded from the response to reduce payload size when only specific data\nis required.\n\n## Authentication\n\nTwo authentication methods are supported:\n\n### API Key\n\nPass your API key as the `apiKey` query parameter on every request. You can find your\nkey in the [IPGeolocation dashboard](https://app.ipgeolocation.io/). Store it in\nserver-side environment variables. Avoid exposing it in client-side JavaScript.\n\n### Request Origin (CORS)\n\nAvailable on paid plans only. Whitelist your domain in the dashboard under the\n\"API Keys\" section. Once configured, requests from that domain (and all its subdomains)\nare accepted without passing `apiKey`. Enter your root domain (e.g. `example.com`),\nnot the full URL.\n\nEach plan has a limit on the number of extra API keys and request origins:\n\n| Plan | Extra API Keys + Request Origins |\n|---|---|\n| Starter (150K requests) | 1 |\n| Core (250K requests) | 1 |\n| Plus (500K requests) | 2 |\n| Pro (1M requests) | 2 |\n| Business (2M requests) | 3 |\n| Premium (5M requests) | 3 |\n\nAdditional keys or origins can be added for $2.50 per month each.\n\n## Response Formats\n\nThe API supports JSON (default) and XML output.\n\n- Set the `output` query parameter to `json` or `xml`.\n- Alternatively, set the `Accept` header to `application/json`, `application/xml`,\n  or `text/xml`.\n\nIf neither is specified, the response is returned as JSON. XML responses use a\n`LinkedHashMap` root element.\n\n## Credit Usage\n\nCredits are charged only for successful **HTTP 200** responses. The exact number of\ncredits consumed by a request is returned in the `X-Credits-Charged` response header.\n\nA **single IP abuse contact lookup** (`GET /v3/abuse`) consumes **1 credit** per request.\n\n\n## Field Filtering\n\nUse `fields` to cherry-pick specific fields, or `excludes` to drop fields you do not\nneed. Both accept dot-notation for nested fields (e.g. `abuse.route`,\n`abuse.organization`). The `ip` field is always present regardless of filters.\n\n## Parameter Name Casing\n\nQuery parameter names are case-sensitive. Use exact names such as\n`apiKey`, `ip`, `fields`, `excludes`, and `output`.\n\n## Plan Availability and Usage Limits\n\nThe IP Abuse Contact API is available **only on paid plans**.\n\nPaid subscriptions do not have fixed daily, hourly, or monthly rate limits.  \nIf the monthly quota is exceeded, requests continue and a surcharge may be applied according to the subscribed plan.\n\nFree plans cannot access the IP Abuse Contact API. Requests made with a free plan API key return **HTTP 401 Unauthorized**.\n"
+  description: Parse browser, device, and operating system details from a User Agent string.
   contact:
     name: IPGeolocation Support
     url: https://ipgeolocation.io/contact.html
@@ -24,9 +24,7 @@ tags:
 
     string lookups via JSON body, and bulk parsing of up to 50,000 strings per request.
 
-    Also detects bots, crawlers, and malicious or malformed user agent strings.
-
-    '
+    Also detects bots, crawlers, and malicious or malformed user agent strings.'
   externalDocs:
     description: User Agent API documentation
     url: https://ipgeolocation.io/documentation/user-agent-api.html
@@ -63,9 +61,7 @@ paths:
         simulate or test specific user agent strings server-side.
 
 
-        Each successful lookup consumes **1 credit**.
-
-        '
+        Each successful lookup consumes **1 credit**.'
       tags:
       - User Agent
       parameters:
@@ -165,9 +161,7 @@ paths:
         This endpoint is available on **paid plans only**.
 
 
-        Each successful lookup consumes **1 credit**.
-
-        '
+        Each successful lookup consumes **1 credit**.'
       tags:
       - User Agent
       parameters:
@@ -270,9 +264,7 @@ paths:
         in the array.
 
 
-        This endpoint is available on **paid plans only**.
-
-        '
+        This endpoint is available on **paid plans only**.'
       tags:
       - User Agent
       parameters:
@@ -410,10 +402,12 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    ServiceUnavailable:
-      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+    InternalServerError:
+      description: 'Internal Server Error. The server encountered an unexpected condition
 
-        or overload. Please try again later.
+        that prevented it from fulfilling the request. If the issue persists,
+
+        contact support@ipgeolocation.io.
 
         '
       content:
@@ -421,7 +415,19 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: Service temporarily unavailable. Please try again later.
+            message: Something went wrong on the server side.
+    HttpVersionNotSupported:
+      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+
+        version used in the request.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: HTTP version not supported.
     BadGateway:
       description: 'Bad Gateway. The API server received an invalid response from an upstream
 
@@ -446,6 +452,63 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
           example:
             message: The server timed out while processing the request.
+    ClientClosedRequest:
+      description: 'Client Closed Request. Returned when the client sets a very short timeout,
+
+        causing the connection to close before the server responds.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Client closed the request before the server could respond.
+    TooManyRequests:
+      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a free subscription.\n- The API usage limit has been reached for a paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            usageLimitReached:
+              summary: API usage limit reached
+              value:
+                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            surchargeLimitReached:
+              summary: Surcharge usage limit reached
+              value:
+                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+    MethodNotAllowed:
+      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used.
+
+
+        - `/v3/user-agent` supports GET and POST.
+
+        - `/v3/user-agent-bulk` supports POST only.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            getNotAllowedForBulk:
+              summary: GET used on bulk endpoint
+              value:
+                message: Request method 'GET' is not supported
+    ServiceUnavailable:
+      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+
+        or overload. Please try again later.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Service temporarily unavailable. Please try again later.
     Unauthorized:
       description: 'Unauthorized. Returned for one of the following reasons:
 
@@ -509,36 +572,6 @@ components:
               summary: Bulk endpoint called with free subscription key
               value:
                 message: Bulk User-Agent lookup is not supported on your current subscription. This feature is available to all paid subscriptions only.
-    MethodNotAllowed:
-      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used.
-
-
-        - `/v3/user-agent` supports GET and POST.
-
-        - `/v3/user-agent-bulk` supports POST only.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            getNotAllowedForBulk:
-              summary: GET used on bulk endpoint
-              value:
-                message: Request method 'GET' is not supported
-    HttpVersionNotSupported:
-      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
-
-        version used in the request.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: HTTP version not supported.
     BadRequest:
       description: "Bad Request. Returned for one of the following reasons:\n- Special characters ( ) [ ] { } | ^ ` are passed in the API URL (either in parameters or values), especially in the API key.\n- The `uaString` is empty or null when calling `/v3/user-agent`(POST).\n- The `uaStrings` array is empty, or the JSON body does not contain a `uaStrings`\n  field when calling `/v3/user-agent-bulk`.\n- More than 50,000 user agent strings are provided in a single bulk request.\n"
       content:
@@ -562,86 +595,22 @@ components:
               summary: More than 50,000 strings in bulk request
               value:
                 message: No. of lookup queries cannot be more than 50000
-    TooManyRequests:
-      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a free subscription.\n- The API usage limit has been reached for a paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            usageLimitReached:
-              summary: API usage limit reached
-              value:
-                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-            surchargeLimitReached:
-              summary: Surcharge usage limit reached
-              value:
-                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-    ClientClosedRequest:
-      description: 'Client Closed Request. Returned when the client sets a very short timeout,
+  parameters:
+    ApiKey:
+      name: apiKey
+      in: query
+      required: false
+      description: 'Your IPGeolocation API key. Required unless Request Origin (CORS) authentication
 
-        causing the connection to close before the server responds.
+        is configured for your domain on a paid plan. Get your key from the
+
+        [IPGeolocation dashboard](https://app.ipgeolocation.io/).
 
         '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Client closed the request before the server could respond.
-    InternalServerError:
-      description: 'Internal Server Error. The server encountered an unexpected condition
-
-        that prevented it from fulfilling the request. If the issue persists,
-
-        contact support@ipgeolocation.io.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Something went wrong on the server side.
+      schema:
+        type: string
+      example: YOUR_API_KEY
   schemas:
-    Engine:
-      type: object
-      description: Layout engine information extracted from the user agent string.
-      properties:
-        name:
-          type: string
-          description: Name of the layout engine (e.g. `"AppleWebKit"`, `"Blink"`, `"Gecko"`).
-          example: AppleWebKit
-        type:
-          type: string
-          description: 'Type of the layout engine. See possible values in the documentation.
-
-            '
-          example: Browser
-        version:
-          type: string
-          description: Full version string of the layout engine. May be `"??"` if unknown.
-          example: 601.3.9
-        version_major:
-          type: string
-          description: Major version of the layout engine. May be `"??"` if unknown.
-          example: '601'
-    ErrorResponse:
-      type: object
-      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
-
-        Message text can vary by status and condition; examples in this spec are
-
-        representative, not exhaustive, and should not be treated as stable machine codes.
-
-        '
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
-          example: User agent string is empty or null.
     OperatingSystem:
       type: object
       description: Operating system information extracted from the user agent string.
@@ -668,6 +637,44 @@ components:
           type: string
           description: Build identifier of the operating system. May be `"??"` if unknown.
           example: ??
+    ErrorResponse:
+      type: object
+      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
+
+        Message text can vary by status and condition; examples in this spec are
+
+        representative, not exhaustive, and should not be treated as stable machine codes.
+
+        '
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
+          example: User agent string is empty or null.
+    Device:
+      type: object
+      description: Hardware device information extracted from the user agent string.
+      properties:
+        name:
+          type: string
+          description: Name of the device (e.g. model name or manufacturer).
+          example: Apple Macintosh
+        type:
+          type: string
+          description: 'Type of the device. See possible values in the documentation.
+
+            '
+          example: Desktop
+        brand:
+          type: string
+          description: Brand or manufacturer of the device.
+          example: Apple
+        cpu:
+          type: string
+          description: CPU architecture or model of the device. May be `"Unknown"`.
+          example: Intel
     UserAgentResponse:
       type: object
       description: 'Parsed user agent details including browser, device, layout engine, and
@@ -710,43 +717,28 @@ components:
           $ref: '#/components/schemas/Engine'
         operating_system:
           $ref: '#/components/schemas/OperatingSystem'
-    Device:
+    Engine:
       type: object
-      description: Hardware device information extracted from the user agent string.
+      description: Layout engine information extracted from the user agent string.
       properties:
         name:
           type: string
-          description: Name of the device (e.g. model name or manufacturer).
-          example: Apple Macintosh
+          description: Name of the layout engine (e.g. `"AppleWebKit"`, `"Blink"`, `"Gecko"`).
+          example: AppleWebKit
         type:
           type: string
-          description: 'Type of the device. See possible values in the documentation.
+          description: 'Type of the layout engine. See possible values in the documentation.
 
             '
-          example: Desktop
-        brand:
+          example: Browser
+        version:
           type: string
-          description: Brand or manufacturer of the device.
-          example: Apple
-        cpu:
+          description: Full version string of the layout engine. May be `"??"` if unknown.
+          example: 601.3.9
+        version_major:
           type: string
-          description: CPU architecture or model of the device. May be `"Unknown"`.
-          example: Intel
-  parameters:
-    ApiKey:
-      name: apiKey
-      in: query
-      required: false
-      description: 'Your IPGeolocation API key. Required unless Request Origin (CORS) authentication
-
-        is configured for your domain on a paid plan. Get your key from the
-
-        [IPGeolocation dashboard](https://app.ipgeolocation.io/).
-
-        '
-      schema:
-        type: string
-      example: YOUR_API_KEY
+          description: Major version of the layout engine. May be `"??"` if unknown.
+          example: '601'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
@@ -762,5 +754,5 @@ components:
 
         '
 externalDocs:
-  description: IPGeolocation Abuse Contact API documentation
-  url: https://ipgeolocation.io/documentation/ip-abuse-contact-api.html
+  description: IPGeolocation User Agent API documentation
+  url: https://ipgeolocation.io/documentation/user-agent-api.html

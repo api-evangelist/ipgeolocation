@@ -1,18 +1,18 @@
 {
   "provider": "ipgeolocation",
   "sources": [
-    "ipgeolocation-asn-lookup-api-openapi.yml",
-    "ipgeolocation-astronomy-api-openapi.yml",
-    "ipgeolocation-ip-abuse-contact-api-openapi.yml",
-    "ipgeolocation-ip-geolocation-api-openapi.yml",
-    "ipgeolocation-ip-security-api-openapi.yml",
-    "ipgeolocation-timezone-api-openapi.yml",
-    "ipgeolocation-user-agent-api-openapi.yml"
+    "_original/ipgeolocation-abuse-openapi.yml",
+    "_original/ipgeolocation-asn-openapi.yml",
+    "_original/ipgeolocation-astronomy-openapi.yml",
+    "_original/ipgeolocation-ip-location-openapi.yml",
+    "_original/ipgeolocation-security-openapi.yml",
+    "_original/ipgeolocation-timezone-openapi.yml",
+    "_original/ipgeolocation-user-agent-openapi.yml"
   ],
   "outputs": [
+    "ipgeolocation-ip-abuse-contact-api-openapi.yml",
     "ipgeolocation-asn-lookup-api-openapi.yml",
     "ipgeolocation-astronomy-api-openapi.yml",
-    "ipgeolocation-ip-abuse-contact-api-openapi.yml",
     "ipgeolocation-ip-geolocation-api-openapi.yml",
     "ipgeolocation-ip-security-api-openapi.yml",
     "ipgeolocation-timezone-api-openapi.yml",
@@ -21,6 +21,24 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (7 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "ipgeolocation-abuse-openapi.yml: upgraded openapi 3.0.7 -> OpenAPI 3.2.0",
+    "ipgeolocation-asn-openapi.yml: upgraded openapi 3.0.7 -> OpenAPI 3.2.0",
+    "ipgeolocation-astronomy-openapi.yml: upgraded openapi 3.0.7 -> OpenAPI 3.2.0",
+    "ipgeolocation-ip-location-openapi.yml: upgraded openapi 3.0.7 -> OpenAPI 3.2.0",
+    "ipgeolocation-security-openapi.yml: upgraded openapi 3.0.7 -> OpenAPI 3.2.0",
+    "ipgeolocation-timezone-openapi.yml: upgraded openapi 3.0.7 -> OpenAPI 3.2.0",
+    "ipgeolocation-user-agent-openapi.yml: upgraded openapi 3.0.7 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "ipgeolocation-asn-lookup-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ipgeolocation-astronomy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ipgeolocation-ip-abuse-contact-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ipgeolocation-ip-geolocation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ipgeolocation-ip-security-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ipgeolocation-timezone-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ipgeolocation-user-agent-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

@@ -1,8 +1,10 @@
-openapi: 3.0.7
+openapi: 3.2.0
 info:
-  title: 'IPGeolocation.io: Abuse Contact ASN Lookup Timezone API'
+  title: 'IPGeolocation.io: Date, Time Timezone API'
   version: '3.0'
-  description: "Retrieve abuse contact information associated with an IPv4 address or IPv6 address.\nThe API returns the organization responsible for handling abuse complaints related\nto the queried IP address, including the abuse contact role, organization name,\nregistered address, email contacts, and phone numbers.\n\nThe abuse contact data helps organizations report malicious activities such as\nspam, phishing, DDoS attacks, IP spoofing, and other network abuse to the\nresponsible network operator.\n\nOne endpoint is available:\n\n- **Abuse lookup** (`GET /v3/abuse`) returns abuse contact information for a\n  single IPv4 or IPv6 address per request.\n\nUse query parameters to control which fields are returned and which fields are\nexcluded from the response to reduce payload size when only specific data\nis required.\n\n## Authentication\n\nTwo authentication methods are supported:\n\n### API Key\n\nPass your API key as the `apiKey` query parameter on every request. You can find your\nkey in the [IPGeolocation dashboard](https://app.ipgeolocation.io/). Store it in\nserver-side environment variables. Avoid exposing it in client-side JavaScript.\n\n### Request Origin (CORS)\n\nAvailable on paid plans only. Whitelist your domain in the dashboard under the\n\"API Keys\" section. Once configured, requests from that domain (and all its subdomains)\nare accepted without passing `apiKey`. Enter your root domain (e.g. `example.com`),\nnot the full URL.\n\nEach plan has a limit on the number of extra API keys and request origins:\n\n| Plan | Extra API Keys + Request Origins |\n|---|---|\n| Starter (150K requests) | 1 |\n| Core (250K requests) | 1 |\n| Plus (500K requests) | 2 |\n| Pro (1M requests) | 2 |\n| Business (2M requests) | 3 |\n| Premium (5M requests) | 3 |\n\nAdditional keys or origins can be added for $2.50 per month each.\n\n## Response Formats\n\nThe API supports JSON (default) and XML output.\n\n- Set the `output` query parameter to `json` or `xml`.\n- Alternatively, set the `Accept` header to `application/json`, `application/xml`,\n  or `text/xml`.\n\nIf neither is specified, the response is returned as JSON. XML responses use a\n`LinkedHashMap` root element.\n\n## Credit Usage\n\nCredits are charged only for successful **HTTP 200** responses. The exact number of\ncredits consumed by a request is returned in the `X-Credits-Charged` response header.\n\nA **single IP abuse contact lookup** (`GET /v3/abuse`) consumes **1 credit** per request.\n\n\n## Field Filtering\n\nUse `fields` to cherry-pick specific fields, or `excludes` to drop fields you do not\nneed. Both accept dot-notation for nested fields (e.g. `abuse.route`,\n`abuse.organization`). The `ip` field is always present regardless of filters.\n\n## Parameter Name Casing\n\nQuery parameter names are case-sensitive. Use exact names such as\n`apiKey`, `ip`, `fields`, `excludes`, and `output`.\n\n## Plan Availability and Usage Limits\n\nThe IP Abuse Contact API is available **only on paid plans**.\n\nPaid subscriptions do not have fixed daily, hourly, or monthly rate limits.  \nIf the monthly quota is exceeded, requests continue and a surcharge may be applied according to the subscribed plan.\n\nFree plans cannot access the IP Abuse Contact API. Requests made with a free plan API key return **HTTP 401 Unauthorized**.\n"
+  description: 'Retrieve current date, time, and timezone information for a specific
+
+    location or identifier.'
   contact:
     name: IPGeolocation Support
     url: https://ipgeolocation.io/contact.html
@@ -24,25 +26,7 @@ tags:
 
     geographic coordinates, location address, IPv4 or IPv6 address,
 
-    airport codes (IATA or ICAO), or UN/LOCODE.
-
-
-    The API can also convert timestamps between different timezones,
-
-    locations, coordinates, airports, or UN/LOCODE identifiers.
-
-
-    Responses include detailed timezone metadata such as UTC offset,
-
-    daylight saving time (DST) status, formatted timestamps, and
-
-    upcoming DST transition information. Depending on the lookup
-
-    method used, the response may also include geolocation data,
-
-    airport details, or city information.
-
-    '
+    airport codes (IATA or ICAO), or UN/LOCODE.'
   externalDocs:
     description: IPGeolocation Date, Time & Timezone API documentation
     url: https://ipgeolocation.io/documentation/timezone-api.html
@@ -104,9 +88,7 @@ paths:
         the timezone using the public IP address of the requesting client.
 
 
-        Each successful lookup consumes **1 credit**.
-
-        '
+        Each successful lookup consumes **1 credit**.'
       tags:
       - Timezone
       parameters:
@@ -334,9 +316,7 @@ paths:
         for conversion.
 
 
-        Each successful conversion request consumes **1 credit**.
-
-        '
+        Each successful conversion request consumes **1 credit**.'
       tags:
       - Timezone
       parameters:
@@ -460,119 +440,163 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    HttpVersionNotSupported:
+      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+
+        version used in the request.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: HTTP version not supported.
+    BadGateway:
+      description: 'Bad Gateway. The API server received an invalid response from an upstream
+
+        server while processing the request. This is usually temporary.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Upstream service error. Please try again later.
+    GatewayTimeout:
+      description: 'Gateway Timeout. The API server did not receive a timely response from
+
+        an upstream server.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: The server timed out while processing the request.
+    ClientClosedRequest:
+      description: 'The client closed the connection before the server finished processing the
+
+        request. This usually happens when the client sets a very short request or
+
+        connection timeout. Increase the timeout on the client side.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Client closed the request before the server could respond.
+    MethodNotAllowed:
+      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used
+
+        to call an endpoint.
+
+
+        Only the **GET** method is supported for the Timezone API endpoint.
+
+
+        Any other HTTP method results in HTTP 405.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            postNotAllowed:
+              summary: POST method used
+              value:
+                message: Request method 'POST' is not supported
+            unsupportedMethod:
+              summary: Unsupported HTTP method
+              value:
+                message: Request method is not supported
+    NotFound:
+      description: "Not found. Returned for one of the following reasons:\n- If the IPv4, IPv6 address does not exist in our database.\n\n- If the IPv4, IPv6 address passed as a path variable, instead of url parameter as ip=.\n\n- If the location address provided to the `location` parameter is invalid, or if the address provided to either `location_from` or `location_to` is invalid for time conversion. A city-level or state-level address must be provided.\n              \n- If the provided UN/LOCODE, IATA code or ICAO code to the query parameters `lo_code`, `iata_code`, or `icao_code` does not exist in our database.\n\n- If the wrong endpoint is called, that does not exist in our API.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            ipNotInDatabase:
+              summary: IPv4/IPv6 not found in database
+              value:
+                message: Provided IPv4 or IPv6 address does not exist in our database.
+            ipAsPathVariable:
+              summary: IP passed as path variable instead of query parameter
+              value:
+                message: No endpoint GET /v3/ipgeo/8.8.8.8.
+            invalidLocation:
+              summary: Invalid location
+              value:
+                message: We couldn't find the (to) location (Germany, jaakjsdfjhb8wobv). Try a city or state level address only.
+            invalidAirportCode:
+              summary: Invalid airport code
+              value:
+                message: Provided IATA or ICAO code does not exist in our database.
+            wrongEndpoint:
+              summary: Incorrect or non-existent endpoint
+              value:
+                message: No endpoint GET /v3/timezone-invalid.
+    ServiceUnavailable:
+      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+
+        or overload. Please try again later.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Service temporarily unavailable. Please try again later.
+    Locked:
+      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
+
+        network and cannot be looked up.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: '''10.0.0.1'' is a bogon IP address.'
+    InternalServerError:
+      description: 'Internal Server Error. The server encountered an unexpected condition
+
+        that prevented it from fulfilling the request. If the issue persists,
+
+        contact support@ipgeolocation.io.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Something went wrong on the server side.
+    TooManyRequests:
+      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            usageLimitReached:
+              summary: API usage limit reached
+              value:
+                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            surchargeLimitReached:
+              summary: Surcharge usage limit reached
+              value:
+                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
   parameters:
-    IataFrom:
-      name: iata_from
-      in: query
-      required: false
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide source IATA Code
-          value: ''
-        iata:
-          summary: Source IATA Code
-          value: DXB
-    Location:
-      name: location
-      in: query
-      required: false
-      description: 'Address or location name used to determine the timezone.
-
-
-        Typically a city-level or region-level address such as
-
-        `London, UK` or `New York, USA`.
-
-
-        When this parameter is used, the API returns a `location`
-
-        object containing geolocation details alongside the
-
-        `time_zone` object.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide location
-          value: ''
-        london:
-          summary: City address
-          value: London, UK
-        lahore:
-          summary: City address
-          value: Lahore, Pakistan
-    LocodeFrom:
-      name: locode_from
-      in: query
-      required: false
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide source LOCODE Code
-          value: ''
-        locode:
-          summary: Source LOCODE Code
-          value: PKISB
-    LocationTo:
-      name: location_to
-      in: query
-      required: false
-      description: 'Destination location address used to determine the target timezone.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide destination location
-          value: ''
-        pakistan:
-          summary: Destination location
-          value: Lahore, Pakistan
-    TzTo:
-      name: tz_to
-      in: query
-      required: false
-      description: 'Destination timezone identifier (IANA format) used for time conversion.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide destination timezone
-          value: ''
-        kabul:
-          summary: Destination timezone
-          value: Asia/Kabul
-    IcaoCode:
-      name: icao_code
-      in: query
-      required: false
-      description: 'Four-letter ICAO airport code used to determine the timezone
-
-        of the airport location.
-
-
-        When used, the response includes an `airport_details` object
-
-        containing airport metadata alongside the `time_zone` object.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide ICAO code
-          value: ''
-        atlanta:
-          summary: Atlanta International Airport
-          value: KATL
     Lat:
       name: lat
       in: query
@@ -595,79 +619,6 @@ components:
         newyork:
           summary: Latitude of New York
           value: 40.7128
-    LocationFrom:
-      name: location_from
-      in: query
-      required: false
-      description: 'Source location address used to determine the source timezone.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide source location
-          value: ''
-        usa:
-          summary: Source location
-          value: New York, USA
-    LongTo:
-      name: long_to
-      in: query
-      required: false
-      schema:
-        type: number
-        format: float
-      examples:
-        none:
-          summary: Do not provide destination longitude
-          value: ''
-        long:
-          summary: Destination longitude
-          value: -77.3977062
-    TzFrom:
-      name: tz_from
-      in: query
-      required: false
-      description: 'Source timezone identifier (IANA format) used for time conversion.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide source timezone
-          value: ''
-        newyork:
-          summary: Source timezone
-          value: America/New_York
-    Ip:
-      name: ip
-      in: query
-      required: false
-      description: 'An IPv4 address, IPv6 address, or domain name to look up. When omitted, the API
-
-        resolves the public IP of the requesting client. Empty or whitespace-only values
-
-        are treated the same as omission and resolve caller IP. Domain lookups require a
-
-        paid plan. Pass `ip` only once. If multiple `ip` query parameters are sent,
-
-        values may be merged and treated as invalid input (HTTP 400).
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide IP address
-          value: ''
-        ipv4:
-          summary: IPv4 address
-          value: 91.128.103.196
-        ipv6:
-          summary: IPv6 address
-          value: 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
     LocodeTo:
       name: locode_to
       in: query
@@ -681,46 +632,6 @@ components:
         locode:
           summary: Destination LOCODE Code
           value: USNYC
-    IcaoFrom:
-      name: icao_from
-      in: query
-      required: false
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide source ICAO Code
-          value: ''
-        icao:
-          summary: Source ICAO Code
-          value: YSSY
-    LatTo:
-      name: lat_to
-      in: query
-      required: false
-      schema:
-        type: number
-        format: float
-      examples:
-        none:
-          summary: Do not provide destination latitude
-          value: ''
-        lat:
-          summary: Destination latitude
-          value: 53.4736827
-    IataTo:
-      name: iata_to
-      in: query
-      required: false
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide destination IATA Code
-          value: ''
-        iata:
-          summary: Destination IATA Code
-          value: LHR
     Lang:
       name: lang
       in: query
@@ -748,44 +659,48 @@ components:
         - ko
         - fa
         - pt
-    LongFrom:
-      name: long_from
+    LoCode:
+      name: lo_code
       in: query
       required: false
-      schema:
-        type: number
-        format: float
-      examples:
-        none:
-          summary: Do not provide source longitude
-          value: ''
-        long:
-          summary: Source longitude
-          value: -118.6919163
-    Output:
-      name: output
-      in: query
-      required: false
-      description: 'Desired response format. Defaults to `json` if not specified. You can also
-
-        control the format using the `Accept` header (`application/json`,
-
-        `application/xml`, or `text/xml`). If both are provided, the `output` parameter
-
-        takes precedence.
+      description: 'UN/LOCODE used to determine the timezone of a city or location.
 
 
-        If `output` is unknown or unsupported, it is ignored and the response defaults
+        The code consists of a two-letter country code followed by
 
-        to JSON (`application/json`) with HTTP 200.
+        three alphanumeric characters representing the location.
+
+
+        When used, the response includes a `lo_code_details` object
+
+        alongside the `time_zone` object.
 
         '
       schema:
         type: string
-        enum:
-        - json
-        - xml
-        default: json
+      examples:
+        none:
+          summary: Do not provide UN/LOCODE
+          value: ''
+        berlin:
+          summary: Berlin city UN/LOCODE
+          value: DEBER
+    TzTo:
+      name: tz_to
+      in: query
+      required: false
+      description: 'Destination timezone identifier (IANA format) used for time conversion.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide destination timezone
+          value: ''
+        kabul:
+          summary: Destination timezone
+          value: Asia/Kabul
     Time:
       name: time
       in: query
@@ -813,32 +728,81 @@ components:
         specific:
           summary: Convert specific time
           value: 2025-01-30 09:00
-    LoCode:
-      name: lo_code
+    LocodeFrom:
+      name: locode_from
       in: query
       required: false
-      description: 'UN/LOCODE used to determine the timezone of a city or location.
-
-
-        The code consists of a two-letter country code followed by
-
-        three alphanumeric characters representing the location.
-
-
-        When used, the response includes a `lo_code_details` object
-
-        alongside the `time_zone` object.
-
-        '
       schema:
         type: string
       examples:
         none:
-          summary: Do not provide UN/LOCODE
+          summary: Do not provide source LOCODE Code
           value: ''
-        berlin:
-          summary: Berlin city UN/LOCODE
-          value: DEBER
+        locode:
+          summary: Source LOCODE Code
+          value: PKISB
+    LongFrom:
+      name: long_from
+      in: query
+      required: false
+      schema:
+        type: number
+        format: float
+      examples:
+        none:
+          summary: Do not provide source longitude
+          value: ''
+        long:
+          summary: Source longitude
+          value: -118.6919163
+    Long:
+      name: long
+      in: query
+      required: false
+      description: 'Longitude coordinate of the location used to determine the
+
+        timezone. Must be provided together with the `lat` parameter.
+
+
+        Valid longitude values range from **-180 to 180**.
+
+        '
+      schema:
+        type: number
+        format: float
+      examples:
+        none:
+          summary: Do not provide longitude
+          value: ''
+        newyork:
+          summary: Longitude of New York
+          value: -74.006
+    IataFrom:
+      name: iata_from
+      in: query
+      required: false
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide source IATA Code
+          value: ''
+        iata:
+          summary: Source IATA Code
+          value: DXB
+    IcaoTo:
+      name: icao_to
+      in: query
+      required: false
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide destination ICAO Code
+          value: ''
+        icao:
+          summary: Destination ICAO Code
+          value: ZBAA
     Tz:
       name: tz
       in: query
@@ -873,6 +837,184 @@ components:
         australia:
           summary: Australia/Lord_Howe timezone
           value: Australia/Lord_Howe
+    IataTo:
+      name: iata_to
+      in: query
+      required: false
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide destination IATA Code
+          value: ''
+        iata:
+          summary: Destination IATA Code
+          value: LHR
+    Output:
+      name: output
+      in: query
+      required: false
+      description: 'Desired response format. Defaults to `json` if not specified. You can also
+
+        control the format using the `Accept` header (`application/json`,
+
+        `application/xml`, or `text/xml`). If both are provided, the `output` parameter
+
+        takes precedence.
+
+
+        If `output` is unknown or unsupported, it is ignored and the response defaults
+
+        to JSON (`application/json`) with HTTP 200.
+
+        '
+      schema:
+        type: string
+        enum:
+        - json
+        - xml
+        default: json
+    LatTo:
+      name: lat_to
+      in: query
+      required: false
+      schema:
+        type: number
+        format: float
+      examples:
+        none:
+          summary: Do not provide destination latitude
+          value: ''
+        lat:
+          summary: Destination latitude
+          value: 53.4736827
+    LatFrom:
+      name: lat_from
+      in: query
+      required: false
+      schema:
+        type: number
+        format: float
+      examples:
+        none:
+          summary: Do not provide source latitude
+          value: ''
+        lat:
+          summary: Source latitude
+          value: 34.0207305
+    LocationFrom:
+      name: location_from
+      in: query
+      required: false
+      description: 'Source location address used to determine the source timezone.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide source location
+          value: ''
+        usa:
+          summary: Source location
+          value: New York, USA
+    LocationTo:
+      name: location_to
+      in: query
+      required: false
+      description: 'Destination location address used to determine the target timezone.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide destination location
+          value: ''
+        pakistan:
+          summary: Destination location
+          value: Lahore, Pakistan
+    IcaoCode:
+      name: icao_code
+      in: query
+      required: false
+      description: 'Four-letter ICAO airport code used to determine the timezone
+
+        of the airport location.
+
+
+        When used, the response includes an `airport_details` object
+
+        containing airport metadata alongside the `time_zone` object.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide ICAO code
+          value: ''
+        atlanta:
+          summary: Atlanta International Airport
+          value: KATL
+    LongTo:
+      name: long_to
+      in: query
+      required: false
+      schema:
+        type: number
+        format: float
+      examples:
+        none:
+          summary: Do not provide destination longitude
+          value: ''
+        long:
+          summary: Destination longitude
+          value: -77.3977062
+    IcaoFrom:
+      name: icao_from
+      in: query
+      required: false
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide source ICAO Code
+          value: ''
+        icao:
+          summary: Source ICAO Code
+          value: YSSY
+    Location:
+      name: location
+      in: query
+      required: false
+      description: 'Address or location name used to determine the timezone.
+
+
+        Typically a city-level or region-level address such as
+
+        `London, UK` or `New York, USA`.
+
+
+        When this parameter is used, the API returns a `location`
+
+        object containing geolocation details alongside the
+
+        `time_zone` object.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide location
+          value: ''
+        london:
+          summary: City address
+          value: London, UK
+        lahore:
+          summary: City address
+          value: Lahore, Pakistan
     IataCode:
       name: iata_code
       in: query
@@ -896,266 +1038,111 @@ components:
         heathrow:
           summary: London Heathrow Airport
           value: LHR
-    Long:
-      name: long
+    Ip:
+      name: ip
       in: query
       required: false
-      description: 'Longitude coordinate of the location used to determine the
+      description: 'An IPv4 address, IPv6 address, or domain name to look up. When omitted, the API
 
-        timezone. Must be provided together with the `lat` parameter.
+        resolves the public IP of the requesting client. Empty or whitespace-only values
 
+        are treated the same as omission and resolve caller IP. Domain lookups require a
 
-        Valid longitude values range from **-180 to 180**.
+        paid plan. Pass `ip` only once. If multiple `ip` query parameters are sent,
+
+        values may be merged and treated as invalid input (HTTP 400).
 
         '
-      schema:
-        type: number
-        format: float
-      examples:
-        none:
-          summary: Do not provide longitude
-          value: ''
-        newyork:
-          summary: Longitude of New York
-          value: -74.006
-    LatFrom:
-      name: lat_from
-      in: query
-      required: false
-      schema:
-        type: number
-        format: float
-      examples:
-        none:
-          summary: Do not provide source latitude
-          value: ''
-        lat:
-          summary: Source latitude
-          value: 34.0207305
-    IcaoTo:
-      name: icao_to
-      in: query
-      required: false
       schema:
         type: string
       examples:
         none:
-          summary: Do not provide destination ICAO Code
+          summary: Do not provide IP address
           value: ''
-        icao:
-          summary: Destination ICAO Code
-          value: ZBAA
+        ipv4:
+          summary: IPv4 address
+          value: 91.128.103.196
+        ipv6:
+          summary: IPv6 address
+          value: 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
+    TzFrom:
+      name: tz_from
+      in: query
+      required: false
+      description: 'Source timezone identifier (IANA format) used for time conversion.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide source timezone
+          value: ''
+        newyork:
+          summary: Source timezone
+          value: America/New_York
   schemas:
-    Timezone:
+    AirportDetails:
       type: object
-      description: 'Detailed timezone information for the requested location or identifier.
+      description: 'Airport information returned when the timezone lookup is performed
+
+        using `iata_code` or `icao_code`.
 
 
-        Contains timezone metadata such as UTC offset, daylight saving time (DST)
+        Contains metadata about the airport including its geographic
 
-        status, formatted timestamps, and DST transition information.
+        coordinates, country, and airport identifiers.
 
         '
       properties:
+        type:
+          type: string
+          description: Classification of the airport based on size and traffic.
+          example: large_airport
         name:
           type: string
-          description: IANA timezone identifier for the location.
-          example: America/Los_Angeles
-        offset:
-          format: float
-          description: Standard timezone offset from UTC in hours.
-          example: -8
-        offset_with_dst:
-          format: float
-          description: Timezone offset from UTC including daylight saving time.
-          example: -7
-        date:
+          description: Official name of the airport.
+          example: Hartsfield Jackson Atlanta International Airport
+        latitude:
           type: string
-          description: Current date in `YYYY-MM-DD` format.
-          example: '2025-04-24'
-        date_time:
+          description: Latitude coordinate of the airport.
+          example: '33.63670'
+        longitude:
           type: string
-          description: Current date and time in `YYYY-MM-DD HH:mm:ss` format.
-          example: '2025-04-24 11:30:12'
-        date_time_txt:
-          type: string
-          description: Human-readable date and time string.
-          example: Thursday, April 24, 2025 11:30:12
-        date_time_wti:
-          type: string
-          description: Date and time with timezone information.
-          example: Thu, 24 Apr 2025 11:30:12 -0700
-        date_time_ymd:
-          type: string
-          description: ISO-8601 formatted date and time with timezone offset.
-          example: 2025-04-24T11:30:12-0700
-        current_time_unix:
+          description: Longitude coordinate of the airport.
+          example: '-84.42810'
+        elevation_ft:
           type: number
-          format: float
-          description: Unix timestamp representing the current date and time.
-          example: 1745519412.353
-        time_24:
+          description: Airport elevation above sea level measured in feet.
+          example: 1026
+        continent_code:
           type: string
-          description: Current local time in 24-hour format.
-          example: '11:30:12'
-        time_12:
+          description: Two-letter continent code where the airport is located.
+          example: NA
+        country_code:
           type: string
-          description: Current local time in 12-hour format.
-          example: 11:30:12 AM
-        week:
-          type: number
-          description: Week number of the current year.
-          example: 17
-        month:
-          type: number
-          description: Current month number.
-          example: 4
-        year:
-          type: number
-          description: Four-digit year.
-          example: 2025
-        year_abbr:
+          description: ISO 3166-1 alpha-2 country code.
+          example: US
+        state_code:
           type: string
-          description: Two-digit abbreviated year.
-          example: '25'
-        current_tz_abbreviation:
+          description: State or province code where the airport is located.
+          example: US-GA
+        city:
           type: string
-          description: Abbreviation of the timezone currently in effect.
-          example: AEST
-        current_tz_full_name:
+          description: City served by the airport.
+          example: Atlanta
+        iata_code:
           type: string
-          description: Full name of the timezone currently in effect.
-          example: Australian Eastern Standard Time
-        standard_tz_abbreviation:
+          description: Three-letter IATA airport identifier.
+          example: ATL
+        icao_code:
           type: string
-          description: Standard (non-DST) timezone abbreviation.
-          example: AEST
-        standard_tz_full_name:
+          description: Four-letter ICAO airport identifier.
+          example: KATL
+        faa_code:
           type: string
-          description: Full name of the standard timezone.
-          example: Australian Eastern Standard Time
-        is_dst:
-          type: boolean
-          description: Indicates whether daylight saving time is currently active.
-          example: false
-        dst_savings:
-          type: number
-          format: float
-          description: Number of hours added during daylight saving time.
-          example: 37.42
-        dst_exists:
-          type: boolean
-          description: Indicates whether the region observes daylight saving time.
-          example: false
-        dst_tz_abbreviation:
-          type: string
-          description: Abbreviation used during daylight saving time.
-          example: PDT
-        dst_tz_full_name:
-          type: string
-          description: Full name used during daylight saving time.
-          example: Pacific Daylight Time
-        dst_start:
-          $ref: '#/components/schemas/DSTTransition'
-        dst_end:
-          $ref: '#/components/schemas/DSTTransition'
-    TimezoneLookupResponse:
-      type: object
-      xml:
-        name: LinkedHashMap
-      description: "Response returned by the Timezone Lookup API.\n\nContains timezone information for the requested identifier such as a\ntimezone name, IP address, geographic coordinates, location address,\nairport code (IATA/ICAO), or UN/LOCODE.\n\nDepending on the lookup method used, additional contextual objects may\nbe returned:\n\n- `ip` appears when the lookup is performed using an IP address or when\n  no parameters are provided (caller IP lookup).\n- `location` appears when the lookup is performed using an IP address\n  or location address.\n- `airport_details` appears when the lookup is performed using\n  `iata_code` or `icao_code`.\n- `lo_code_details` appears when the lookup is performed using\n  `lo_code`.\n\nThe `time_zone` object is always present in the response.\n"
-      properties:
-        ip:
-          type: string
-          description: 'The IP address used to determine the timezone. This field appears
-
-            only when the lookup is performed using an IP address or when the
-
-            API resolves the caller''s IP automatically.
-
-            '
-          example: 8.8.8.8
-        location:
-          $ref: '#/components/schemas/Location'
-        airport_details:
-          $ref: '#/components/schemas/AirportDetails'
-        lo_code_details:
-          $ref: '#/components/schemas/LocodeDetails'
-        time_zone:
-          $ref: '#/components/schemas/Timezone'
-    ErrorResponse:
-      type: object
-      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
-
-        Message text can vary by status and condition; examples in this spec are
-
-        representative, not exhaustive, and should not be treated as stable machine
-
-        codes.
-
-        '
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
-          example: Provided name, service or IP address '999.999.999.999' is not valid.
-    TimeConversionResponse:
-      type: object
-      xml:
-        name: LinkedHashMap
-      description: 'Response returned by the Timezone Conversion API.
-
-
-        Contains the original timestamp, the converted timestamp in the
-
-        destination timezone, and the time difference between the two
-
-        locations or timezones.
-
-
-        The conversion can be performed using timezone names, geographic
-
-        coordinates, location addresses, airport codes (IATA/ICAO),
-
-        or UN/LOCODE identifiers.
-
-        '
-      properties:
-        original_time:
-          type: string
-          description: 'The original timestamp before conversion. If the `time`
-
-            parameter is omitted, this value represents the current
-
-            time at the source location.
-
-            '
-          example: 2024-12-08 11:00
-        converted_time:
-          type: string
-          description: 'The converted timestamp in the destination timezone.
-
-            '
-          example: '2024-12-08 18:30:00'
-        diff_hour:
-          type: number
-          format: float
-          description: 'Time difference between the source and destination
-
-            timezones expressed in hours.
-
-            '
-          example: 7.5
-        diff_min:
-          type: number
-          description: 'Time difference between the source and destination
-
-            timezones expressed in minutes.
-
-            '
-          example: 450
+          description: FAA location identifier used primarily in the United States.
+          example: ''
     Location:
       type: object
       description: 'Geolocation information associated with the requested IP address
@@ -1289,67 +1276,30 @@ components:
           type: string
           description: Longitude coordinate of the location.
           example: '13.38333'
-    AirportDetails:
+    TimezoneLookupResponse:
       type: object
-      description: 'Airport information returned when the timezone lookup is performed
-
-        using `iata_code` or `icao_code`.
-
-
-        Contains metadata about the airport including its geographic
-
-        coordinates, country, and airport identifiers.
-
-        '
+      xml:
+        name: LinkedHashMap
+      description: "Response returned by the Timezone Lookup API.\n\nContains timezone information for the requested identifier such as a\ntimezone name, IP address, geographic coordinates, location address,\nairport code (IATA/ICAO), or UN/LOCODE.\n\nDepending on the lookup method used, additional contextual objects may\nbe returned:\n\n- `ip` appears when the lookup is performed using an IP address or when\n  no parameters are provided (caller IP lookup).\n- `location` appears when the lookup is performed using an IP address\n  or location address.\n- `airport_details` appears when the lookup is performed using\n  `iata_code` or `icao_code`.\n- `lo_code_details` appears when the lookup is performed using\n  `lo_code`.\n\nThe `time_zone` object is always present in the response.\n"
       properties:
-        type:
+        ip:
           type: string
-          description: Classification of the airport based on size and traffic.
-          example: large_airport
-        name:
-          type: string
-          description: Official name of the airport.
-          example: Hartsfield Jackson Atlanta International Airport
-        latitude:
-          type: string
-          description: Latitude coordinate of the airport.
-          example: '33.63670'
-        longitude:
-          type: string
-          description: Longitude coordinate of the airport.
-          example: '-84.42810'
-        elevation_ft:
-          type: number
-          description: Airport elevation above sea level measured in feet.
-          example: 1026
-        continent_code:
-          type: string
-          description: Two-letter continent code where the airport is located.
-          example: NA
-        country_code:
-          type: string
-          description: ISO 3166-1 alpha-2 country code.
-          example: US
-        state_code:
-          type: string
-          description: State or province code where the airport is located.
-          example: US-GA
-        city:
-          type: string
-          description: City served by the airport.
-          example: Atlanta
-        iata_code:
-          type: string
-          description: Three-letter IATA airport identifier.
-          example: ATL
-        icao_code:
-          type: string
-          description: Four-letter ICAO airport identifier.
-          example: KATL
-        faa_code:
-          type: string
-          description: FAA location identifier used primarily in the United States.
-          example: ''
+          description: 'The IP address used to determine the timezone. This field appears
+
+            only when the lookup is performed using an IP address or when the
+
+            API resolves the caller''s IP automatically.
+
+            '
+          example: 8.8.8.8
+        location:
+          $ref: '#/components/schemas/Location'
+        airport_details:
+          $ref: '#/components/schemas/AirportDetails'
+        lo_code_details:
+          $ref: '#/components/schemas/LocodeDetails'
+        time_zone:
+          $ref: '#/components/schemas/Timezone'
     DSTTransition:
       type: object
       description: 'Represents a daylight saving time transition event including the
@@ -1382,176 +1332,198 @@ components:
           type: boolean
           description: Indicates whether clock time overlaps during the transition.
           example: false
-  responses:
-    HttpVersionNotSupported:
-      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
-
-        version used in the request.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: HTTP version not supported.
-    NotFound:
-      description: "Not found. Returned for one of the following reasons:\n- If the IPv4, IPv6 address does not exist in our database.\n\n- If the IPv4, IPv6 address passed as a path variable, instead of url parameter as ip=.\n\n- If the location address provided to the `location` parameter is invalid, or if the address provided to either `location_from` or `location_to` is invalid for time conversion. A city-level or state-level address must be provided.\n              \n- If the provided UN/LOCODE, IATA code or ICAO code to the query parameters `lo_code`, `iata_code`, or `icao_code` does not exist in our database.\n\n- If the wrong endpoint is called, that does not exist in our API.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            ipNotInDatabase:
-              summary: IPv4/IPv6 not found in database
-              value:
-                message: Provided IPv4 or IPv6 address does not exist in our database.
-            ipAsPathVariable:
-              summary: IP passed as path variable instead of query parameter
-              value:
-                message: No endpoint GET /v3/ipgeo/8.8.8.8.
-            invalidLocation:
-              summary: Invalid location
-              value:
-                message: We couldn't find the (to) location (Germany, jaakjsdfjhb8wobv). Try a city or state level address only.
-            invalidAirportCode:
-              summary: Invalid airport code
-              value:
-                message: Provided IATA or ICAO code does not exist in our database.
-            wrongEndpoint:
-              summary: Incorrect or non-existent endpoint
-              value:
-                message: No endpoint GET /v3/timezone-invalid.
-    MethodNotAllowed:
-      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used
-
-        to call an endpoint.
+    TimeConversionResponse:
+      type: object
+      xml:
+        name: LinkedHashMap
+      description: 'Response returned by the Timezone Conversion API.
 
 
-        Only the **GET** method is supported for the Timezone API endpoint.
+        Contains the original timestamp, the converted timestamp in the
+
+        destination timezone, and the time difference between the two
+
+        locations or timezones.
 
 
-        Any other HTTP method results in HTTP 405.
+        The conversion can be performed using timezone names, geographic
+
+        coordinates, location addresses, airport codes (IATA/ICAO),
+
+        or UN/LOCODE identifiers.
 
         '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            postNotAllowed:
-              summary: POST method used
-              value:
-                message: Request method 'POST' is not supported
-            unsupportedMethod:
-              summary: Unsupported HTTP method
-              value:
-                message: Request method is not supported
-    Locked:
-      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
+      properties:
+        original_time:
+          type: string
+          description: 'The original timestamp before conversion. If the `time`
 
-        network and cannot be looked up.
+            parameter is omitted, this value represents the current
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: '''10.0.0.1'' is a bogon IP address.'
-    ServiceUnavailable:
-      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+            time at the source location.
 
-        or overload. Please try again later.
+            '
+          example: 2024-12-08 11:00
+        converted_time:
+          type: string
+          description: 'The converted timestamp in the destination timezone.
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Service temporarily unavailable. Please try again later.
-    BadGateway:
-      description: 'Bad Gateway. The API server received an invalid response from an upstream
+            '
+          example: '2024-12-08 18:30:00'
+        diff_hour:
+          type: number
+          format: float
+          description: 'Time difference between the source and destination
 
-        server while processing the request. This is usually temporary.
+            timezones expressed in hours.
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Upstream service error. Please try again later.
-    ClientClosedRequest:
-      description: 'The client closed the connection before the server finished processing the
+            '
+          example: 7.5
+        diff_min:
+          type: number
+          description: 'Time difference between the source and destination
 
-        request. This usually happens when the client sets a very short request or
+            timezones expressed in minutes.
 
-        connection timeout. Increase the timeout on the client side.
+            '
+          example: 450
+    ErrorResponse:
+      type: object
+      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
+
+        Message text can vary by status and condition; examples in this spec are
+
+        representative, not exhaustive, and should not be treated as stable machine
+
+        codes.
 
         '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Client closed the request before the server could respond.
-    GatewayTimeout:
-      description: 'Gateway Timeout. The API server did not receive a timely response from
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
+          example: Provided name, service or IP address '999.999.999.999' is not valid.
+    Timezone:
+      type: object
+      description: 'Detailed timezone information for the requested location or identifier.
 
-        an upstream server.
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: The server timed out while processing the request.
-    TooManyRequests:
-      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            usageLimitReached:
-              summary: API usage limit reached
-              value:
-                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-            surchargeLimitReached:
-              summary: Surcharge usage limit reached
-              value:
-                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-    InternalServerError:
-      description: 'Internal Server Error. The server encountered an unexpected condition
+        Contains timezone metadata such as UTC offset, daylight saving time (DST)
 
-        that prevented it from fulfilling the request. If the issue persists,
-
-        contact support@ipgeolocation.io.
+        status, formatted timestamps, and DST transition information.
 
         '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Something went wrong on the server side.
+      properties:
+        name:
+          type: string
+          description: IANA timezone identifier for the location.
+          example: America/Los_Angeles
+        offset:
+          format: float
+          description: Standard timezone offset from UTC in hours.
+          example: -8
+        offset_with_dst:
+          format: float
+          description: Timezone offset from UTC including daylight saving time.
+          example: -7
+        date:
+          type: string
+          description: Current date in `YYYY-MM-DD` format.
+          example: '2025-04-24'
+        date_time:
+          type: string
+          description: Current date and time in `YYYY-MM-DD HH:mm:ss` format.
+          example: '2025-04-24 11:30:12'
+        date_time_txt:
+          type: string
+          description: Human-readable date and time string.
+          example: Thursday, April 24, 2025 11:30:12
+        date_time_wti:
+          type: string
+          description: Date and time with timezone information.
+          example: Thu, 24 Apr 2025 11:30:12 -0700
+        date_time_ymd:
+          type: string
+          description: ISO-8601 formatted date and time with timezone offset.
+          example: 2025-04-24T11:30:12-0700
+        current_time_unix:
+          type: number
+          format: float
+          description: Unix timestamp representing the current date and time.
+          example: 1745519412.353
+        time_24:
+          type: string
+          description: Current local time in 24-hour format.
+          example: '11:30:12'
+        time_12:
+          type: string
+          description: Current local time in 12-hour format.
+          example: 11:30:12 AM
+        week:
+          type: number
+          description: Week number of the current year.
+          example: 17
+        month:
+          type: number
+          description: Current month number.
+          example: 4
+        year:
+          type: number
+          description: Four-digit year.
+          example: 2025
+        year_abbr:
+          type: string
+          description: Two-digit abbreviated year.
+          example: '25'
+        current_tz_abbreviation:
+          type: string
+          description: Abbreviation of the timezone currently in effect.
+          example: AEST
+        current_tz_full_name:
+          type: string
+          description: Full name of the timezone currently in effect.
+          example: Australian Eastern Standard Time
+        standard_tz_abbreviation:
+          type: string
+          description: Standard (non-DST) timezone abbreviation.
+          example: AEST
+        standard_tz_full_name:
+          type: string
+          description: Full name of the standard timezone.
+          example: Australian Eastern Standard Time
+        is_dst:
+          type: boolean
+          description: Indicates whether daylight saving time is currently active.
+          example: false
+        dst_savings:
+          type: number
+          format: float
+          description: Number of hours added during daylight saving time.
+          example: 37.42
+        dst_exists:
+          type: boolean
+          description: Indicates whether the region observes daylight saving time.
+          example: false
+        dst_tz_abbreviation:
+          type: string
+          description: Abbreviation used during daylight saving time.
+          example: PDT
+        dst_tz_full_name:
+          type: string
+          description: Full name used during daylight saving time.
+          example: Pacific Daylight Time
+        dst_start:
+          $ref: '#/components/schemas/DSTTransition'
+        dst_end:
+          $ref: '#/components/schemas/DSTTransition'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: query
       name: apiKey
-      description: 'API key passed as the `apiKey` query parameter. Get yours from the
-
-        [IPGeolocation dashboard](https://app.ipgeolocation.io/). For client-side
-
-        usage, consider using Request Origin (CORS) authentication instead to
-
-        avoid exposing your key.
-
-        '
+      description: "API key passed as the `apiKey` query parameter. Get yours from the\n[IPGeolocation dashboard](https://app.ipgeolocation.io/). For client-side\nusage, consider using Request Origin (CORS) authentication instead to\navoid exposing your key.    \n"
 externalDocs:
-  description: IPGeolocation Abuse Contact API documentation
-  url: https://ipgeolocation.io/documentation/ip-abuse-contact-api.html
+  description: IPGeolocation Date, Time & Timezone API documentation
+  url: https://ipgeolocation.io/documentation/timezone-api.html
