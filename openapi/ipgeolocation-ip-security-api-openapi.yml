@@ -326,22 +326,10 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    HttpVersionNotSupported:
-      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+    ServiceUnavailable:
+      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
 
-        version used in the request.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: HTTP version not supported.
-    BadGateway:
-      description: 'Bad Gateway. The API server received an invalid response from an upstream
-
-        server while processing the request. This is usually temporary.
+        or overload. Please try again later.
 
         '
       content:
@@ -349,30 +337,13 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: Upstream service error. Please try again later.
-    PayloadTooLarge:
-      description: 'Payload too large. Returned by the edge proxy (nginx) when raw POST body size
+            message: Service temporarily unavailable. Please try again later.
+    InternalServerError:
+      description: 'Internal Server Error. The server encountered an unexpected condition
 
-        exceeds configured limits before the request reaches the application.
+        that prevented it from fulfilling the request. If the issue persists,
 
-
-        This status is based on payload byte size, not on the number of IP entries. It
-
-        can occur even when `ips` contains only one very large value.
-
-
-        If both conditions apply (oversized body and `ips` count > 50,000), HTTP 413 may
-
-        be returned first because edge validation runs before application-level checks.
-
-        '
-      content:
-        text/html:
-          schema:
-            type: string
-          example: "<html>\n  <head>\n    <title>413 Request Entity Too Large</title>\n  </head>\n  <body>\n    <center><h1>413 Request Entity Too Large</h1></center>\n    <hr><center>nginx/1.24.0 (Ubuntu)</center>\n  </body>\n</html>\n"
-    UnsupportedMediaType:
-      description: 'Unsupported media type. The `Content-Type` header is not set to `application/json`.
+        contact support@ipgeolocation.io.
 
         '
       content:
@@ -380,7 +351,7 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: Content-Type 'application/x-www-form-urlencoded' is not supported
+            message: Something went wrong on the server side.
     GatewayTimeout:
       description: 'Gateway Timeout. The API server did not receive a timely response from
 
@@ -393,12 +364,10 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
           example:
             message: The server timed out while processing the request.
-    ClientClosedRequest:
-      description: 'The client closed the connection before the server finished processing the
+    BadGateway:
+      description: 'Bad Gateway. The API server received an invalid response from an upstream
 
-        request. This usually happens when the client sets a very short request or
-
-        connection timeout. Increase the timeout on the client side.
+        server while processing the request. This is usually temporary.
 
         '
       content:
@@ -406,7 +375,26 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: Client closed the request before the server could respond.
+            message: Upstream service error. Please try again later.
+    NotFound:
+      description: "Not found. Returned for one of the following reasons:\n\n- A syntactically valid IPv4 or IPv6 address does not exist in the IPGeolocation database.\n- An IPv4 address, IPv6 address, or domain name is passed as a path variable\n  instead of as a URL query parameter (e.g., using `/v3/ipgeo/8.8.8.8`\n  instead of `/v3/ipgeo?ip=8.8.8.8`).\n- A non-existent or incorrect API endpoint is called.\n\nInvalid or malformed IPv4, IPv6, or domain input returns HTTP 400 instead.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            ipNotInDatabase:
+              summary: IPv4/IPv6 not found in database
+              value:
+                message: Provided IPv4 or IPv6 address does not exist in our database.
+            ipAsPathVariable:
+              summary: IP passed as path variable instead of query parameter
+              value:
+                message: No endpoint GET /v3/ipgeo/8.8.8.8.
+            wrongEndpoint:
+              summary: Incorrect or non-existent endpoint
+              value:
+                message: No endpoint GET /v3/security-invalid.
     MethodNotAllowed:
       description: 'Method Not Allowed. Returned when an unsupported HTTP method is used
 
@@ -443,29 +431,12 @@ components:
               summary: Unsupported HTTP method
               value:
                 message: Request method is not supported
-    NotFound:
-      description: "Not found. Returned for one of the following reasons:\n\n- A syntactically valid IPv4 or IPv6 address does not exist in the IPGeolocation database.\n- An IPv4 address, IPv6 address, or domain name is passed as a path variable\n  instead of as a URL query parameter (e.g., using `/v3/ipgeo/8.8.8.8`\n  instead of `/v3/ipgeo?ip=8.8.8.8`).\n- A non-existent or incorrect API endpoint is called.\n\nInvalid or malformed IPv4, IPv6, or domain input returns HTTP 400 instead.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            ipNotInDatabase:
-              summary: IPv4/IPv6 not found in database
-              value:
-                message: Provided IPv4 or IPv6 address does not exist in our database.
-            ipAsPathVariable:
-              summary: IP passed as path variable instead of query parameter
-              value:
-                message: No endpoint GET /v3/ipgeo/8.8.8.8.
-            wrongEndpoint:
-              summary: Incorrect or non-existent endpoint
-              value:
-                message: No endpoint GET /v3/security-invalid.
-    ServiceUnavailable:
-      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+    ClientClosedRequest:
+      description: 'The client closed the connection before the server finished processing the
 
-        or overload. Please try again later.
+        request. This usually happens when the client sets a very short request or
+
+        connection timeout. Increase the timeout on the client side.
 
         '
       content:
@@ -473,79 +444,28 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: Service temporarily unavailable. Please try again later.
-    Locked:
-      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
+            message: Client closed the request before the server could respond.
+    PayloadTooLarge:
+      description: 'Payload too large. Returned by the edge proxy (nginx) when raw POST body size
 
-        network and cannot be looked up.
+        exceeds configured limits before the request reaches the application.
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: '''10.0.0.1'' is a bogon IP address.'
-    BadRequest:
-      description: "Bad request. Returned for one of the following reasons:\n\n- The provided IPv4 or IPv6 address is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n- For the `security-bulk` endpoint:\n  - The request payload is empty or missing.\n  - The JSON body is malformed.\n  - The `ips` field is missing or the `ips` array is empty.\n  - More than 50,000 IP addresses are provided in the request.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            invalidIp:
-              summary: Invalid IPv4/IPv6 input
-              value:
-                message: Provided name, service or IP address '999.999.999.999' is not valid.
-            specialCharacters:
-              summary: Special characters in API URL or key
-              value:
-                message: Invalid character found in the request target.
-            malformedJson:
-              summary: Malformed JSON body for bulk endpoint
-              value:
-                message: Malformed JSON request or invalid field
-            missingIps:
-              summary: Bulk body missing ips field
-              value:
-                message: IP addresses for bulk lookup are missing
-            emptyBulkIps:
-              summary: Bulk ips array is empty
-              value:
-                message: '''ips'' must not be empty or null'
-            tooManyBulkEntries:
-              summary: Bulk body exceeds 50,000 entries
-              value:
-                message: No. of lookup queries cannot be more than 50000
-    InternalServerError:
-      description: 'Internal Server Error. The server encountered an unexpected condition
 
-        that prevented it from fulfilling the request. If the issue persists,
+        This status is based on payload byte size, not on the number of IP entries. It
 
-        contact support@ipgeolocation.io.
+        can occur even when `ips` contains only one very large value.
+
+
+        If both conditions apply (oversized body and `ips` count > 50,000), HTTP 413 may
+
+        be returned first because edge validation runs before application-level checks.
 
         '
       content:
-        application/json:
+        text/html:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Something went wrong on the server side.
-    TooManyRequests:
-      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            usageLimitReached:
-              summary: API usage limit reached
-              value:
-                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-            surchargeLimitReached:
-              summary: Surcharge usage limit reached
-              value:
-                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            type: string
+          example: "<html>\n  <head>\n    <title>413 Request Entity Too Large</title>\n  </head>\n  <body>\n    <center><h1>413 Request Entity Too Large</h1></center>\n    <hr><center>nginx/1.24.0 (Ubuntu)</center>\n  </body>\n</html>\n"
     Unauthorized:
       description: "Unauthorized. Returned for one of the following reasons:\n\n- The `apiKey` URL parameter is missing.\n- An invalid (random or incorrect) API key is provided.\n- The account has been disabled or locked due to abuse or illegal activity.\n- The API request is made using an API key for a database subscription.\n- The API request is made using a free subscription API key.\n- The subscription is in a 'paused' state.\n- The subscription trial has expired.\n- The account’s active-until date has passed and renewal or upgrade is required.\n- A domain name is passed in the `ip` parameter when calling the IP Security API.\n- The bulk IP security lookup endpoint is called using a free subscription API key.\n- The bulk IP security lookup endpoint is called using Request Origin (CORS)\n  authentication. Bulk requests require an `apiKey` and cannot be authenticated\n  using Request Origin alone.\n"
       content:
@@ -589,6 +509,86 @@ components:
               summary: Bulk endpoint called using Request Origin authentication
               value:
                 message: Bulk queries are not allowed with request origins. Please use an API key to perform bulk queries.
+    Locked:
+      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
+
+        network and cannot be looked up.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: '''10.0.0.1'' is a bogon IP address.'
+    BadRequest:
+      description: "Bad request. Returned for one of the following reasons:\n\n- The provided IPv4 or IPv6 address is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n- For the `security-bulk` endpoint:\n  - The request payload is empty or missing.\n  - The JSON body is malformed.\n  - The `ips` field is missing or the `ips` array is empty.\n  - More than 50,000 IP addresses are provided in the request.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidIp:
+              summary: Invalid IPv4/IPv6 input
+              value:
+                message: Provided name, service or IP address '999.999.999.999' is not valid.
+            specialCharacters:
+              summary: Special characters in API URL or key
+              value:
+                message: Invalid character found in the request target.
+            malformedJson:
+              summary: Malformed JSON body for bulk endpoint
+              value:
+                message: Malformed JSON request or invalid field
+            missingIps:
+              summary: Bulk body missing ips field
+              value:
+                message: IP addresses for bulk lookup are missing
+            emptyBulkIps:
+              summary: Bulk ips array is empty
+              value:
+                message: '''ips'' must not be empty or null'
+            tooManyBulkEntries:
+              summary: Bulk body exceeds 50,000 entries
+              value:
+                message: No. of lookup queries cannot be more than 50000
+    HttpVersionNotSupported:
+      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+
+        version used in the request.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: HTTP version not supported.
+    UnsupportedMediaType:
+      description: 'Unsupported media type. The `Content-Type` header is not set to `application/json`.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Content-Type 'application/x-www-form-urlencoded' is not supported
+    TooManyRequests:
+      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            usageLimitReached:
+              summary: API usage limit reached
+              value:
+                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            surchargeLimitReached:
+              summary: Surcharge usage limit reached
+              value:
+                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
   schemas:
     BulkSecurityResponseItem:
       description: 'A single element in the bulk lookup response array. Each element is either a
@@ -599,6 +599,45 @@ components:
       oneOf:
       - $ref: '#/components/schemas/BulkSecuritySuccessItem'
       - $ref: '#/components/schemas/BulkSecurityErrorItem'
+    BulkSecurityRequest:
+      type: object
+      description: 'Request body for the bulk security lookup. Contains a single `ips` field
+
+        with an array of IP addresses to look up.
+
+        '
+      required:
+      - ips
+      properties:
+        ips:
+          type: array
+          description: 'Array of IPv4 addresses or IPv6 addresses to look up.
+
+            Must not be empty. Maximum 50,000 entries per request. Each entry is
+
+            resolved independently, so you can mix IPv4 and IPv6 freely.
+
+            '
+          minItems: 1
+          maxItems: 50000
+          items:
+            type: string
+          examples:
+          - 8.8.8.8
+          - 91.128.103.196
+          - 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
+    BulkSecuritySuccessItem:
+      type: object
+      required:
+      - ip
+      - security
+      properties:
+        ip:
+          type: string
+          description: IP address for this lookup result.
+          example: 2.56.188.34
+        security:
+          $ref: '#/components/schemas/Security'
     IpSecurityResponse:
       type: object
       xml:
@@ -612,6 +651,42 @@ components:
           example: 2.56.188.34
         security:
           $ref: '#/components/schemas/Security'
+    BulkSecurityErrorItem:
+      type: object
+      description: 'Error object returned for an invalid entry in the bulk lookup request. Contains only
+
+        a `message` field. Note: unlike success entries, error entries do NOT include the
+
+        original `ip` field, so the only way to correlate errors to inputs is by array
+
+        index. The response array preserves the same order as the request `ips` array.
+
+        '
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Human-readable error for the specific bulk entry.
+          example: Provided name, service or IP address 'invalid-ip' is not valid.
+    ErrorResponse:
+      type: object
+      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
+
+        Message text can vary by status and condition; examples in this spec are
+
+        representative, not exhaustive, and should not be treated as stable machine
+
+        codes.
+
+        '
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
+          example: Provided name, service or IP address '999.999.999.999' is not valid.
     Security:
       type: object
       description: 'Threat intelligence and anonymization signals for the IP. Costs 2 credits.
@@ -730,82 +805,31 @@ components:
           type: string
           description: Name of the cloud provider, if applicable. Empty string otherwise.
           example: Packethub S.A.
-    BulkSecurityRequest:
-      type: object
-      description: 'Request body for the bulk security lookup. Contains a single `ips` field
-
-        with an array of IP addresses to look up.
-
-        '
-      required:
-      - ips
-      properties:
-        ips:
-          type: array
-          description: 'Array of IPv4 addresses or IPv6 addresses to look up.
-
-            Must not be empty. Maximum 50,000 entries per request. Each entry is
-
-            resolved independently, so you can mix IPv4 and IPv6 freely.
-
-            '
-          minItems: 1
-          maxItems: 50000
-          items:
-            type: string
-          examples:
-          - 8.8.8.8
-          - 91.128.103.196
-          - 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
-    BulkSecuritySuccessItem:
-      type: object
-      required:
-      - ip
-      - security
-      properties:
-        ip:
-          type: string
-          description: IP address for this lookup result.
-          example: 2.56.188.34
-        security:
-          $ref: '#/components/schemas/Security'
-    BulkSecurityErrorItem:
-      type: object
-      description: 'Error object returned for an invalid entry in the bulk lookup request. Contains only
-
-        a `message` field. Note: unlike success entries, error entries do NOT include the
-
-        original `ip` field, so the only way to correlate errors to inputs is by array
-
-        index. The response array preserves the same order as the request `ips` array.
-
-        '
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: Human-readable error for the specific bulk entry.
-          example: Provided name, service or IP address 'invalid-ip' is not valid.
-    ErrorResponse:
-      type: object
-      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
-
-        Message text can vary by status and condition; examples in this spec are
-
-        representative, not exhaustive, and should not be treated as stable machine
-
-        codes.
-
-        '
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
-          example: Provided name, service or IP address '999.999.999.999' is not valid.
   parameters:
+    Output:
+      name: output
+      in: query
+      required: false
+      description: 'Desired response format. Defaults to `json` if not specified. You can also
+
+        control the format using the `Accept` header (`application/json`,
+
+        `application/xml`, or `text/xml`). If both are provided, the `output` parameter
+
+        takes precedence.
+
+
+        If `output` is unknown or unsupported, it is ignored and the response defaults
+
+        to JSON (`application/json`) with HTTP 200.
+
+        '
+      schema:
+        type: string
+        enum:
+        - json
+        - xml
+        default: json
     Fields:
       name: fields
       in: query
@@ -880,30 +904,6 @@ components:
         excludeFields:
           summary: Exclude proxy provider names and residential proxy flag
           value: security.proxy_provider_names,security.is_residential_proxy
-    Output:
-      name: output
-      in: query
-      required: false
-      description: 'Desired response format. Defaults to `json` if not specified. You can also
-
-        control the format using the `Accept` header (`application/json`,
-
-        `application/xml`, or `text/xml`). If both are provided, the `output` parameter
-
-        takes precedence.
-
-
-        If `output` is unknown or unsupported, it is ignored and the response defaults
-
-        to JSON (`application/json`) with HTTP 200.
-
-        '
-      schema:
-        type: string
-        enum:
-        - json
-        - xml
-        default: json
     Ip:
       name: ip
       in: query

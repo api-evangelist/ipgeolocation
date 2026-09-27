@@ -573,22 +573,10 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    HttpVersionNotSupported:
-      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+    ServiceUnavailable:
+      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
 
-        version used in the request.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: HTTP version not supported.
-    BadGateway:
-      description: 'Bad Gateway. The API server received an invalid response from an upstream
-
-        server while processing the request. This is usually temporary.
+        or overload. Please try again later.
 
         '
       content:
@@ -596,30 +584,13 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: Upstream service error. Please try again later.
-    PayloadTooLarge:
-      description: 'Payload too large. Returned by the edge proxy (nginx) when raw POST body size
+            message: Service temporarily unavailable. Please try again later.
+    InternalServerError:
+      description: 'Internal Server Error. The server encountered an unexpected condition
 
-        exceeds configured limits before the request reaches the application.
+        that prevented it from fulfilling the request. If the issue persists,
 
-
-        This status is based on payload byte size, not on the number of IP entries. It
-
-        can occur even when `ips` contains only one very large value.
-
-
-        If both conditions apply (oversized body and `ips` count > 50,000), HTTP 413 may
-
-        be returned first because edge validation runs before application-level checks.
-
-        '
-      content:
-        text/html:
-          schema:
-            type: string
-          example: "<html>\n  <head>\n    <title>413 Request Entity Too Large</title>\n  </head>\n  <body>\n    <center><h1>413 Request Entity Too Large</h1></center>\n    <hr><center>nginx/1.24.0 (Ubuntu)</center>\n  </body>\n</html>\n"
-    UnsupportedMediaType:
-      description: 'Unsupported media type. The `Content-Type` header is not set to `application/json`.
+        contact support@ipgeolocation.io.
 
         '
       content:
@@ -627,7 +598,7 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: Content-Type 'application/x-www-form-urlencoded' is not supported
+            message: Something went wrong on the server side.
     GatewayTimeout:
       description: 'Gateway Timeout. The API server did not receive a timely response from
 
@@ -640,12 +611,10 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
           example:
             message: The server timed out while processing the request.
-    ClientClosedRequest:
-      description: 'The client closed the connection before the server finished processing the
+    BadGateway:
+      description: 'Bad Gateway. The API server received an invalid response from an upstream
 
-        request. This usually happens when the client sets a very short request or
-
-        connection timeout. Increase the timeout on the client side.
+        server while processing the request. This is usually temporary.
 
         '
       content:
@@ -653,7 +622,26 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: Client closed the request before the server could respond.
+            message: Upstream service error. Please try again later.
+    NotFound:
+      description: "Not found. Returned for one of the following reasons:\n\n- A syntactically valid IPv4 or IPv6 address does not exist in the IPGeolocation database.\n- An IPv4 address, IPv6 address, or domain name is passed as a path variable\n  instead of as a URL query parameter (e.g., using `/v3/ipgeo/8.8.8.8`\n  instead of `/v3/ipgeo?ip=8.8.8.8`).\n- A non-existent or incorrect API endpoint is called.\n\nInvalid or malformed IPv4, IPv6, or domain input returns HTTP 400 instead.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            ipNotInDatabase:
+              summary: IPv4/IPv6 not found in database
+              value:
+                message: Provided IPv4 or IPv6 address does not exist in our database.
+            ipAsPathVariable:
+              summary: IP passed as path variable instead of query parameter
+              value:
+                message: No endpoint GET /v3/ipgeo/8.8.8.8.
+            wrongEndpoint:
+              summary: Incorrect or non-existent endpoint
+              value:
+                message: No endpoint GET /v3/ipgeo-invalid.
     MethodNotAllowed:
       description: 'Method Not Allowed. Returned when an unsupported HTTP method is used
 
@@ -690,29 +678,12 @@ components:
               summary: Unsupported HTTP method
               value:
                 message: Request method is not supported
-    NotFound:
-      description: "Not found. Returned for one of the following reasons:\n\n- A syntactically valid IPv4 or IPv6 address does not exist in the IPGeolocation database.\n- An IPv4 address, IPv6 address, or domain name is passed as a path variable\n  instead of as a URL query parameter (e.g., using `/v3/ipgeo/8.8.8.8`\n  instead of `/v3/ipgeo?ip=8.8.8.8`).\n- A non-existent or incorrect API endpoint is called.\n\nInvalid or malformed IPv4, IPv6, or domain input returns HTTP 400 instead.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            ipNotInDatabase:
-              summary: IPv4/IPv6 not found in database
-              value:
-                message: Provided IPv4 or IPv6 address does not exist in our database.
-            ipAsPathVariable:
-              summary: IP passed as path variable instead of query parameter
-              value:
-                message: No endpoint GET /v3/ipgeo/8.8.8.8.
-            wrongEndpoint:
-              summary: Incorrect or non-existent endpoint
-              value:
-                message: No endpoint GET /v3/ipgeo-invalid.
-    ServiceUnavailable:
-      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+    ClientClosedRequest:
+      description: 'The client closed the connection before the server finished processing the
 
-        or overload. Please try again later.
+        request. This usually happens when the client sets a very short request or
+
+        connection timeout. Increase the timeout on the client side.
 
         '
       content:
@@ -720,83 +691,28 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: Service temporarily unavailable. Please try again later.
-    Locked:
-      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
+            message: Client closed the request before the server could respond.
+    PayloadTooLarge:
+      description: 'Payload too large. Returned by the edge proxy (nginx) when raw POST body size
 
-        network and cannot be looked up.
+        exceeds configured limits before the request reaches the application.
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: '''10.0.0.1'' is a bogon IP address.'
-    BadRequest:
-      description: "Bad request. Returned for one of the following reasons:\n\n- The provided IPv4 address, IPv6 address, or domain name is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n- For the `ipgeo-bulk` endpoint:\n  - The request payload is empty or missing.\n  - The JSON body is malformed.\n  - The `ips` field is missing or the `ips` array is empty.\n  - More than 50,000 IP addresses are provided in the request.\n- An invalid or unsupported `lang` parameter is provided.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            invalidIp:
-              summary: Invalid IPv4/IPv6/domain input
-              value:
-                message: Provided name, service or IP address '999.999.999.999' is not valid.
-            specialCharacters:
-              summary: Special characters in API URL or key
-              value:
-                message: Invalid character found in the request target.
-            malformedJson:
-              summary: Malformed JSON body for bulk endpoint
-              value:
-                message: Malformed JSON request or invalid field
-            missingIps:
-              summary: Bulk body missing ips field
-              value:
-                message: IP addresses for bulk lookup are missing
-            emptyBulkIps:
-              summary: Bulk ips array is empty
-              value:
-                message: '''ips'' must not be empty or null'
-            tooManyBulkEntries:
-              summary: Bulk body exceeds 50,000 entries
-              value:
-                message: No. of lookup queries cannot be more than 50000
-            invalidLang:
-              summary: Unsupported lang parameter value
-              value:
-                message: This 'zz' lang is not valid. Please use 'en' as the default language
-    InternalServerError:
-      description: 'Internal Server Error. The server encountered an unexpected condition
 
-        that prevented it from fulfilling the request. If the issue persists,
+        This status is based on payload byte size, not on the number of IP entries. It
 
-        contact support@ipgeolocation.io.
+        can occur even when `ips` contains only one very large value.
+
+
+        If both conditions apply (oversized body and `ips` count > 50,000), HTTP 413 may
+
+        be returned first because edge validation runs before application-level checks.
 
         '
       content:
-        application/json:
+        text/html:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Something went wrong on the server side.
-    TooManyRequests:
-      description: "Too Many Requests. Returned for one of the following reasons:\n\n- The API usage limit has been reached for a Free subscription.\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            usageLimitReached:
-              summary: API usage limit reached
-              value:
-                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-            surchargeLimitReached:
-              summary: Surcharge usage limit reached
-              value:
-                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            type: string
+          example: "<html>\n  <head>\n    <title>413 Request Entity Too Large</title>\n  </head>\n  <body>\n    <center><h1>413 Request Entity Too Large</h1></center>\n    <hr><center>nginx/1.24.0 (Ubuntu)</center>\n  </body>\n</html>\n"
     Unauthorized:
       description: "Unauthorized. Returned for one of the following reasons:\n\n- The `apiKey` URL parameter is missing.\n- An invalid (random or incorrect) API key is provided.\n- The account has been disabled or locked due to abuse or illegal activity.\n- The API request is made using an API key for a database subscription.\n- The subscription is in a 'paused' state.\n- The subscription trial has expired.\n- The account’s active-until date has passed and renewal or upgrade is required.\n- Any of the following `include` values are used with a Free/Developer plan API key:\n  `hostname`, `liveHostname`, `hostnameFallbackLive`, `security`,\n  `abuse`, `geo_accuracy`, `dma_code`, or `user_agent`.\n- The bulk IP geolocation endpoint is called using a Free subscription API key.\n- The bulk IP geolocation endpoint is called using Request Origin (CORS)\n  authentication. Bulk requests require an `apiKey` and cannot be authenticated\n  using Request Origin alone.\n- A domain name lookup is performed using a Free subscription API key.\n- A language other than English is specified in the `lang` parameter\n  while using a Free/Developer plan API key.\n"
       content:
@@ -848,7 +764,623 @@ components:
               summary: Free plan used with non-English lang value
               value:
                 message: This 'de' lang is not supported for your current subscription. Please use 'en' as the default language or upgrade your subscription to use this feature.
+    Locked:
+      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
+
+        network and cannot be looked up.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: '''10.0.0.1'' is a bogon IP address.'
+    BadRequest:
+      description: "Bad request. Returned for one of the following reasons:\n\n- The provided IPv4 address, IPv6 address, or domain name is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n- For the `ipgeo-bulk` endpoint:\n  - The request payload is empty or missing.\n  - The JSON body is malformed.\n  - The `ips` field is missing or the `ips` array is empty.\n  - More than 50,000 IP addresses are provided in the request.\n- An invalid or unsupported `lang` parameter is provided.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidIp:
+              summary: Invalid IPv4/IPv6/domain input
+              value:
+                message: Provided name, service or IP address '999.999.999.999' is not valid.
+            specialCharacters:
+              summary: Special characters in API URL or key
+              value:
+                message: Invalid character found in the request target.
+            malformedJson:
+              summary: Malformed JSON body for bulk endpoint
+              value:
+                message: Malformed JSON request or invalid field
+            missingIps:
+              summary: Bulk body missing ips field
+              value:
+                message: IP addresses for bulk lookup are missing
+            emptyBulkIps:
+              summary: Bulk ips array is empty
+              value:
+                message: '''ips'' must not be empty or null'
+            tooManyBulkEntries:
+              summary: Bulk body exceeds 50,000 entries
+              value:
+                message: No. of lookup queries cannot be more than 50000
+            invalidLang:
+              summary: Unsupported lang parameter value
+              value:
+                message: This 'zz' lang is not valid. Please use 'en' as the default language
+    HttpVersionNotSupported:
+      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+
+        version used in the request.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: HTTP version not supported.
+    UnsupportedMediaType:
+      description: 'Unsupported media type. The `Content-Type` header is not set to `application/json`.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Content-Type 'application/x-www-form-urlencoded' is not supported
+    TooManyRequests:
+      description: "Too Many Requests. Returned for one of the following reasons:\n\n- The API usage limit has been reached for a Free subscription.\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            usageLimitReached:
+              summary: API usage limit reached
+              value:
+                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            surchargeLimitReached:
+              summary: Surcharge usage limit reached
+              value:
+                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+  parameters:
+    Lang:
+      name: lang
+      in: query
+      required: false
+      description: 'Language code for translated location names. Defaults to `en`. Non-English
+
+        responses require a paid plan. Free plans always receive English regardless
+
+        of this parameter. Unsupported `lang` values return HTTP 400.
+
+        '
+      schema:
+        type: string
+        default: en
+        enum:
+        - en
+        - de
+        - ru
+        - ja
+        - fr
+        - cn
+        - es
+        - cs
+        - it
+        - ko
+        - fa
+        - pt
+    Output:
+      name: output
+      in: query
+      required: false
+      description: 'Desired response format. Defaults to `json` if not specified. You can also
+
+        control the format using the `Accept` header (`application/json`,
+
+        `application/xml`, or `text/xml`). If both are provided, the `output` parameter
+
+        takes precedence.
+
+
+        If `output` is unknown or unsupported, it is ignored and the response defaults
+
+        to JSON (`application/json`) with HTTP 200.
+
+        '
+      schema:
+        type: string
+        enum:
+        - json
+        - xml
+        default: json
+    Include:
+      name: include
+      in: query
+      required: false
+      description: 'Comma-separated list of optional data modules to add to the response. These are
+
+        not returned by default. Requires a paid plan.
+
+
+        **Available values:**
+
+
+        | Value | What it adds | Extra credits |
+
+        |---|---|---|
+
+        | `geo_accuracy` | `location.locality`, `location.accuracy_radius`, `location.confidence` | 0 |
+
+        | `dma_code` | `location.dma_code` (US IPs only) | 0 |
+
+        | `user_agent` | `user_agent` object (parses the `User-Agent` header) | 0 |
+
+        | `security` | `security` object with threat signals | +2 |
+
+        | `abuse` | `abuse` object with abuse contact info | +1 |
+
+        | `hostname` | `hostname` field (from local database, fast, experimental) | 0 |
+
+        | `liveHostname` | `hostname` field (live DNS lookup, slower, accurate) | 0 |
+
+        | `hostnameFallbackLive` | `hostname` field (local first, falls back to live) | 0 |
+
+        | `*` | All of the above | +3 |
+
+
+        If multiple hostname options are passed in `include`, hostname resolution uses
+
+        this precedence order: `liveHostname` first, then `hostname`, then
+
+        `hostnameFallbackLive`.
+
+        If none is specified, the `hostname` field is not returned.
+
+
+        For `user_agent`, the API parses the `User-Agent` header from the request. For
+
+        server-side calls, forward your visitor''s User-Agent string in the header so the
+
+        parsed result matches the actual visitor.
+
+
+        For additional query parameters (`include`, `fields`, `excludes`, `output`),
+
+        unknown values are ignored. The API still returns HTTP 200 and applies only
+
+        recognized values.
+
+
+        Free plan behavior for `include=*`: the API returns HTTP 200 and ignores the
+
+        include request, returning only base response fields. In contrast, specific
+
+        include values such as `include=security` return HTTP 401 on free plans.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not include any optional modules
+          value: ''
+        security:
+          summary: Include security threat data
+          value: security
+        multiple:
+          summary: Include security and abuse data
+          value: security,abuse
+        allNonBillable:
+          summary: Include all free modules
+          value: dma_code,geo_accuracy,hostname,user_agent
+        all:
+          summary: Include everything
+          value: '*'
+    Fields:
+      name: fields
+      in: query
+      required: false
+      description: 'Comma-separated list of fields or objects to return. Everything else is omitted.
+
+        The `ip` field is always returned regardless of this filter.
+
+
+        Supports dot-notation for nested fields: `location.city`, `asn.organization`.
+
+        To return an entire object, use the object key: `location`, `security`.
+
+
+        If a field belongs to an optional module (e.g. `security.threat_score`), you
+
+        must also pass the corresponding `include` value.
+
+        If you omit `include`, the request still succeeds, but fields from optional
+
+        modules are not returned.
+
+
+        If the same field or object is specified in both `fields` and `excludes`, the
+
+        object is still returned, but it will be empty.
+
+        If the same field or object is specified in `include`, `fields`, and `excludes`,
+
+        `include` takes priority over both `fields` and `excludes`.
+
+
+        If you list both an object key and one of its nested fields separated by comma
+
+        (e.g. `security,security.threat_score`), the full object is returned.
+
+
+        Unknown field paths are ignored. The API still returns HTTP 200.
+
+
+        Available on all plans including Free.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Return the full response (no field filtering)
+          value: ''
+        locationOnly:
+          summary: Return only the location object
+          value: location
+        nestedFields:
+          summary: Return specific nested fields
+          value: location.country_name,asn.organization
+        securityFields:
+          summary: Return specific security fields (requires include=security)
+          value: location.city,security.threat_score,security.is_vpn
+    Excludes:
+      name: excludes
+      in: query
+      required: false
+      description: 'Comma-separated list of fields or objects to remove from the response. The `ip`
+
+        field cannot be excluded.
+
+
+        Supports dot-notation for nested fields: `location.continent_code`.
+
+        To exclude an entire object, use the object key: `currency`, `time_zone`.
+
+
+        If the same field or object is specified in both `fields` and `excludes`, the
+
+        object is still returned, but it will be empty.
+
+        If the same field or object is specified in `include`, `fields`, and `excludes`,
+
+        `include` takes priority over both `fields` and `excludes`.
+
+
+        Unknown fields or object keys in `excludes` are ignored. The API still returns
+
+        HTTP 200.
+
+
+        Available on all plans including Free.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not exclude any fields
+          value: ''
+        excludeObjects:
+          summary: Exclude entire objects and a nested field
+          value: location.continent_code,currency,company.type
+    Ip:
+      name: ip
+      in: query
+      required: false
+      description: 'An IPv4 address, IPv6 address, or domain name to look up. When omitted, the API
+
+        resolves the public IP of the requesting client. Empty or whitespace-only values
+
+        are treated the same as omission and resolve caller IP. Domain lookups require a
+
+        paid plan. Pass `ip` only once. If multiple `ip` query parameters are sent,
+
+        values may be merged and treated as invalid input (HTTP 400).
+
+        '
+      schema:
+        type: string
+      examples:
+        ipv4:
+          summary: IPv4 address
+          value: 91.128.103.196
+        ipv6:
+          summary: IPv6 address
+          value: 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
+        domain:
+          summary: Domain name (paid plans only)
+          value: ipgeolocation.io
   schemas:
+    UserAgentDevice:
+      type: object
+      description: Device information extracted from the User-Agent string.
+      properties:
+        name:
+          type: string
+          description: Device name or model.
+          example: Linux Desktop
+        type:
+          type: string
+          description: 'Device type. Common values: `Desktop`, `Smartphone`, `Tablet`, `Robot`,
+
+            `Smart TV`.
+
+            '
+          example: Desktop
+        brand:
+          type: string
+          description: Device manufacturer or brand. `Unknown` if not detectable.
+          example: Unknown
+        cpu:
+          type: string
+          description: CPU architecture if detectable (e.g. `Intel x86_64`, `ARM`). `Unknown` otherwise.
+          example: Intel x86_64
+    BulkGeolocationSuccessItem:
+      type: object
+      required:
+      - ip
+      properties:
+        ip:
+          type: string
+          description: 'The resolved IP address for this bulk entry. For direct IPv4/IPv6 input,
+
+            this matches the submitted value (normalized). For domain input, this is
+
+            the resolved A/AAAA IP.
+
+            '
+          example: 8.8.8.8
+        domain:
+          type: string
+          description: 'Present only when the submitted `ips` entry was a domain name.
+
+            Contains the original domain input exactly as submitted.
+
+            '
+          example: ipgeolocation.io
+        hostname:
+          type: string
+          description: 'Reverse-DNS hostname for the IP. Only present when one of the hostname
+
+            `include` options is used.
+
+            '
+          example: dns.google
+        location:
+          $ref: '#/components/schemas/Location'
+        country_metadata:
+          $ref: '#/components/schemas/CountryMetadata'
+        network:
+          $ref: '#/components/schemas/Network'
+        currency:
+          $ref: '#/components/schemas/Currency'
+        asn:
+          $ref: '#/components/schemas/Asn'
+        company:
+          $ref: '#/components/schemas/Company'
+        security:
+          $ref: '#/components/schemas/Security'
+        abuse:
+          $ref: '#/components/schemas/Abuse'
+        time_zone:
+          $ref: '#/components/schemas/TimeZone'
+        user_agent:
+          $ref: '#/components/schemas/UserAgent'
+    UserAgentOperatingSystem:
+      type: object
+      description: Operating system information extracted from the User-Agent string.
+      properties:
+        name:
+          type: string
+          description: OS name (e.g. `Windows`, `macOS`, `Linux`, `Android`, `iOS`, `Cloud`).
+          example: Linux
+        type:
+          type: string
+          description: 'OS type. Common values: `Desktop`, `Mobile`, `Tablet`, `Cloud`.
+
+            '
+          example: Desktop
+        version:
+          type: string
+          description: OS version. `??` when the version cannot be determined.
+          example: ??
+        version_major:
+          type: string
+          description: OS major version. `??` when the version cannot be determined.
+          example: ??
+        build:
+          type: string
+          description: OS build number. `??` when the build cannot be determined.
+          example: ??
+    Company:
+      type: object
+      description: 'Company or organization operating the IP range. Included by default on paid
+
+        plans. Not available on the free plan.
+
+        '
+      properties:
+        name:
+          type: string
+          description: Company or organization name.
+          example: Tele2 Sverige AB
+        type:
+          type: string
+          description: 'Company category. Documented values: `ISP`, `HOSTING`, `BUSINESS`,
+
+            `EDUCATION`, `GOVERNMENT`. All uppercase, consistent with `asn.type`.
+
+            May be an empty string when the company type cannot be determined.
+
+            '
+          example: ISP
+        domain:
+          type: string
+          description: Primary domain of the company.
+          example: tele2.com
+    Network:
+      type: object
+      description: 'Network routing information for the IP. Included by default on paid plans.
+
+        Not available on the free plan.
+
+        '
+      properties:
+        connection_type:
+          type: string
+          description: 'Type of network connection for this IP. Known values: `DSL`, `Cable`,
+
+            `Fiber`, `Mobile`, `Wireless`, `Dial-Up/ISDN`, `Satellite`. Empty string
+
+            when the type cannot be determined.
+
+            '
+          example: ''
+        route:
+          type: string
+          description: BGP route prefix in CIDR notation.
+          example: 91.128.0.0/14
+        is_anycast:
+          type: boolean
+          description: Whether the IP is part of an anycast network.
+          example: false
+    IpGeolocationResponse:
+      type: object
+      xml:
+        name: LinkedHashMap
+      description: 'The top-level response object for a single IP lookup. Where fields and nested
+
+        objects appear depends on your plan (free vs. paid) and the `include`, `fields`,
+
+        and `excludes` parameters. The `ip` field is always present.
+
+        '
+      required:
+      - ip
+      properties:
+        ip:
+          type: string
+          description: 'The looked-up IP address. If a domain was queried, this is the resolved IP.
+
+            If no `ip` parameter was sent, this is the caller''s public IP.
+
+            '
+          example: 91.128.103.196
+        domain:
+          type: string
+          description: 'Present only when the `ip` query parameter contained a domain name. Mirrors
+
+            the domain value from the request.
+
+            '
+          example: ipgeolocation.io
+        hostname:
+          type: string
+          description: 'Reverse-DNS hostname for the IP. Returned only when one of the hostname
+
+            `include` options is used (`hostname`, `liveHostname`, or
+
+            `hostnameFallbackLive`). If no hostname can be resolved, this field contains
+
+            the IP address itself.
+
+            '
+          example: host197.lightwavenetworks.com
+        location:
+          $ref: '#/components/schemas/Location'
+        country_metadata:
+          $ref: '#/components/schemas/CountryMetadata'
+        network:
+          $ref: '#/components/schemas/Network'
+        currency:
+          $ref: '#/components/schemas/Currency'
+        asn:
+          $ref: '#/components/schemas/Asn'
+        company:
+          $ref: '#/components/schemas/Company'
+        security:
+          $ref: '#/components/schemas/Security'
+        abuse:
+          $ref: '#/components/schemas/Abuse'
+        time_zone:
+          $ref: '#/components/schemas/TimeZone'
+        user_agent:
+          $ref: '#/components/schemas/UserAgent'
+    BulkGeolocationResponseItem:
+      description: 'A single element in the bulk lookup response array. Each element is either a
+
+        full geolocation object or an error object containing only `message`.
+
+        '
+      oneOf:
+      - $ref: '#/components/schemas/BulkGeolocationSuccessItem'
+      - $ref: '#/components/schemas/BulkGeolocationErrorItem'
+    DstTransition:
+      type: object
+      description: 'Details about a DST transition (start or end). Only present when `dst_exists`
+
+        is `true`. When `dst_exists` is `false`, `dst_start` and `dst_end` are
+
+        returned as empty objects with no properties.
+
+        '
+      properties:
+        utc_time:
+          type: string
+          description: UTC time of the transition, formatted as `YYYY-MM-DD TIME HH:mm`.
+          example: 2026-03-29 TIME 01:00
+        duration:
+          type: string
+          description: 'Clock shift direction and amount (e.g. `+1.00H` for spring forward,
+
+            `-1.00H` for fall back).
+
+            '
+          example: +1.00H
+        gap:
+          type: boolean
+          description: 'Whether this transition creates a gap in local time (clocks jump forward).
+
+            `true` for DST start, `false` for DST end.
+
+            '
+          example: true
+        date_time_after:
+          type: string
+          description: Local time immediately after the transition.
+          example: 2026-03-29 TIME 03:00
+        date_time_before:
+          type: string
+          description: Local time immediately before the transition.
+          example: 2026-03-29 TIME 02:00
+        overlap:
+          type: boolean
+          description: 'Whether this transition creates an overlap in local time (clocks fall back,
+
+            so the same local time occurs twice). `true` for DST end, `false` for DST
+
+            start.
+
+            '
+          example: false
     Abuse:
       type: object
       description: 'Abuse contact information for the network that owns this IP. Only returned when
@@ -898,6 +1430,62 @@ components:
             type: string
           examples:
           - +46 8 5626 42 10
+    UserAgent:
+      type: object
+      description: 'Parsed User-Agent information. Only returned when `include=user_agent` or
+
+        `include=*` is used. The API parses the `User-Agent` header from the request.
+
+        For server-side usage, forward your visitor''s User-Agent string in the header.
+
+        '
+      properties:
+        user_agent_string:
+          type: string
+          description: The raw User-Agent string that was parsed.
+          example: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+        name:
+          type: string
+          description: Detected browser or client name.
+          example: Edge
+        type:
+          type: string
+          description: 'Client type classification. Common values: `Browser`, `Robot`,
+
+            `Mobile Browser`, `Library`.
+
+            '
+          example: Browser
+        version:
+          type: string
+          description: Full version string of the detected client.
+          example: '143'
+        version_major:
+          type: string
+          description: Major version number of the detected client.
+          example: '143'
+        device:
+          $ref: '#/components/schemas/UserAgentDevice'
+        engine:
+          $ref: '#/components/schemas/UserAgentEngine'
+        operating_system:
+          $ref: '#/components/schemas/UserAgentOperatingSystem'
+    Currency:
+      type: object
+      description: Local currency of the country where the IP is located.
+      properties:
+        code:
+          type: string
+          description: ISO 4217 currency code.
+          example: SEK
+        name:
+          type: string
+          description: Currency name.
+          example: Swedish Krona
+        symbol:
+          type: string
+          description: Currency symbol.
+          example: kr
     CountryMetadata:
       type: object
       description: Telephone, TLD, and language information for the country.
@@ -922,124 +1510,192 @@ components:
           - se
           - sma
           - fi-SE
-    Currency:
+    TimeZone:
       type: object
-      description: Local currency of the country where the IP is located.
+      description: Timezone information for the geographic location of the IP.
       properties:
-        code:
-          type: string
-          description: ISO 4217 currency code.
-          example: SEK
         name:
           type: string
-          description: Currency name.
-          example: Swedish Krona
-        symbol:
-          type: string
-          description: Currency symbol.
-          example: kr
-    DstTransition:
-      type: object
-      description: 'Details about a DST transition (start or end). Only present when `dst_exists`
+          description: IANA timezone identifier.
+          example: Europe/Stockholm
+        offset:
+          type: number
+          format: float
+          description: UTC offset in hours (without DST).
+          example: 1
+        offset_with_dst:
+          type: number
+          format: float
+          description: 'Current UTC offset in hours, accounting for DST if active. Same as
 
-        is `true`. When `dst_exists` is `false`, `dst_start` and `dst_end` are
-
-        returned as empty objects with no properties.
-
-        '
-      properties:
-        utc_time:
-          type: string
-          description: UTC time of the transition, formatted as `YYYY-MM-DD TIME HH:mm`.
-          example: 2026-03-29 TIME 01:00
-        duration:
-          type: string
-          description: 'Clock shift direction and amount (e.g. `+1.00H` for spring forward,
-
-            `-1.00H` for fall back).
+            `offset` when DST is not in effect.
 
             '
-          example: +1.00H
-        gap:
+          example: 1
+        current_time:
+          type: string
+          description: 'Current local time at the IP''s location. Observed formats include
+
+            `YYYY-MM-DDTHH:mm:ss±ZZZZ` and `YYYY-MM-DD HH:mm:ss.SSS±ZZZZ`.
+
+            '
+          example: 2026-02-13 09:19:24.410+0100
+        current_time_unix:
+          type: number
+          format: float
+          description: Current time as a Unix timestamp with millisecond precision.
+          example: 1770970764.41
+        current_tz_abbreviation:
+          type: string
+          description: 'Abbreviation of the timezone currently in effect (may be standard or DST).
+
+            '
+          example: CET
+        current_tz_full_name:
+          type: string
+          description: Full name of the timezone currently in effect.
+          example: Central European Standard Time
+        standard_tz_abbreviation:
+          type: string
+          description: Abbreviation of the standard (non-DST) timezone.
+          example: CET
+        standard_tz_full_name:
+          type: string
+          description: Full name of the standard (non-DST) timezone.
+          example: Central European Standard Time
+        is_dst:
           type: boolean
-          description: 'Whether this transition creates a gap in local time (clocks jump forward).
-
-            `true` for DST start, `false` for DST end.
-
-            '
-          example: true
-        date_time_after:
-          type: string
-          description: Local time immediately after the transition.
-          example: 2026-03-29 TIME 03:00
-        date_time_before:
-          type: string
-          description: Local time immediately before the transition.
-          example: 2026-03-29 TIME 02:00
-        overlap:
-          type: boolean
-          description: 'Whether this transition creates an overlap in local time (clocks fall back,
-
-            so the same local time occurs twice). `true` for DST end, `false` for DST
-
-            start.
-
-            '
+          description: Whether Daylight Saving Time is currently active.
           example: false
-    BulkGeolocationRequest:
-      type: object
-      description: 'Request body for the bulk geolocation lookup. Contains a single `ips` field
+        dst_savings:
+          type: number
+          format: float
+          description: 'DST offset in hours applied on top of the standard offset when DST is
 
-        with an array of IP addresses or domain names to look up.
+            active. `0` means no DST shift (either DST is not active or does not exist).
+
+            '
+          example: 0
+        dst_exists:
+          type: boolean
+          description: Whether this timezone observes Daylight Saving Time at all.
+          example: true
+        dst_tz_abbreviation:
+          type: string
+          description: 'Abbreviation of the DST timezone. Empty string if DST is not observed.
+
+            '
+          example: CEST
+        dst_tz_full_name:
+          type: string
+          description: 'Full name of the DST timezone. Empty string if DST is not observed.
+
+            '
+          example: Central European Summer Time
+        dst_start:
+          description: 'Start DST transition details. When `dst_exists` is `false`, this is
+
+            returned as an empty object with no properties.
+
+            '
+          oneOf:
+          - $ref: '#/components/schemas/DstTransition'
+          - type: object
+            maxProperties: 0
+        dst_end:
+          description: 'End DST transition details. When `dst_exists` is `false`, this is
+
+            returned as an empty object with no properties.
+
+            '
+          oneOf:
+          - $ref: '#/components/schemas/DstTransition'
+          - type: object
+            maxProperties: 0
+    BulkGeolocationErrorItem:
+      type: object
+      description: 'Error object returned for an invalid entry in the bulk lookup request. Contains only
+
+        a `message` field. Note: unlike success entries, error entries do NOT include the
+
+        original `ip` field, so the only way to correlate errors to inputs is by array
+
+        index. The response array preserves the same order as the request `ips` array.
 
         '
       required:
-      - ips
+      - message
       properties:
-        ips:
-          type: array
-          description: 'Array of IPv4 addresses, IPv6 addresses, or domain names to look up.
-
-            Must not be empty. Maximum 50,000 entries per request. Each entry is
-
-            resolved independently, so you can mix IPv4, IPv6, and domains freely.
-
-            '
-          minItems: 1
-          maxItems: 50000
-          items:
-            type: string
-          examples:
-          - 8.8.8.8
-          - 91.128.103.196
-          - 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
-          - ipgeolocation.io
-    Network:
+        message:
+          type: string
+          description: Human-readable error for the specific bulk entry.
+          example: Provided name, service or IP address 'invalid-ip' is not valid.
+    Asn:
       type: object
-      description: 'Network routing information for the IP. Included by default on paid plans.
+      description: 'Autonomous System Number details for the IP. Free plans receive `as_number`,
 
-        Not available on the free plan.
+        `organization`, and `country` only. Paid plans also receive `type`, `domain`,
+
+        `date_allocated`, and `rir`.
 
         '
       properties:
-        connection_type:
+        as_number:
           type: string
-          description: 'Type of network connection for this IP. Known values: `DSL`, `Cable`,
+          description: AS number prefixed with `AS` (e.g. `AS1257`).
+          example: AS1257
+        organization:
+          type: string
+          description: Name of the organization that owns the ASN.
+          example: Tele2 Sverige AB
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country where the ASN is registered.
+          example: SE
+        type:
+          type: string
+          description: 'Organization type. Values: `ISP`, `HOSTING`, `BUSINESS`, `EDUCATION`,
 
-            `Fiber`, `Mobile`, `Wireless`, `Dial-Up/ISDN`, `Satellite`. Empty string
-
-            when the type cannot be determined.
+            `GOVERNMENT`. Paid plans only.
 
             '
-          example: ''
-        route:
+          example: ISP
+        domain:
           type: string
-          description: BGP route prefix in CIDR notation.
-          example: 91.128.0.0/14
-        is_anycast:
-          type: boolean
-          description: Whether the IP is part of an anycast network.
-          example: false
+          description: Primary domain of the ASN holder. Paid plans only.
+          example: tele2.com
+        date_allocated:
+          type: string
+          description: 'Date when the ASN was allocated, in `YYYY-MM-DD` format (e.g.
+
+            `2024-12-13`). Paid plans only.
+
+            '
+          example: '2024-12-13'
+        rir:
+          type: string
+          description: 'Regional Internet Registry (RIR) that allocated the ASN. Possible values include `RIPE`, `ARIN`, `APNIC`, `LACNIC`, `AFRINIC`, etc.
+
+            '
+          example: RIPE
+    ErrorResponse:
+      type: object
+      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
+
+        Message text can vary by status and condition; examples in this spec are
+
+        representative, not exhaustive, and should not be treated as stable machine
+
+        codes.
+
+        '
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
+          example: Provided name, service or IP address '999.999.999.999' is not valid.
     Location:
       type: object
       description: Geographic location data for the IP address.
@@ -1175,68 +1831,34 @@ components:
           type: string
           description: Major version of the rendering engine.
           example: '143'
-    IpGeolocationResponse:
+    BulkGeolocationRequest:
       type: object
-      xml:
-        name: LinkedHashMap
-      description: 'The top-level response object for a single IP lookup. Where fields and nested
+      description: 'Request body for the bulk geolocation lookup. Contains a single `ips` field
 
-        objects appear depends on your plan (free vs. paid) and the `include`, `fields`,
-
-        and `excludes` parameters. The `ip` field is always present.
+        with an array of IP addresses or domain names to look up.
 
         '
       required:
-      - ip
+      - ips
       properties:
-        ip:
-          type: string
-          description: 'The looked-up IP address. If a domain was queried, this is the resolved IP.
+        ips:
+          type: array
+          description: 'Array of IPv4 addresses, IPv6 addresses, or domain names to look up.
 
-            If no `ip` parameter was sent, this is the caller''s public IP.
+            Must not be empty. Maximum 50,000 entries per request. Each entry is
 
-            '
-          example: 91.128.103.196
-        domain:
-          type: string
-          description: 'Present only when the `ip` query parameter contained a domain name. Mirrors
-
-            the domain value from the request.
+            resolved independently, so you can mix IPv4, IPv6, and domains freely.
 
             '
-          example: ipgeolocation.io
-        hostname:
-          type: string
-          description: 'Reverse-DNS hostname for the IP. Returned only when one of the hostname
-
-            `include` options is used (`hostname`, `liveHostname`, or
-
-            `hostnameFallbackLive`). If no hostname can be resolved, this field contains
-
-            the IP address itself.
-
-            '
-          example: host197.lightwavenetworks.com
-        location:
-          $ref: '#/components/schemas/Location'
-        country_metadata:
-          $ref: '#/components/schemas/CountryMetadata'
-        network:
-          $ref: '#/components/schemas/Network'
-        currency:
-          $ref: '#/components/schemas/Currency'
-        asn:
-          $ref: '#/components/schemas/Asn'
-        company:
-          $ref: '#/components/schemas/Company'
-        security:
-          $ref: '#/components/schemas/Security'
-        abuse:
-          $ref: '#/components/schemas/Abuse'
-        time_zone:
-          $ref: '#/components/schemas/TimeZone'
-        user_agent:
-          $ref: '#/components/schemas/UserAgent'
+          minItems: 1
+          maxItems: 50000
+          items:
+            type: string
+          examples:
+          - 8.8.8.8
+          - 91.128.103.196
+          - 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
+          - ipgeolocation.io
     Security:
       type: object
       description: 'Threat intelligence and anonymization signals for the IP. Only returned when
@@ -1357,628 +1979,6 @@ components:
           type: string
           description: Name of the cloud provider, if applicable. Empty string otherwise.
           example: Packethub S.A.
-    UserAgentOperatingSystem:
-      type: object
-      description: Operating system information extracted from the User-Agent string.
-      properties:
-        name:
-          type: string
-          description: OS name (e.g. `Windows`, `macOS`, `Linux`, `Android`, `iOS`, `Cloud`).
-          example: Linux
-        type:
-          type: string
-          description: 'OS type. Common values: `Desktop`, `Mobile`, `Tablet`, `Cloud`.
-
-            '
-          example: Desktop
-        version:
-          type: string
-          description: OS version. `??` when the version cannot be determined.
-          example: ??
-        version_major:
-          type: string
-          description: OS major version. `??` when the version cannot be determined.
-          example: ??
-        build:
-          type: string
-          description: OS build number. `??` when the build cannot be determined.
-          example: ??
-    Company:
-      type: object
-      description: 'Company or organization operating the IP range. Included by default on paid
-
-        plans. Not available on the free plan.
-
-        '
-      properties:
-        name:
-          type: string
-          description: Company or organization name.
-          example: Tele2 Sverige AB
-        type:
-          type: string
-          description: 'Company category. Documented values: `ISP`, `HOSTING`, `BUSINESS`,
-
-            `EDUCATION`, `GOVERNMENT`. All uppercase, consistent with `asn.type`.
-
-            May be an empty string when the company type cannot be determined.
-
-            '
-          example: ISP
-        domain:
-          type: string
-          description: Primary domain of the company.
-          example: tele2.com
-    BulkGeolocationErrorItem:
-      type: object
-      description: 'Error object returned for an invalid entry in the bulk lookup request. Contains only
-
-        a `message` field. Note: unlike success entries, error entries do NOT include the
-
-        original `ip` field, so the only way to correlate errors to inputs is by array
-
-        index. The response array preserves the same order as the request `ips` array.
-
-        '
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: Human-readable error for the specific bulk entry.
-          example: Provided name, service or IP address 'invalid-ip' is not valid.
-    UserAgentDevice:
-      type: object
-      description: Device information extracted from the User-Agent string.
-      properties:
-        name:
-          type: string
-          description: Device name or model.
-          example: Linux Desktop
-        type:
-          type: string
-          description: 'Device type. Common values: `Desktop`, `Smartphone`, `Tablet`, `Robot`,
-
-            `Smart TV`.
-
-            '
-          example: Desktop
-        brand:
-          type: string
-          description: Device manufacturer or brand. `Unknown` if not detectable.
-          example: Unknown
-        cpu:
-          type: string
-          description: CPU architecture if detectable (e.g. `Intel x86_64`, `ARM`). `Unknown` otherwise.
-          example: Intel x86_64
-    TimeZone:
-      type: object
-      description: Timezone information for the geographic location of the IP.
-      properties:
-        name:
-          type: string
-          description: IANA timezone identifier.
-          example: Europe/Stockholm
-        offset:
-          type: number
-          format: float
-          description: UTC offset in hours (without DST).
-          example: 1
-        offset_with_dst:
-          type: number
-          format: float
-          description: 'Current UTC offset in hours, accounting for DST if active. Same as
-
-            `offset` when DST is not in effect.
-
-            '
-          example: 1
-        current_time:
-          type: string
-          description: 'Current local time at the IP''s location. Observed formats include
-
-            `YYYY-MM-DDTHH:mm:ss±ZZZZ` and `YYYY-MM-DD HH:mm:ss.SSS±ZZZZ`.
-
-            '
-          example: 2026-02-13 09:19:24.410+0100
-        current_time_unix:
-          type: number
-          format: float
-          description: Current time as a Unix timestamp with millisecond precision.
-          example: 1770970764.41
-        current_tz_abbreviation:
-          type: string
-          description: 'Abbreviation of the timezone currently in effect (may be standard or DST).
-
-            '
-          example: CET
-        current_tz_full_name:
-          type: string
-          description: Full name of the timezone currently in effect.
-          example: Central European Standard Time
-        standard_tz_abbreviation:
-          type: string
-          description: Abbreviation of the standard (non-DST) timezone.
-          example: CET
-        standard_tz_full_name:
-          type: string
-          description: Full name of the standard (non-DST) timezone.
-          example: Central European Standard Time
-        is_dst:
-          type: boolean
-          description: Whether Daylight Saving Time is currently active.
-          example: false
-        dst_savings:
-          type: number
-          format: float
-          description: 'DST offset in hours applied on top of the standard offset when DST is
-
-            active. `0` means no DST shift (either DST is not active or does not exist).
-
-            '
-          example: 0
-        dst_exists:
-          type: boolean
-          description: Whether this timezone observes Daylight Saving Time at all.
-          example: true
-        dst_tz_abbreviation:
-          type: string
-          description: 'Abbreviation of the DST timezone. Empty string if DST is not observed.
-
-            '
-          example: CEST
-        dst_tz_full_name:
-          type: string
-          description: 'Full name of the DST timezone. Empty string if DST is not observed.
-
-            '
-          example: Central European Summer Time
-        dst_start:
-          description: 'Start DST transition details. When `dst_exists` is `false`, this is
-
-            returned as an empty object with no properties.
-
-            '
-          oneOf:
-          - $ref: '#/components/schemas/DstTransition'
-          - type: object
-            maxProperties: 0
-        dst_end:
-          description: 'End DST transition details. When `dst_exists` is `false`, this is
-
-            returned as an empty object with no properties.
-
-            '
-          oneOf:
-          - $ref: '#/components/schemas/DstTransition'
-          - type: object
-            maxProperties: 0
-    BulkGeolocationSuccessItem:
-      type: object
-      required:
-      - ip
-      properties:
-        ip:
-          type: string
-          description: 'The resolved IP address for this bulk entry. For direct IPv4/IPv6 input,
-
-            this matches the submitted value (normalized). For domain input, this is
-
-            the resolved A/AAAA IP.
-
-            '
-          example: 8.8.8.8
-        domain:
-          type: string
-          description: 'Present only when the submitted `ips` entry was a domain name.
-
-            Contains the original domain input exactly as submitted.
-
-            '
-          example: ipgeolocation.io
-        hostname:
-          type: string
-          description: 'Reverse-DNS hostname for the IP. Only present when one of the hostname
-
-            `include` options is used.
-
-            '
-          example: dns.google
-        location:
-          $ref: '#/components/schemas/Location'
-        country_metadata:
-          $ref: '#/components/schemas/CountryMetadata'
-        network:
-          $ref: '#/components/schemas/Network'
-        currency:
-          $ref: '#/components/schemas/Currency'
-        asn:
-          $ref: '#/components/schemas/Asn'
-        company:
-          $ref: '#/components/schemas/Company'
-        security:
-          $ref: '#/components/schemas/Security'
-        abuse:
-          $ref: '#/components/schemas/Abuse'
-        time_zone:
-          $ref: '#/components/schemas/TimeZone'
-        user_agent:
-          $ref: '#/components/schemas/UserAgent'
-    UserAgent:
-      type: object
-      description: 'Parsed User-Agent information. Only returned when `include=user_agent` or
-
-        `include=*` is used. The API parses the `User-Agent` header from the request.
-
-        For server-side usage, forward your visitor''s User-Agent string in the header.
-
-        '
-      properties:
-        user_agent_string:
-          type: string
-          description: The raw User-Agent string that was parsed.
-          example: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
-        name:
-          type: string
-          description: Detected browser or client name.
-          example: Edge
-        type:
-          type: string
-          description: 'Client type classification. Common values: `Browser`, `Robot`,
-
-            `Mobile Browser`, `Library`.
-
-            '
-          example: Browser
-        version:
-          type: string
-          description: Full version string of the detected client.
-          example: '143'
-        version_major:
-          type: string
-          description: Major version number of the detected client.
-          example: '143'
-        device:
-          $ref: '#/components/schemas/UserAgentDevice'
-        engine:
-          $ref: '#/components/schemas/UserAgentEngine'
-        operating_system:
-          $ref: '#/components/schemas/UserAgentOperatingSystem'
-    Asn:
-      type: object
-      description: 'Autonomous System Number details for the IP. Free plans receive `as_number`,
-
-        `organization`, and `country` only. Paid plans also receive `type`, `domain`,
-
-        `date_allocated`, and `rir`.
-
-        '
-      properties:
-        as_number:
-          type: string
-          description: AS number prefixed with `AS` (e.g. `AS1257`).
-          example: AS1257
-        organization:
-          type: string
-          description: Name of the organization that owns the ASN.
-          example: Tele2 Sverige AB
-        country:
-          type: string
-          description: ISO 3166-1 alpha-2 country where the ASN is registered.
-          example: SE
-        type:
-          type: string
-          description: 'Organization type. Values: `ISP`, `HOSTING`, `BUSINESS`, `EDUCATION`,
-
-            `GOVERNMENT`. Paid plans only.
-
-            '
-          example: ISP
-        domain:
-          type: string
-          description: Primary domain of the ASN holder. Paid plans only.
-          example: tele2.com
-        date_allocated:
-          type: string
-          description: 'Date when the ASN was allocated, in `YYYY-MM-DD` format (e.g.
-
-            `2024-12-13`). Paid plans only.
-
-            '
-          example: '2024-12-13'
-        rir:
-          type: string
-          description: 'Regional Internet Registry (RIR) that allocated the ASN. Possible values include `RIPE`, `ARIN`, `APNIC`, `LACNIC`, `AFRINIC`, etc.
-
-            '
-          example: RIPE
-    ErrorResponse:
-      type: object
-      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
-
-        Message text can vary by status and condition; examples in this spec are
-
-        representative, not exhaustive, and should not be treated as stable machine
-
-        codes.
-
-        '
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
-          example: Provided name, service or IP address '999.999.999.999' is not valid.
-    BulkGeolocationResponseItem:
-      description: 'A single element in the bulk lookup response array. Each element is either a
-
-        full geolocation object or an error object containing only `message`.
-
-        '
-      oneOf:
-      - $ref: '#/components/schemas/BulkGeolocationSuccessItem'
-      - $ref: '#/components/schemas/BulkGeolocationErrorItem'
-  parameters:
-    Fields:
-      name: fields
-      in: query
-      required: false
-      description: 'Comma-separated list of fields or objects to return. Everything else is omitted.
-
-        The `ip` field is always returned regardless of this filter.
-
-
-        Supports dot-notation for nested fields: `location.city`, `asn.organization`.
-
-        To return an entire object, use the object key: `location`, `security`.
-
-
-        If a field belongs to an optional module (e.g. `security.threat_score`), you
-
-        must also pass the corresponding `include` value.
-
-        If you omit `include`, the request still succeeds, but fields from optional
-
-        modules are not returned.
-
-
-        If the same field or object is specified in both `fields` and `excludes`, the
-
-        object is still returned, but it will be empty.
-
-        If the same field or object is specified in `include`, `fields`, and `excludes`,
-
-        `include` takes priority over both `fields` and `excludes`.
-
-
-        If you list both an object key and one of its nested fields separated by comma
-
-        (e.g. `security,security.threat_score`), the full object is returned.
-
-
-        Unknown field paths are ignored. The API still returns HTTP 200.
-
-
-        Available on all plans including Free.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Return the full response (no field filtering)
-          value: ''
-        locationOnly:
-          summary: Return only the location object
-          value: location
-        nestedFields:
-          summary: Return specific nested fields
-          value: location.country_name,asn.organization
-        securityFields:
-          summary: Return specific security fields (requires include=security)
-          value: location.city,security.threat_score,security.is_vpn
-    Lang:
-      name: lang
-      in: query
-      required: false
-      description: 'Language code for translated location names. Defaults to `en`. Non-English
-
-        responses require a paid plan. Free plans always receive English regardless
-
-        of this parameter. Unsupported `lang` values return HTTP 400.
-
-        '
-      schema:
-        type: string
-        default: en
-        enum:
-        - en
-        - de
-        - ru
-        - ja
-        - fr
-        - cn
-        - es
-        - cs
-        - it
-        - ko
-        - fa
-        - pt
-    Excludes:
-      name: excludes
-      in: query
-      required: false
-      description: 'Comma-separated list of fields or objects to remove from the response. The `ip`
-
-        field cannot be excluded.
-
-
-        Supports dot-notation for nested fields: `location.continent_code`.
-
-        To exclude an entire object, use the object key: `currency`, `time_zone`.
-
-
-        If the same field or object is specified in both `fields` and `excludes`, the
-
-        object is still returned, but it will be empty.
-
-        If the same field or object is specified in `include`, `fields`, and `excludes`,
-
-        `include` takes priority over both `fields` and `excludes`.
-
-
-        Unknown fields or object keys in `excludes` are ignored. The API still returns
-
-        HTTP 200.
-
-
-        Available on all plans including Free.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not exclude any fields
-          value: ''
-        excludeObjects:
-          summary: Exclude entire objects and a nested field
-          value: location.continent_code,currency,company.type
-    Output:
-      name: output
-      in: query
-      required: false
-      description: 'Desired response format. Defaults to `json` if not specified. You can also
-
-        control the format using the `Accept` header (`application/json`,
-
-        `application/xml`, or `text/xml`). If both are provided, the `output` parameter
-
-        takes precedence.
-
-
-        If `output` is unknown or unsupported, it is ignored and the response defaults
-
-        to JSON (`application/json`) with HTTP 200.
-
-        '
-      schema:
-        type: string
-        enum:
-        - json
-        - xml
-        default: json
-    Ip:
-      name: ip
-      in: query
-      required: false
-      description: 'An IPv4 address, IPv6 address, or domain name to look up. When omitted, the API
-
-        resolves the public IP of the requesting client. Empty or whitespace-only values
-
-        are treated the same as omission and resolve caller IP. Domain lookups require a
-
-        paid plan. Pass `ip` only once. If multiple `ip` query parameters are sent,
-
-        values may be merged and treated as invalid input (HTTP 400).
-
-        '
-      schema:
-        type: string
-      examples:
-        ipv4:
-          summary: IPv4 address
-          value: 91.128.103.196
-        ipv6:
-          summary: IPv6 address
-          value: 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
-        domain:
-          summary: Domain name (paid plans only)
-          value: ipgeolocation.io
-    Include:
-      name: include
-      in: query
-      required: false
-      description: 'Comma-separated list of optional data modules to add to the response. These are
-
-        not returned by default. Requires a paid plan.
-
-
-        **Available values:**
-
-
-        | Value | What it adds | Extra credits |
-
-        |---|---|---|
-
-        | `geo_accuracy` | `location.locality`, `location.accuracy_radius`, `location.confidence` | 0 |
-
-        | `dma_code` | `location.dma_code` (US IPs only) | 0 |
-
-        | `user_agent` | `user_agent` object (parses the `User-Agent` header) | 0 |
-
-        | `security` | `security` object with threat signals | +2 |
-
-        | `abuse` | `abuse` object with abuse contact info | +1 |
-
-        | `hostname` | `hostname` field (from local database, fast, experimental) | 0 |
-
-        | `liveHostname` | `hostname` field (live DNS lookup, slower, accurate) | 0 |
-
-        | `hostnameFallbackLive` | `hostname` field (local first, falls back to live) | 0 |
-
-        | `*` | All of the above | +3 |
-
-
-        If multiple hostname options are passed in `include`, hostname resolution uses
-
-        this precedence order: `liveHostname` first, then `hostname`, then
-
-        `hostnameFallbackLive`.
-
-        If none is specified, the `hostname` field is not returned.
-
-
-        For `user_agent`, the API parses the `User-Agent` header from the request. For
-
-        server-side calls, forward your visitor''s User-Agent string in the header so the
-
-        parsed result matches the actual visitor.
-
-
-        For additional query parameters (`include`, `fields`, `excludes`, `output`),
-
-        unknown values are ignored. The API still returns HTTP 200 and applies only
-
-        recognized values.
-
-
-        Free plan behavior for `include=*`: the API returns HTTP 200 and ignores the
-
-        include request, returning only base response fields. In contrast, specific
-
-        include values such as `include=security` return HTTP 401 on free plans.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not include any optional modules
-          value: ''
-        security:
-          summary: Include security threat data
-          value: security
-        multiple:
-          summary: Include security and abuse data
-          value: security,abuse
-        allNonBillable:
-          summary: Include all free modules
-          value: dma_code,geo_accuracy,hostname,user_agent
-        all:
-          summary: Include everything
-          value: '*'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
