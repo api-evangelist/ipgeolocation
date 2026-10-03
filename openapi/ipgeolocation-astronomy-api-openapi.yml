@@ -514,410 +514,48 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    TimeZone:
-      name: time_zone
-      in: query
-      required: false
-      description: 'IANA timezone identifier used to convert all astronomical event
-
-        timestamps into the specified timezone.
-
-
-        When provided, all event times (sunrise, sunset, moonrise, moonset,
-
-        twilight phases, solar noon, etc.) are returned as full date-time
-
-        values (`yyyy-MM-dd HH:mm`) instead of time-only values (`HH:mm`),
-
-        and a `time_zone` field is included in the `astronomy` object.
-
-
-        The geographic location used for astronomical calculations remains
-
-        unchanged. Only the timestamp representation is converted.
-
-
-        Example: `Europe/London`, `America/New_York`, `Asia/Karachi`.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Use location's local timezone
-          value: ''
-        london:
-          summary: Convert to London timezone
-          value: Europe/London
-        newYork:
-          summary: Convert to New York timezone
-          value: America/New_York
-    Lang:
-      name: lang
-      in: query
-      required: false
-      description: 'Language code for translated location names in the `location` object.
-
-        Only applies when the lookup is performed via an IP address.
-
-
-        Defaults to `en`. Non-English responses require a paid plan. Free
-
-        plans always receive English regardless of this parameter. Unsupported
-
-        `lang` values return HTTP 400.
-
-        '
-      schema:
-        type: string
-        default: en
-        enum:
-        - en
-        - de
-        - ru
-        - ja
-        - fr
-        - cn
-        - es
-        - cs
-        - it
-        - ko
-        - fa
-        - pt
-    DateStart:
-      name: dateStart
-      in: query
-      required: true
-      description: 'Start date of the time series range.
-
-
-        Must be in `yyyy-MM-dd` format. The maximum allowed span between
-
-        `dateStart` and `dateEnd` is **90 days**.
-
-        '
-      schema:
-        type: string
-        format: date
-      examples:
-        example:
-          summary: Start date
-          value: '2026-03-18'
-    Location:
-      name: location
-      in: query
-      required: false
-      description: 'Address or location name used to determine the astronomical
-
-        information. Typically a city-level or region-level address such as
-
-        `New York, USA` or `London, UK`.
-
-
-        When this parameter is used, the API returns a `location` object
-
-        containing geolocation details alongside the `astronomy` object.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide location
-          value: ''
-        newYork:
-          summary: City address
-          value: New York, USA
-        london:
-          summary: City address
-          value: London, UK
-    Lat:
-      name: lat
-      in: query
-      required: false
-      description: 'Latitude coordinate of the location. Must be provided together with
-
-        the `long` parameter.
-
-
-        Valid latitude values range from **-90 to 90**.
-
-        '
-      schema:
-        type: number
-        format: float
-      examples:
-        none:
-          summary: Do not provide latitude
-          value: ''
-        newYork:
-          summary: Latitude of New York
-          value: 40.76473
-        brisbane:
-          summary: Latitude of Brisbane
-          value: -27.4748
-    Elevation:
-      name: elevation
-      in: query
-      required: false
-      description: 'Elevation of the location above sea level in meters. Used to
-
-        refine astronomical calculations.
-
-
-        Defaults to `0` if not provided. Maximum allowed value is
-
-        **10,000 meters**. Negative values are treated as `0`.
-
-        '
-      schema:
-        type: number
-        format: double
-        default: 0
-        minimum: 0
-        maximum: 10000
-      examples:
-        none:
-          summary: Use default elevation (sea level)
-          value: 0
-        elevated:
-          summary: Custom elevation
-          value: 1500
-    Date:
-      name: date
-      in: query
-      required: false
-      description: 'Date for which to retrieve astronomical information.
-
-
-        Must be in `yyyy-MM-dd` format. Defaults to the current date if
-
-        not provided. All astronomical information is calculated at the
-
-        current time of day at the resolved location.
-
-        '
-      schema:
-        type: string
-        format: date
-      examples:
-        none:
-          summary: Use current date
-          value: ''
-        specific:
-          summary: Specific date
-          value: '2026-03-18'
-    Long:
-      name: long
-      in: query
-      required: false
-      description: 'Longitude coordinate of the location. Must be provided together with
-
-        the `lat` parameter.
-
-
-        Valid longitude values range from **-180 to 180**.
-
-        '
-      schema:
-        type: number
-        format: float
-      examples:
-        none:
-          summary: Do not provide longitude
-          value: ''
-        newYork:
-          summary: Longitude of New York
-          value: -74.00084
-        brisbane:
-          summary: Longitude of Brisbane
-          value: 153.017
-    DateEnd:
-      name: dateEnd
-      in: query
-      required: true
-      description: 'End date of the time series range.
-
-
-        Must be in `yyyy-MM-dd` format. The maximum allowed span between
-
-        `dateStart` and `dateEnd` is **90 days**.
-
-        '
-      schema:
-        type: string
-        format: date
-      examples:
-        example:
-          summary: End date
-          value: '2026-04-18'
-    Ip:
-      name: ip
-      in: query
-      required: false
-      description: 'An IPv4 or IPv6 address used to resolve the location for the
-
-        astronomical lookup. When omitted, the API resolves the public IP
-
-        of the requesting client.
-
-
-        When the lookup is performed using an IP address, the response
-
-        includes additional geolocation fields in the `location` object
-
-        such as continent, country codes, district, and zipcode.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not provide IP address
-          value: ''
-        ipv4:
-          summary: IPv4 address
-          value: 8.8.8.8
-        ipv6:
-          summary: IPv6 address
-          value: 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
-  responses:
-    ServiceUnavailable:
-      description: 'Service Unavailable. The API is temporarily unavailable due to
-
-        maintenance or overload. Please try again later.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Service temporarily unavailable. Please try again later.
-    InternalServerError:
-      description: 'Internal Server Error. The server encountered an unexpected condition
-
-        that prevented it from fulfilling the request. If the issue persists,
-
-        contact support@ipgeolocation.io.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Something went wrong on the server side.
-    GatewayTimeout:
-      description: 'Gateway Timeout. The API server did not receive a timely response
-
-        from an upstream server.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: The server timed out while processing the request.
-    BadGateway:
-      description: 'Bad Gateway. The API server received an invalid response from an
-
-        upstream server. This is usually temporary.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Upstream service error. Please try again later.
-    NotFound:
-      description: "Not Found. Returned for one of the following reasons:\n  - If the IPv4 or IPv6 address does not exist in the database.\n  - If the IPv4 or IPv6 address is passed as a path variable instead\n    of a URL parameter (`ip=`).\n  - If the location address provided to the `location` parameter is\n    invalid. A city-level or state-level address must be provided.\n  - If the wrong endpoint is called that does not exist in the API.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            ipNotInDatabase:
-              summary: IP not found in database
-              value:
-                message: Provided IPv4 or IPv6 address does not exist in our database.
-            invalidLocation:
-              summary: Invalid location address
-              value:
-                message: We couldn't find the location 'InvalidCity, XX'. Try a city or state level address only.
-            wrongEndpoint:
-              summary: Incorrect or non-existent endpoint
-              value:
-                message: No endpoint GET /v3/astronomy-invalid.
-    MethodNotAllowed:
-      description: 'Method Not Allowed. Only the **GET** method is supported for
-
-        Astronomy API endpoints. Any other HTTP method results in HTTP 405.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Request method 'POST' is not supported
-    ClientClosedRequest:
-      description: 'The client closed the connection before the server finished processing
-
-        the request. This usually happens when the client sets a very short
-
-        request or connection timeout. Increase the timeout on the client side.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Client closed the request before the server could respond.
-    Locked:
-      description: 'Locked. The provided IP address belongs to a bogon IP range or a
-
-        private network and cannot be looked up.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: '''10.0.0.1'' is a bogon IP address.'
-    HttpVersionNotSupported:
-      description: 'HTTP Version Not Supported. The server does not support the HTTP
-
-        protocol version used in the request.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: HTTP version not supported.
-    TooManyRequests:
-      description: "Too Many Requests. Returned for one of the following reasons:\n  - The API usage limit has been reached for a free subscription or a\n    paid subscription with status `past due`, `deleted`, or\n    `trial expired`.\n  - The surcharge API usage limit has been reached for the subscribed\n    plan.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            usageLimitReached:
-              summary: API usage limit reached
-              value:
-                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INTERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-            surchargeLimitReached:
-              summary: Surcharge usage limit reached
-              value:
-                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
   schemas:
+    AstronomyTimeSeriesResponse:
+      type: object
+      description: 'Response returned by the Astronomy Time Series API.
+
+
+        Contains a `location` object and an `astronomy` array where each
+
+        element represents astronomical data for a single day within the
+
+        requested date range.
+
+
+        Note that real-time positional data (sun/moon altitude, azimuth,
+
+        distance, parallactic angle, illumination) is not included in time
+
+        series responses.
+
+        '
+      properties:
+        ip:
+          type: string
+          description: 'The IP address used for the astronomy lookup. Returned only when
+
+            the lookup is performed using the `ip` parameter or when the API
+
+            resolves the caller''s IP automatically.
+
+            '
+          example: 8.8.8.8
+        location:
+          $ref: '#/components/schemas/Location'
+        astronomy:
+          type: array
+          description: 'Array of daily astronomical records covering the requested date
+
+            range. Each entry contains event times for one calendar day.
+
+            '
+          items:
+            $ref: '#/components/schemas/AstronomyTimeSeriesEntry'
     AstronomyTimeSeriesEntry:
       type: object
       description: 'Astronomical data for a single calendar day within the time series
@@ -1027,65 +665,6 @@ components:
 
             '
           example: '-'
-    AstronomyLookupResponse:
-      type: object
-      description: "Response returned by the single-date Astronomy Lookup API.\n\nContains a `location` object with geolocation details for the\nresolved location, and an `astronomy` object with astronomical\nevent times and positional data for the requested date.\n\nThe `location` object structure varies based on the lookup method:\n- Coordinate or location-based lookups return basic geographic fields.\n- IP-based lookups return extended geolocation fields including\n  continent, country codes, district, and zipcode.\n"
-      properties:
-        ip:
-          type: string
-          description: 'The IP address used for the astronomy lookup. Returned only when
-
-            the lookup is performed using the `ip` parameter or when the API
-
-            resolves the caller''s IP automatically (no parameters provided).
-
-            '
-          example: 8.8.8.8
-        location:
-          $ref: '#/components/schemas/Location'
-        astronomy:
-          $ref: '#/components/schemas/AstronomyData'
-    AstronomyTimeSeriesResponse:
-      type: object
-      description: 'Response returned by the Astronomy Time Series API.
-
-
-        Contains a `location` object and an `astronomy` array where each
-
-        element represents astronomical data for a single day within the
-
-        requested date range.
-
-
-        Note that real-time positional data (sun/moon altitude, azimuth,
-
-        distance, parallactic angle, illumination) is not included in time
-
-        series responses.
-
-        '
-      properties:
-        ip:
-          type: string
-          description: 'The IP address used for the astronomy lookup. Returned only when
-
-            the lookup is performed using the `ip` parameter or when the API
-
-            resolves the caller''s IP automatically.
-
-            '
-          example: 8.8.8.8
-        location:
-          $ref: '#/components/schemas/Location'
-        astronomy:
-          type: array
-          description: 'Array of daily astronomical records covering the requested date
-
-            range. Each entry contains event times for one calendar day.
-
-            '
-          items:
-            $ref: '#/components/schemas/AstronomyTimeSeriesEntry'
     AstronomyData:
       type: object
       description: 'Astronomical data for the resolved location and requested date.
@@ -1311,102 +890,24 @@ components:
 
             '
           example: 0.52
-    TwilightPhase:
+    AstronomyLookupResponse:
       type: object
-      description: 'Twilight phase times for either the morning (pre-sunrise) or evening
-
-        (post-sunset) period.
-
-
-        Includes astronomical, nautical, and civil twilight windows, as well
-
-        as blue hour and golden hour windows commonly used in photography.
-
-
-        All times are in `HH:mm` format by default. When the `time_zone`
-
-        parameter is provided, times are returned as full date-time values
-
-        in `yyyy-MM-dd HH:mm` format.
-
-        '
+      description: "Response returned by the single-date Astronomy Lookup API.\n\nContains a `location` object with geolocation details for the\nresolved location, and an `astronomy` object with astronomical\nevent times and positional data for the requested date.\n\nThe `location` object structure varies based on the lookup method:\n- Coordinate or location-based lookups return basic geographic fields.\n- IP-based lookups return extended geolocation fields including\n  continent, country codes, district, and zipcode.\n"
       properties:
-        astronomical_twilight_begin:
+        ip:
           type: string
-          description: 'Start of astronomical twilight. In the morning, this marks the
+          description: 'The IP address used for the astronomy lookup. Returned only when
 
-            end of night; in the evening, this marks the start of night sky.
+            the lookup is performed using the `ip` parameter or when the API
+
+            resolves the caller''s IP automatically (no parameters provided).
 
             '
-          example: 04:49
-        astronomical_twilight_end:
-          type: string
-          description: End of astronomical twilight.
-          example: 05:21
-        nautical_twilight_begin:
-          type: string
-          description: 'Start of nautical twilight, when the horizon first becomes visible.
-
-            '
-          example: 05:21
-        nautical_twilight_end:
-          type: string
-          description: End of nautical twilight.
-          example: 05:53
-        civil_twilight_begin:
-          type: string
-          description: 'Start of civil twilight, when there is enough light for outdoor
-
-            activities without artificial lighting.
-
-            '
-          example: 05:53
-        civil_twilight_end:
-          type: string
-          description: End of civil twilight.
-          example: 06:20
-        blue_hour_begin:
-          type: string
-          description: 'Start of the blue hour, a period of soft diffused light with a
-
-            blue color tone.
-
-            '
-          example: 05:42
-        blue_hour_end:
-          type: string
-          description: End of the blue hour.
-          example: 06:03
-        golden_hour_begin:
-          type: string
-          description: 'Start of the golden hour, a period of warm low-angle light
-
-            favored by photographers.
-
-            '
-          example: 06:03
-        golden_hour_end:
-          type: string
-          description: End of the golden hour.
-          example: 06:57
-    ErrorResponse:
-      type: object
-      description: 'Returned for any non-200 response. Contains only a human-readable
-
-        `message`. Message text can vary by status and condition; examples
-
-        in this spec are representative, not exhaustive, and should not be
-
-        treated as stable machine codes.
-
-        '
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: Human-readable explanation of what went wrong.
-          example: Provided name, service or IP address '999.999.999.999' is not valid.
+          example: 8.8.8.8
+        location:
+          $ref: '#/components/schemas/Location'
+        astronomy:
+          $ref: '#/components/schemas/AstronomyData'
     Location:
       type: object
       description: 'Geolocation information associated with the resolved location.
@@ -1519,6 +1020,505 @@ components:
           type: string
           description: Elevation above sea level at the location, in meters.
           example: '9'
+    ErrorResponse:
+      type: object
+      description: 'Returned for any non-200 response. Contains only a human-readable
+
+        `message`. Message text can vary by status and condition; examples
+
+        in this spec are representative, not exhaustive, and should not be
+
+        treated as stable machine codes.
+
+        '
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Human-readable explanation of what went wrong.
+          example: Provided name, service or IP address '999.999.999.999' is not valid.
+    TwilightPhase:
+      type: object
+      description: 'Twilight phase times for either the morning (pre-sunrise) or evening
+
+        (post-sunset) period.
+
+
+        Includes astronomical, nautical, and civil twilight windows, as well
+
+        as blue hour and golden hour windows commonly used in photography.
+
+
+        All times are in `HH:mm` format by default. When the `time_zone`
+
+        parameter is provided, times are returned as full date-time values
+
+        in `yyyy-MM-dd HH:mm` format.
+
+        '
+      properties:
+        astronomical_twilight_begin:
+          type: string
+          description: 'Start of astronomical twilight. In the morning, this marks the
+
+            end of night; in the evening, this marks the start of night sky.
+
+            '
+          example: 04:49
+        astronomical_twilight_end:
+          type: string
+          description: End of astronomical twilight.
+          example: 05:21
+        nautical_twilight_begin:
+          type: string
+          description: 'Start of nautical twilight, when the horizon first becomes visible.
+
+            '
+          example: 05:21
+        nautical_twilight_end:
+          type: string
+          description: End of nautical twilight.
+          example: 05:53
+        civil_twilight_begin:
+          type: string
+          description: 'Start of civil twilight, when there is enough light for outdoor
+
+            activities without artificial lighting.
+
+            '
+          example: 05:53
+        civil_twilight_end:
+          type: string
+          description: End of civil twilight.
+          example: 06:20
+        blue_hour_begin:
+          type: string
+          description: 'Start of the blue hour, a period of soft diffused light with a
+
+            blue color tone.
+
+            '
+          example: 05:42
+        blue_hour_end:
+          type: string
+          description: End of the blue hour.
+          example: 06:03
+        golden_hour_begin:
+          type: string
+          description: 'Start of the golden hour, a period of warm low-angle light
+
+            favored by photographers.
+
+            '
+          example: 06:03
+        golden_hour_end:
+          type: string
+          description: End of the golden hour.
+          example: 06:57
+  responses:
+    NotFound:
+      description: "Not Found. Returned for one of the following reasons:\n  - If the IPv4 or IPv6 address does not exist in the database.\n  - If the IPv4 or IPv6 address is passed as a path variable instead\n    of a URL parameter (`ip=`).\n  - If the location address provided to the `location` parameter is\n    invalid. A city-level or state-level address must be provided.\n  - If the wrong endpoint is called that does not exist in the API.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            ipNotInDatabase:
+              summary: IP not found in database
+              value:
+                message: Provided IPv4 or IPv6 address does not exist in our database.
+            invalidLocation:
+              summary: Invalid location address
+              value:
+                message: We couldn't find the location 'InvalidCity, XX'. Try a city or state level address only.
+            wrongEndpoint:
+              summary: Incorrect or non-existent endpoint
+              value:
+                message: No endpoint GET /v3/astronomy-invalid.
+    HttpVersionNotSupported:
+      description: 'HTTP Version Not Supported. The server does not support the HTTP
+
+        protocol version used in the request.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: HTTP version not supported.
+    TooManyRequests:
+      description: "Too Many Requests. Returned for one of the following reasons:\n  - The API usage limit has been reached for a free subscription or a\n    paid subscription with status `past due`, `deleted`, or\n    `trial expired`.\n  - The surcharge API usage limit has been reached for the subscribed\n    plan.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            usageLimitReached:
+              summary: API usage limit reached
+              value:
+                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INTERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            surchargeLimitReached:
+              summary: Surcharge usage limit reached
+              value:
+                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+    InternalServerError:
+      description: 'Internal Server Error. The server encountered an unexpected condition
+
+        that prevented it from fulfilling the request. If the issue persists,
+
+        contact support@ipgeolocation.io.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Something went wrong on the server side.
+    MethodNotAllowed:
+      description: 'Method Not Allowed. Only the **GET** method is supported for
+
+        Astronomy API endpoints. Any other HTTP method results in HTTP 405.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Request method 'POST' is not supported
+    ClientClosedRequest:
+      description: 'The client closed the connection before the server finished processing
+
+        the request. This usually happens when the client sets a very short
+
+        request or connection timeout. Increase the timeout on the client side.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Client closed the request before the server could respond.
+    Locked:
+      description: 'Locked. The provided IP address belongs to a bogon IP range or a
+
+        private network and cannot be looked up.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: '''10.0.0.1'' is a bogon IP address.'
+    ServiceUnavailable:
+      description: 'Service Unavailable. The API is temporarily unavailable due to
+
+        maintenance or overload. Please try again later.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Service temporarily unavailable. Please try again later.
+    GatewayTimeout:
+      description: 'Gateway Timeout. The API server did not receive a timely response
+
+        from an upstream server.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: The server timed out while processing the request.
+    BadGateway:
+      description: 'Bad Gateway. The API server received an invalid response from an
+
+        upstream server. This is usually temporary.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Upstream service error. Please try again later.
+  parameters:
+    Lang:
+      name: lang
+      in: query
+      required: false
+      description: 'Language code for translated location names in the `location` object.
+
+        Only applies when the lookup is performed via an IP address.
+
+
+        Defaults to `en`. Non-English responses require a paid plan. Free
+
+        plans always receive English regardless of this parameter. Unsupported
+
+        `lang` values return HTTP 400.
+
+        '
+      schema:
+        type: string
+        default: en
+        enum:
+        - en
+        - de
+        - ru
+        - ja
+        - fr
+        - cn
+        - es
+        - cs
+        - it
+        - ko
+        - fa
+        - pt
+    Lat:
+      name: lat
+      in: query
+      required: false
+      description: 'Latitude coordinate of the location. Must be provided together with
+
+        the `long` parameter.
+
+
+        Valid latitude values range from **-90 to 90**.
+
+        '
+      schema:
+        type: number
+        format: float
+      examples:
+        none:
+          summary: Do not provide latitude
+          value: ''
+        newYork:
+          summary: Latitude of New York
+          value: 40.76473
+        brisbane:
+          summary: Latitude of Brisbane
+          value: -27.4748
+    DateEnd:
+      name: dateEnd
+      in: query
+      required: true
+      description: 'End date of the time series range.
+
+
+        Must be in `yyyy-MM-dd` format. The maximum allowed span between
+
+        `dateStart` and `dateEnd` is **90 days**.
+
+        '
+      schema:
+        type: string
+        format: date
+      examples:
+        example:
+          summary: End date
+          value: '2026-04-18'
+    Location:
+      name: location
+      in: query
+      required: false
+      description: 'Address or location name used to determine the astronomical
+
+        information. Typically a city-level or region-level address such as
+
+        `New York, USA` or `London, UK`.
+
+
+        When this parameter is used, the API returns a `location` object
+
+        containing geolocation details alongside the `astronomy` object.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide location
+          value: ''
+        newYork:
+          summary: City address
+          value: New York, USA
+        london:
+          summary: City address
+          value: London, UK
+    TimeZone:
+      name: time_zone
+      in: query
+      required: false
+      description: 'IANA timezone identifier used to convert all astronomical event
+
+        timestamps into the specified timezone.
+
+
+        When provided, all event times (sunrise, sunset, moonrise, moonset,
+
+        twilight phases, solar noon, etc.) are returned as full date-time
+
+        values (`yyyy-MM-dd HH:mm`) instead of time-only values (`HH:mm`),
+
+        and a `time_zone` field is included in the `astronomy` object.
+
+
+        The geographic location used for astronomical calculations remains
+
+        unchanged. Only the timestamp representation is converted.
+
+
+        Example: `Europe/London`, `America/New_York`, `Asia/Karachi`.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Use location's local timezone
+          value: ''
+        london:
+          summary: Convert to London timezone
+          value: Europe/London
+        newYork:
+          summary: Convert to New York timezone
+          value: America/New_York
+    Date:
+      name: date
+      in: query
+      required: false
+      description: 'Date for which to retrieve astronomical information.
+
+
+        Must be in `yyyy-MM-dd` format. Defaults to the current date if
+
+        not provided. All astronomical information is calculated at the
+
+        current time of day at the resolved location.
+
+        '
+      schema:
+        type: string
+        format: date
+      examples:
+        none:
+          summary: Use current date
+          value: ''
+        specific:
+          summary: Specific date
+          value: '2026-03-18'
+    Elevation:
+      name: elevation
+      in: query
+      required: false
+      description: 'Elevation of the location above sea level in meters. Used to
+
+        refine astronomical calculations.
+
+
+        Defaults to `0` if not provided. Maximum allowed value is
+
+        **10,000 meters**. Negative values are treated as `0`.
+
+        '
+      schema:
+        type: number
+        format: double
+        default: 0
+        minimum: 0
+        maximum: 10000
+      examples:
+        none:
+          summary: Use default elevation (sea level)
+          value: 0
+        elevated:
+          summary: Custom elevation
+          value: 1500
+    Ip:
+      name: ip
+      in: query
+      required: false
+      description: 'An IPv4 or IPv6 address used to resolve the location for the
+
+        astronomical lookup. When omitted, the API resolves the public IP
+
+        of the requesting client.
+
+
+        When the lookup is performed using an IP address, the response
+
+        includes additional geolocation fields in the `location` object
+
+        such as continent, country codes, district, and zipcode.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not provide IP address
+          value: ''
+        ipv4:
+          summary: IPv4 address
+          value: 8.8.8.8
+        ipv6:
+          summary: IPv6 address
+          value: 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
+    Long:
+      name: long
+      in: query
+      required: false
+      description: 'Longitude coordinate of the location. Must be provided together with
+
+        the `lat` parameter.
+
+
+        Valid longitude values range from **-180 to 180**.
+
+        '
+      schema:
+        type: number
+        format: float
+      examples:
+        none:
+          summary: Do not provide longitude
+          value: ''
+        newYork:
+          summary: Longitude of New York
+          value: -74.00084
+        brisbane:
+          summary: Longitude of Brisbane
+          value: 153.017
+    DateStart:
+      name: dateStart
+      in: query
+      required: true
+      description: 'Start date of the time series range.
+
+
+        Must be in `yyyy-MM-dd` format. The maximum allowed span between
+
+        `dateStart` and `dateEnd` is **90 days**.
+
+        '
+      schema:
+        type: string
+        format: date
+      examples:
+        example:
+          summary: Start date
+          value: '2026-03-18'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -128,345 +128,36 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    ServiceUnavailable:
-      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
-
-        or overload. Please try again later.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Service temporarily unavailable. Please try again later.
-    InternalServerError:
-      description: 'Internal Server Error. The server encountered an unexpected condition
-
-        that prevented it from fulfilling the request. If the issue persists,
-
-        contact support@ipgeolocation.io.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Something went wrong on the server side.
-    GatewayTimeout:
-      description: 'Gateway Timeout. The API server did not receive a timely response from
-
-        an upstream server.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: The server timed out while processing the request.
-    BadGateway:
-      description: 'Bad Gateway. The API server received an invalid response from an upstream
-
-        server while processing the request. This is usually temporary.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Upstream service error. Please try again later.
-    NotFound:
-      description: "Not found. Returned for one of the following reasons:\n\n- A syntactically valid IPv4 or IPv6 address does not exist in the IPGeolocation database.\n- An IPv4 address or IPv6 address is passed as a path variable\n  instead of as a URL query parameter (e.g., using `/v3/ipgeo/8.8.8.8`\n  instead of `/v3/ipgeo?ip=8.8.8.8`).\n- A non-existent or incorrect API endpoint is called.\n\nInvalid or malformed IPv4, IPv6, or domain input returns HTTP 400 instead.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            ipNotInDatabase:
-              summary: IPv4/IPv6 not found in database
-              value:
-                message: Provided IPv4 or IPv6 address does not exist in our database.
-            ipAsPathVariable:
-              summary: IP passed as path variable instead of query parameter
-              value:
-                message: No endpoint GET /v3/ipgeo/8.8.8.8.
-            wrongEndpoint:
-              summary: Incorrect or non-existent endpoint
-              value:
-                message: No endpoint GET /v3/abuse-invalid.
-    MethodNotAllowed:
-      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used
-
-        to call an endpoint.
-
-
-        Only the **GET** method is supported for the Abuse Contact API endpoint.
-
-
-        Any other HTTP method results in HTTP 405.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            postNotAllowed:
-              summary: POST method used
-              value:
-                message: Request method 'POST' is not supported
-            unsupportedMethod:
-              summary: Unsupported HTTP method
-              value:
-                message: Request method is not supported
-    ClientClosedRequest:
-      description: 'The client closed the connection before the server finished processing the
-
-        request. This usually happens when the client sets a very short request or
-
-        connection timeout. Increase the timeout on the client side.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Client closed the request before the server could respond.
-    Unauthorized:
-      description: 'Unauthorized. Returned for one of the following reasons:
-
-
-        - The `apiKey` URL parameter is missing.
-
-        - An invalid (random or incorrect) API key is provided.
-
-        - The account has been disabled or locked due to abuse or illegal activity.
-
-        - The API request is made using an API key for a database subscription.
-
-        - The API request is made using a free subscription API key.
-
-        - The subscription is in a ''paused'' state.
-
-        - The subscription trial has expired.
-
-        - The account’s active-until date has passed and renewal or upgrade is required.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            missingApiKey:
-              summary: Missing API key
-              value:
-                message: Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login
-            invalidApiKey:
-              summary: Invalid API key
-              value:
-                message: Provided API key is not valid. Contact technical support for assistance at support@ipgeolocation.io
-            lockedAccount:
-              summary: Account locked or disabled
-              value:
-                message: Your account has been locked to use IPGeolocation API. Contact technical support for assistance at support@ipgeolocation.io
-            databaseSubscriptionKey:
-              summary: Database subscription API key used for REST API
-              value:
-                message: 'You cannot query IPGeolocation API on a database plan subscription. '
-            freePlanAccess:
-              summary: Free subscription used for Abuse Contact API
-              value:
-                message: Abuse Lookup is not supported on your current subscription. This feature is available to Paid subscriptions only.
-            pausedSubscription:
-              summary: Subscription is paused
-              value:
-                message: Your subscription has been paused. Please resume your subscription to use IPGeolocation API.
-            expiredSubscription:
-              summary: Subscription expired or trial ended
-              value:
-                message: Your subscription has expired at DATE. Please subscribe to a paid plan to continue using IPGeolocation API without interruption or contact technical support for assistance at support@ipgeolocation.io
-    Locked:
-      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
-
-        network and cannot be looked up.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: '''10.0.0.1'' is a bogon IP address.'
-    BadRequest:
-      description: "Bad request. Returned for one of the following reasons:\n- The provided IPv4 address or IPv6 address is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            invalidIp:
-              summary: Invalid IPv4/IPv6 input
-              value:
-                message: Provided name, service or IP address '999.999.999.999' is not valid.
-            specialCharacters:
-              summary: Special characters in API URL or key
-              value:
-                message: Invalid character found in the request target.
-    HttpVersionNotSupported:
-      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
-
-        version used in the request.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: HTTP version not supported.
-    TooManyRequests:
-      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            usageLimitReached:
-              summary: API usage limit reached
-              value:
-                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-            surchargeLimitReached:
-              summary: Surcharge usage limit reached
-              value:
-                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-  parameters:
-    Output:
-      name: output
-      in: query
-      required: false
-      description: 'Desired response format. Defaults to `json` if not specified. You can also
-
-        control the format using the `Accept` header (`application/json`,
-
-        `application/xml`, or `text/xml`). If both are provided, the `output` parameter
-
-        takes precedence.
-
-
-        If `output` is unknown or unsupported, it is ignored and the response defaults
-
-        to JSON (`application/json`) with HTTP 200.
-
-        '
-      schema:
-        type: string
-        enum:
-        - json
-        - xml
-        default: json
-    Fields:
-      name: fields
-      in: query
-      required: false
-      description: 'Comma-separated list of fields or objects to return. Everything else is omitted.
-
-        The `ip` field is always returned regardless of this filter.
-
-
-        Supports dot-notation for nested fields: `abuse.route`, `abuse.organization`.
-
-
-        If the same field or object is specified in both `fields` and `excludes`, the
-
-        object is still returned, but it will be empty.
-
-
-        If you list both an object key and one of its nested fields separated by comma
-
-        (e.g. `abuse,abuse.name`), the full object is returned.
-
-
-        Unknown field paths are ignored. The API still returns HTTP 200.
-
-
-        Available on all plans including Free.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Return the full response (no field filtering)
-          value: ''
-        countryOnly:
-          summary: Return only the country field
-          value: abuse.country
-        moreThanOneFields:
-          summary: Return specific fields
-          value: abuse.name,abuse.organization
-    Excludes:
-      name: excludes
-      in: query
-      required: false
-      description: 'Comma-separated list of fields or objects to remove from the response. The `ip`
-
-        field cannot be excluded.
-
-
-        Supports dot-notation for nested fields: `abuse.name`.
-
-
-        If the same field or object is specified in both `fields` and `excludes`, the
-
-        object is still returned, but it will be empty.
-
-
-        Unknown fields or object keys in `excludes` are ignored. The API still returns
-
-        HTTP 200.
-
-
-        Available on all plans including Free.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not exclude any fields
-          value: ''
-        excludeObjects:
-          summary: Exclude address and emails
-          value: abuse.address,abuse.emails
-    Ip:
-      name: ip
-      in: query
-      required: false
-      description: 'An IPv4 address or IPv6 address to look up. When omitted, the API
-
-        resolves the public IP of the requesting client. Empty or whitespace-only values
-
-        are treated the same as omission and resolve caller IP. Pass `ip` only once. If multiple `ip` query parameters are sent,
-
-        values may be merged and treated as invalid input (HTTP 400).
-
-        '
-      schema:
-        type: string
-      examples:
-        ipv4:
-          summary: IPv4 address
-          value: 91.128.103.196
-        ipv6:
-          summary: IPv6 address
-          value: 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
   schemas:
+    AbuseLookupResponse:
+      type: object
+      xml:
+        name: LinkedHashMap
+      description: 'Response returned by the IP Abuse Contact API.
+
+
+        Contains the queried IP address and the abuse contact information
+
+        associated with the network responsible for that IP.
+
+
+        The `ip` field is always present. The `abuse` object may be partially
+
+        populated depending on available registry data and field filtering.
+
+        '
+      required:
+      - ip
+      - abuse
+      properties:
+        ip:
+          type: string
+          description: 'The IP address for which abuse contact details are returned.
+
+            '
+          example: 1.0.0.0
+        abuse:
+          $ref: '#/components/schemas/Abuse'
     Abuse:
       type: object
       description: 'Abuse contact information for the network that owns this IP. Costs 1 credit.
@@ -532,35 +223,344 @@ components:
           type: string
           description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
           example: Provided name, service or IP address '999.999.999.999' is not valid.
-    AbuseLookupResponse:
-      type: object
-      xml:
-        name: LinkedHashMap
-      description: 'Response returned by the IP Abuse Contact API.
+  responses:
+    NotFound:
+      description: "Not found. Returned for one of the following reasons:\n\n- A syntactically valid IPv4 or IPv6 address does not exist in the IPGeolocation database.\n- An IPv4 address or IPv6 address is passed as a path variable\n  instead of as a URL query parameter (e.g., using `/v3/ipgeo/8.8.8.8`\n  instead of `/v3/ipgeo?ip=8.8.8.8`).\n- A non-existent or incorrect API endpoint is called.\n\nInvalid or malformed IPv4, IPv6, or domain input returns HTTP 400 instead.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            ipNotInDatabase:
+              summary: IPv4/IPv6 not found in database
+              value:
+                message: Provided IPv4 or IPv6 address does not exist in our database.
+            ipAsPathVariable:
+              summary: IP passed as path variable instead of query parameter
+              value:
+                message: No endpoint GET /v3/ipgeo/8.8.8.8.
+            wrongEndpoint:
+              summary: Incorrect or non-existent endpoint
+              value:
+                message: No endpoint GET /v3/abuse-invalid.
+    HttpVersionNotSupported:
+      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
 
-
-        Contains the queried IP address and the abuse contact information
-
-        associated with the network responsible for that IP.
-
-
-        The `ip` field is always present. The `abuse` object may be partially
-
-        populated depending on available registry data and field filtering.
+        version used in the request.
 
         '
-      required:
-      - ip
-      - abuse
-      properties:
-        ip:
-          type: string
-          description: 'The IP address for which abuse contact details are returned.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: HTTP version not supported.
+    TooManyRequests:
+      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            usageLimitReached:
+              summary: API usage limit reached
+              value:
+                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            surchargeLimitReached:
+              summary: Surcharge usage limit reached
+              value:
+                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+    BadRequest:
+      description: "Bad request. Returned for one of the following reasons:\n- The provided IPv4 address or IPv6 address is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidIp:
+              summary: Invalid IPv4/IPv6 input
+              value:
+                message: Provided name, service or IP address '999.999.999.999' is not valid.
+            specialCharacters:
+              summary: Special characters in API URL or key
+              value:
+                message: Invalid character found in the request target.
+    InternalServerError:
+      description: 'Internal Server Error. The server encountered an unexpected condition
 
-            '
-          example: 1.0.0.0
-        abuse:
-          $ref: '#/components/schemas/Abuse'
+        that prevented it from fulfilling the request. If the issue persists,
+
+        contact support@ipgeolocation.io.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Something went wrong on the server side.
+    MethodNotAllowed:
+      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used
+
+        to call an endpoint.
+
+
+        Only the **GET** method is supported for the Abuse Contact API endpoint.
+
+
+        Any other HTTP method results in HTTP 405.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            postNotAllowed:
+              summary: POST method used
+              value:
+                message: Request method 'POST' is not supported
+            unsupportedMethod:
+              summary: Unsupported HTTP method
+              value:
+                message: Request method is not supported
+    ClientClosedRequest:
+      description: 'The client closed the connection before the server finished processing the
+
+        request. This usually happens when the client sets a very short request or
+
+        connection timeout. Increase the timeout on the client side.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Client closed the request before the server could respond.
+    Locked:
+      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
+
+        network and cannot be looked up.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: '''10.0.0.1'' is a bogon IP address.'
+    ServiceUnavailable:
+      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+
+        or overload. Please try again later.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Service temporarily unavailable. Please try again later.
+    GatewayTimeout:
+      description: 'Gateway Timeout. The API server did not receive a timely response from
+
+        an upstream server.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: The server timed out while processing the request.
+    Unauthorized:
+      description: 'Unauthorized. Returned for one of the following reasons:
+
+
+        - The `apiKey` URL parameter is missing.
+
+        - An invalid (random or incorrect) API key is provided.
+
+        - The account has been disabled or locked due to abuse or illegal activity.
+
+        - The API request is made using an API key for a database subscription.
+
+        - The API request is made using a free subscription API key.
+
+        - The subscription is in a ''paused'' state.
+
+        - The subscription trial has expired.
+
+        - The account’s active-until date has passed and renewal or upgrade is required.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            missingApiKey:
+              summary: Missing API key
+              value:
+                message: Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login
+            invalidApiKey:
+              summary: Invalid API key
+              value:
+                message: Provided API key is not valid. Contact technical support for assistance at support@ipgeolocation.io
+            lockedAccount:
+              summary: Account locked or disabled
+              value:
+                message: Your account has been locked to use IPGeolocation API. Contact technical support for assistance at support@ipgeolocation.io
+            databaseSubscriptionKey:
+              summary: Database subscription API key used for REST API
+              value:
+                message: 'You cannot query IPGeolocation API on a database plan subscription. '
+            freePlanAccess:
+              summary: Free subscription used for Abuse Contact API
+              value:
+                message: Abuse Lookup is not supported on your current subscription. This feature is available to Paid subscriptions only.
+            pausedSubscription:
+              summary: Subscription is paused
+              value:
+                message: Your subscription has been paused. Please resume your subscription to use IPGeolocation API.
+            expiredSubscription:
+              summary: Subscription expired or trial ended
+              value:
+                message: Your subscription has expired at DATE. Please subscribe to a paid plan to continue using IPGeolocation API without interruption or contact technical support for assistance at support@ipgeolocation.io
+    BadGateway:
+      description: 'Bad Gateway. The API server received an invalid response from an upstream
+
+        server while processing the request. This is usually temporary.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Upstream service error. Please try again later.
+  parameters:
+    Output:
+      name: output
+      in: query
+      required: false
+      description: 'Desired response format. Defaults to `json` if not specified. You can also
+
+        control the format using the `Accept` header (`application/json`,
+
+        `application/xml`, or `text/xml`). If both are provided, the `output` parameter
+
+        takes precedence.
+
+
+        If `output` is unknown or unsupported, it is ignored and the response defaults
+
+        to JSON (`application/json`) with HTTP 200.
+
+        '
+      schema:
+        type: string
+        enum:
+        - json
+        - xml
+        default: json
+    Excludes:
+      name: excludes
+      in: query
+      required: false
+      description: 'Comma-separated list of fields or objects to remove from the response. The `ip`
+
+        field cannot be excluded.
+
+
+        Supports dot-notation for nested fields: `abuse.name`.
+
+
+        If the same field or object is specified in both `fields` and `excludes`, the
+
+        object is still returned, but it will be empty.
+
+
+        Unknown fields or object keys in `excludes` are ignored. The API still returns
+
+        HTTP 200.
+
+
+        Available on all plans including Free.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not exclude any fields
+          value: ''
+        excludeObjects:
+          summary: Exclude address and emails
+          value: abuse.address,abuse.emails
+    Ip:
+      name: ip
+      in: query
+      required: false
+      description: 'An IPv4 address or IPv6 address to look up. When omitted, the API
+
+        resolves the public IP of the requesting client. Empty or whitespace-only values
+
+        are treated the same as omission and resolve caller IP. Pass `ip` only once. If multiple `ip` query parameters are sent,
+
+        values may be merged and treated as invalid input (HTTP 400).
+
+        '
+      schema:
+        type: string
+      examples:
+        ipv4:
+          summary: IPv4 address
+          value: 91.128.103.196
+        ipv6:
+          summary: IPv6 address
+          value: 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
+    Fields:
+      name: fields
+      in: query
+      required: false
+      description: 'Comma-separated list of fields or objects to return. Everything else is omitted.
+
+        The `ip` field is always returned regardless of this filter.
+
+
+        Supports dot-notation for nested fields: `abuse.route`, `abuse.organization`.
+
+
+        If the same field or object is specified in both `fields` and `excludes`, the
+
+        object is still returned, but it will be empty.
+
+
+        If you list both an object key and one of its nested fields separated by comma
+
+        (e.g. `abuse,abuse.name`), the full object is returned.
+
+
+        Unknown field paths are ignored. The API still returns HTTP 200.
+
+
+        Available on all plans including Free.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Return the full response (no field filtering)
+          value: ''
+        countryOnly:
+          summary: Return only the country field
+          value: abuse.country
+        moreThanOneFields:
+          summary: Return specific fields
+          value: abuse.name,abuse.organization
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

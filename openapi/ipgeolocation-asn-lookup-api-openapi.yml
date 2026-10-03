@@ -168,42 +168,6 @@ paths:
         dispatcher: FALLBACK
 components:
   parameters:
-    Asn:
-      name: asn
-      in: query
-      required: false
-      description: 'An Autonomous System Number (ASN) to look up.
-
-
-        When provided, the lookup is performed directly using the specified ASN,
-
-        and the `ip` parameter must not be included in the request.
-
-
-        The API returns detailed information about the ASN including the
-
-        organization name, country of registration, ASN type, routing statistics,
-
-        and other related network metadata.
-
-
-        Pass `asn` only once. If multiple `asn` query parameters are sent,
-
-        values may be merged and treated as invalid input (HTTP 400).
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: No ASN provided
-          value: ''
-        numeric:
-          summary: ASN number
-          value: '24940'
-        prefixed:
-          summary: ASN with prefix
-          value: AS24940
     Output:
       name: output
       in: query
@@ -228,97 +192,6 @@ components:
         - json
         - xml
         default: json
-    Include:
-      name: include
-      in: query
-      required: false
-      description: 'Comma-separated list of optional data modules to add to the response. These are
-
-        not returned by default.
-
-
-        Supported ASN modules include:
-
-
-        - `peers`
-
-        - `downstreams`
-
-        - `upstreams`
-
-        - `routes`
-
-        - `whois_response`
-
-
-        If multiple values are provided, they must be comma-separated.
-
-
-        For additional query parameters (`include`, `fields`, `excludes`, `output`),
-
-        unknown values are ignored. The API still returns HTTP 200 and applies only
-
-        recognized values.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Do not include any optional modules
-          value: ''
-        peers:
-          summary: Include ASN peer relationships
-          value: peers
-        multiple:
-          summary: Include peers and downstream connections
-          value: peers,downstreams
-        routingData:
-          summary: Include routing relationships and routes
-          value: peers,downstreams,upstreams,routes
-        all:
-          summary: Include all ASN modules
-          value: peers,downstreams,upstreams,routes,whois_response
-    Fields:
-      name: fields
-      in: query
-      required: false
-      description: 'Comma-separated list of fields or objects to return. Everything else is omitted.
-
-        The `ip` field is always returned when the lookup is performed using an IP address.
-
-
-        Supports dot-notation for nested fields: `asn.organization`, `asn.domain`.
-
-
-        If the same field or object is specified in both `fields` and `excludes`, the
-
-        object is still returned, but it will be empty.
-
-
-        If you list both an object key and one of its nested fields separated by comma
-
-        (e.g. `asn,asn.organization`), the full object is returned.
-
-
-        Unknown field paths are ignored. The API still returns HTTP 200.
-
-
-        Available on all plans including Free.
-
-        '
-      schema:
-        type: string
-      examples:
-        none:
-          summary: Return the full response (no field filtering)
-          value: ''
-        countryOnly:
-          summary: Return only the ASN country field
-          value: asn.country
-        moreThanOneFields:
-          summary: Return specific ASN fields
-          value: asn.organization,asn.country
     Excludes:
       name: excludes
       in: query
@@ -389,57 +262,134 @@ components:
         ipv6:
           summary: IPv6 address
           value: 2607:fb91:16c6:8860:e531:2d1d:4944:6c7c
+    Include:
+      name: include
+      in: query
+      required: false
+      description: 'Comma-separated list of optional data modules to add to the response. These are
+
+        not returned by default.
+
+
+        Supported ASN modules include:
+
+
+        - `peers`
+
+        - `downstreams`
+
+        - `upstreams`
+
+        - `routes`
+
+        - `whois_response`
+
+
+        If multiple values are provided, they must be comma-separated.
+
+
+        For additional query parameters (`include`, `fields`, `excludes`, `output`),
+
+        unknown values are ignored. The API still returns HTTP 200 and applies only
+
+        recognized values.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Do not include any optional modules
+          value: ''
+        peers:
+          summary: Include ASN peer relationships
+          value: peers
+        multiple:
+          summary: Include peers and downstream connections
+          value: peers,downstreams
+        routingData:
+          summary: Include routing relationships and routes
+          value: peers,downstreams,upstreams,routes
+        all:
+          summary: Include all ASN modules
+          value: peers,downstreams,upstreams,routes,whois_response
+    Asn:
+      name: asn
+      in: query
+      required: false
+      description: 'An Autonomous System Number (ASN) to look up.
+
+
+        When provided, the lookup is performed directly using the specified ASN,
+
+        and the `ip` parameter must not be included in the request.
+
+
+        The API returns detailed information about the ASN including the
+
+        organization name, country of registration, ASN type, routing statistics,
+
+        and other related network metadata.
+
+
+        Pass `asn` only once. If multiple `asn` query parameters are sent,
+
+        values may be merged and treated as invalid input (HTTP 400).
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: No ASN provided
+          value: ''
+        numeric:
+          summary: ASN number
+          value: '24940'
+        prefixed:
+          summary: ASN with prefix
+          value: AS24940
+    Fields:
+      name: fields
+      in: query
+      required: false
+      description: 'Comma-separated list of fields or objects to return. Everything else is omitted.
+
+        The `ip` field is always returned when the lookup is performed using an IP address.
+
+
+        Supports dot-notation for nested fields: `asn.organization`, `asn.domain`.
+
+
+        If the same field or object is specified in both `fields` and `excludes`, the
+
+        object is still returned, but it will be empty.
+
+
+        If you list both an object key and one of its nested fields separated by comma
+
+        (e.g. `asn,asn.organization`), the full object is returned.
+
+
+        Unknown field paths are ignored. The API still returns HTTP 200.
+
+
+        Available on all plans including Free.
+
+        '
+      schema:
+        type: string
+      examples:
+        none:
+          summary: Return the full response (no field filtering)
+          value: ''
+        countryOnly:
+          summary: Return only the ASN country field
+          value: asn.country
+        moreThanOneFields:
+          summary: Return specific ASN fields
+          value: asn.organization,asn.country
   responses:
-    ServiceUnavailable:
-      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
-
-        or overload. Please try again later.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Service temporarily unavailable. Please try again later.
-    InternalServerError:
-      description: 'Internal Server Error. The server encountered an unexpected condition
-
-        that prevented it from fulfilling the request. If the issue persists,
-
-        contact support@ipgeolocation.io.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Something went wrong on the server side.
-    GatewayTimeout:
-      description: 'Gateway Timeout. The API server did not receive a timely response from
-
-        an upstream server.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: The server timed out while processing the request.
-    BadGateway:
-      description: 'Bad Gateway. The API server received an invalid response from an upstream
-
-        server while processing the request. This is usually temporary.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Upstream service error. Please try again later.
     NotFound:
       description: "Not found. Returned for one of the following reasons:\n\n- A syntactically valid IPv4, IPv6, or ASN does not exist in the IPGeolocation database.\n- An IPv4, IPv6, or ASN is passed as a path variable\n  instead of as a URL query parameter (e.g., using `/v3/ipgeo/8.8.8.8`\n  instead of `/v3/ipgeo?ip=8.8.8.8`).\n- A non-existent or incorrect API endpoint is called.\n\nInvalid or malformed IPv4, IPv6, or domain input returns HTTP 400 instead.\n"
       content:
@@ -463,6 +413,62 @@ components:
               summary: Incorrect or non-existent endpoint
               value:
                 message: No endpoint GET /v3/asn-invalid.
+    HttpVersionNotSupported:
+      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+
+        version used in the request.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: HTTP version not supported.
+    TooManyRequests:
+      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            usageLimitReached:
+              summary: API usage limit reached
+              value:
+                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            surchargeLimitReached:
+              summary: Surcharge usage limit reached
+              value:
+                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+    BadRequest:
+      description: "Bad request. Returned for one of the following reasons:\n- The provided IPv4 address or IPv6 address is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidIp:
+              summary: Invalid IPv4/IPv6 input
+              value:
+                message: Provided name, service or IP address '999.999.999.999' is not valid.
+            specialCharacters:
+              summary: Special characters in API URL or key
+              value:
+                message: Invalid character found in the request target.
+    InternalServerError:
+      description: 'Internal Server Error. The server encountered an unexpected condition
+
+        that prevented it from fulfilling the request. If the issue persists,
+
+        contact support@ipgeolocation.io.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Something went wrong on the server side.
     MethodNotAllowed:
       description: 'Method Not Allowed. Returned when an unsupported HTTP method is used
 
@@ -502,6 +508,42 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
           example:
             message: Client closed the request before the server could respond.
+    Locked:
+      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
+
+        network and cannot be looked up.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: '''10.0.0.1'' is a bogon IP address.'
+    ServiceUnavailable:
+      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+
+        or overload. Please try again later.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Service temporarily unavailable. Please try again later.
+    GatewayTimeout:
+      description: 'Gateway Timeout. The API server did not receive a timely response from
+
+        an upstream server.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: The server timed out while processing the request.
     Unauthorized:
       description: 'Unauthorized. Returned for one of the following reasons:
 
@@ -556,37 +598,10 @@ components:
               summary: Subscription expired or trial ended
               value:
                 message: Your subscription has expired at DATE. Please subscribe to a paid plan to continue using IPGeolocation API without interruption or contact technical support for assistance at support@ipgeolocation.io
-    Locked:
-      description: 'Locked. The provided IP address belongs to a bogon IP range or a private
+    BadGateway:
+      description: 'Bad Gateway. The API server received an invalid response from an upstream
 
-        network and cannot be looked up.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: '''10.0.0.1'' is a bogon IP address.'
-    BadRequest:
-      description: "Bad request. Returned for one of the following reasons:\n- The provided IPv4 address or IPv6 address is invalid.\n- Special characters such as ( ) [ ] { } | ^ ` are present in the API URL,\n  either in a parameter name or its value (especially in the API key).\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            invalidIp:
-              summary: Invalid IPv4/IPv6 input
-              value:
-                message: Provided name, service or IP address '999.999.999.999' is not valid.
-            specialCharacters:
-              summary: Special characters in API URL or key
-              value:
-                message: Invalid character found in the request target.
-    HttpVersionNotSupported:
-      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
-
-        version used in the request.
+        server while processing the request. This is usually temporary.
 
         '
       content:
@@ -594,22 +609,7 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
           example:
-            message: HTTP version not supported.
-    TooManyRequests:
-      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a Paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached for the subscribed plan.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            usageLimitReached:
-              summary: API usage limit reached
-              value:
-                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-            surchargeLimitReached:
-              summary: Surcharge usage limit reached
-              value:
-                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            message: Upstream service error. Please try again later.
   schemas:
     ASN:
       type: object

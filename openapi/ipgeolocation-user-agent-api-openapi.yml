@@ -401,33 +401,239 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    HttpVersionNotSupported:
+      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+
+        version used in the request.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: HTTP version not supported.
+    ServiceUnavailable:
+      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+
+        or overload. Please try again later.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Service temporarily unavailable. Please try again later.
+    TooManyRequests:
+      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a free subscription.\n- The API usage limit has been reached for a paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            usageLimitReached:
+              summary: API usage limit reached
+              value:
+                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+            surchargeLimitReached:
+              summary: Surcharge usage limit reached
+              value:
+                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+    BadRequest:
+      description: "Bad Request. Returned for one of the following reasons:\n- Special characters ( ) [ ] { } | ^ ` are passed in the API URL (either in parameters or values), especially in the API key.\n- The `uaString` is empty or null when calling `/v3/user-agent`(POST).\n- The `uaStrings` array is empty, or the JSON body does not contain a `uaStrings`\n  field when calling `/v3/user-agent-bulk`.\n- More than 50,000 user agent strings are provided in a single bulk request.\n"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            specialCharacters:
+              summary: Invalid special characters in request
+              value:
+                message: Invalid character found in the request target.
+            emptyUaString:
+              summary: Empty or null user agent string
+              value:
+                message: User-Agent string must not be blank
+            emptyBulkList:
+              summary: Empty uaStrings array or missing field
+              value:
+                message: User-Agent strings for bulk lookup are missing
+            bulkLimitExceeded:
+              summary: More than 50,000 strings in bulk request
+              value:
+                message: No. of lookup queries cannot be more than 50000
+    GatewayTimeout:
+      description: 'Gateway Timeout. The API server did not receive a timely response from
+
+        an upstream server.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: The server timed out while processing the request.
+    MethodNotAllowed:
+      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used.
+
+
+        - `/v3/user-agent` supports GET and POST.
+
+        - `/v3/user-agent-bulk` supports POST only.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            getNotAllowedForBulk:
+              summary: GET used on bulk endpoint
+              value:
+                message: Request method 'GET' is not supported
+    ClientClosedRequest:
+      description: 'Client Closed Request. Returned when the client sets a very short timeout,
+
+        causing the connection to close before the server responds.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Client closed the request before the server could respond.
+    Unauthorized:
+      description: 'Unauthorized. Returned for one of the following reasons:
+
+        - The `apiKey` URL parameter is missing from the request.
+
+        - The provided API key is not valid.
+
+        - The request is made using an API key of a database subscription.
+
+        - The account has been disabled or locked due to illegal activity.
+
+        - Requests are made after the subscription trial has expired.
+
+        - The subscription is paused or not active.
+
+        - The account’s active-until date has passed.
+
+        - A paid feature is accessed using a free subscription.
+
+        - The bulk user agent parsing endpoint is called using a free subscription API key.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            missingApiKey:
+              summary: Missing API key
+              value:
+                message: Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login
+            invalidApiKey:
+              summary: Invalid API key
+              value:
+                message: Provided API key is not valid. Contact technical support for assistance at support@ipgeolocation.io
+            databaseSubscriptionKey:
+              summary: Database subscription API key used
+              value:
+                message: You cannot query IPGeolocation API on a database plan subscription.
+            lockedAccount:
+              summary: Account locked or disabled
+              value:
+                message: Your account has been locked to use IPGeolocation API. Contact technical support for assistance at support@ipgeolocation.io
+            expiredTrial:
+              summary: Subscription trial expired
+              value:
+                message: Your subscription has expired. Please subscribe to a paid plan to continue using IPGeolocation API.
+            inactiveSubscription:
+              summary: Subscription inactive or paused
+              value:
+                message: Your subscription is not active.
+            expiredAccount:
+              summary: Account active-until date passed
+              value:
+                message: Your subscription has been paused. Please resume your subscription to use IPGeolocation API.
+            freePlanPaidFeature:
+              summary: Paid feature accessed on free plan
+              value:
+                message: Custom User-Agent lookup is not supported on your current subscription. This feature is available to all paid subscriptions only.
+            bulkOnFreePlan:
+              summary: Bulk endpoint called with free subscription key
+              value:
+                message: Bulk User-Agent lookup is not supported on your current subscription. This feature is available to all paid subscriptions only.
+    InternalServerError:
+      description: 'Internal Server Error. The server encountered an unexpected condition
+
+        that prevented it from fulfilling the request. If the issue persists,
+
+        contact support@ipgeolocation.io.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Something went wrong on the server side.
+    BadGateway:
+      description: 'Bad Gateway. The API server received an invalid response from an upstream
+
+        server while processing the request. This is usually temporary.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Upstream service error. Please try again later.
   schemas:
-    OperatingSystem:
+    ErrorResponse:
       type: object
-      description: Operating system information extracted from the user agent string.
+      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
+
+        Message text can vary by status and condition; examples in this spec are
+
+        representative, not exhaustive, and should not be treated as stable machine codes.
+
+        '
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
+          example: User agent string is empty or null.
+    Device:
+      type: object
+      description: Hardware device information extracted from the user agent string.
       properties:
         name:
           type: string
-          description: Name of the operating system.
-          example: Mac OS
+          description: Name of the device (e.g. model name or manufacturer).
+          example: Apple Macintosh
         type:
           type: string
-          description: 'Type of the operating system. See possible values in the documentation.
+          description: 'Type of the device. See possible values in the documentation.
 
             '
           example: Desktop
-        version:
+        brand:
           type: string
-          description: Full version string of the operating system. May be `"??"` if unknown.
-          example: 10.11.2
-        version_major:
+          description: Brand or manufacturer of the device.
+          example: Apple
+        cpu:
           type: string
-          description: Major version of the operating system. May be `"??"` if unknown.
-          example: '10.11'
-        build:
-          type: string
-          description: Build identifier of the operating system. May be `"??"` if unknown.
-          example: ??
+          description: CPU architecture or model of the device. May be `"Unknown"`.
+          example: Intel
     UserAgentResponse:
       type: object
       description: 'Parsed user agent details including browser, device, layout engine, and
@@ -492,238 +698,32 @@ components:
           type: string
           description: Major version of the layout engine. May be `"??"` if unknown.
           example: '601'
-    Device:
+    OperatingSystem:
       type: object
-      description: Hardware device information extracted from the user agent string.
+      description: Operating system information extracted from the user agent string.
       properties:
         name:
           type: string
-          description: Name of the device (e.g. model name or manufacturer).
-          example: Apple Macintosh
+          description: Name of the operating system.
+          example: Mac OS
         type:
           type: string
-          description: 'Type of the device. See possible values in the documentation.
+          description: 'Type of the operating system. See possible values in the documentation.
 
             '
           example: Desktop
-        brand:
+        version:
           type: string
-          description: Brand or manufacturer of the device.
-          example: Apple
-        cpu:
+          description: Full version string of the operating system. May be `"??"` if unknown.
+          example: 10.11.2
+        version_major:
           type: string
-          description: CPU architecture or model of the device. May be `"Unknown"`.
-          example: Intel
-    ErrorResponse:
-      type: object
-      description: 'Returned for any non-200 response. Contains only a human-readable `message`.
-
-        Message text can vary by status and condition; examples in this spec are
-
-        representative, not exhaustive, and should not be treated as stable machine codes.
-
-        '
-      required:
-      - message
-      properties:
-        message:
+          description: Major version of the operating system. May be `"??"` if unknown.
+          example: '10.11'
+        build:
           type: string
-          description: Human-readable explanation of what went wrong. Use HTTP status for control flow.
-          example: User agent string is empty or null.
-  responses:
-    ServiceUnavailable:
-      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
-
-        or overload. Please try again later.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Service temporarily unavailable. Please try again later.
-    GatewayTimeout:
-      description: 'Gateway Timeout. The API server did not receive a timely response from
-
-        an upstream server.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: The server timed out while processing the request.
-    InternalServerError:
-      description: 'Internal Server Error. The server encountered an unexpected condition
-
-        that prevented it from fulfilling the request. If the issue persists,
-
-        contact support@ipgeolocation.io.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Something went wrong on the server side.
-    BadRequest:
-      description: "Bad Request. Returned for one of the following reasons:\n- Special characters ( ) [ ] { } | ^ ` are passed in the API URL (either in parameters or values), especially in the API key.\n- The `uaString` is empty or null when calling `/v3/user-agent`(POST).\n- The `uaStrings` array is empty, or the JSON body does not contain a `uaStrings`\n  field when calling `/v3/user-agent-bulk`.\n- More than 50,000 user agent strings are provided in a single bulk request.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            specialCharacters:
-              summary: Invalid special characters in request
-              value:
-                message: Invalid character found in the request target.
-            emptyUaString:
-              summary: Empty or null user agent string
-              value:
-                message: User-Agent string must not be blank
-            emptyBulkList:
-              summary: Empty uaStrings array or missing field
-              value:
-                message: User-Agent strings for bulk lookup are missing
-            bulkLimitExceeded:
-              summary: More than 50,000 strings in bulk request
-              value:
-                message: No. of lookup queries cannot be more than 50000
-    Unauthorized:
-      description: 'Unauthorized. Returned for one of the following reasons:
-
-        - The `apiKey` URL parameter is missing from the request.
-
-        - The provided API key is not valid.
-
-        - The request is made using an API key of a database subscription.
-
-        - The account has been disabled or locked due to illegal activity.
-
-        - Requests are made after the subscription trial has expired.
-
-        - The subscription is paused or not active.
-
-        - The account’s active-until date has passed.
-
-        - A paid feature is accessed using a free subscription.
-
-        - The bulk user agent parsing endpoint is called using a free subscription API key.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            missingApiKey:
-              summary: Missing API key
-              value:
-                message: Please provide an API key (as 'apiKey=YOUR_API_KEY' URL parameter) to use IPGeolocation API. To get your free API Key, sign up at https://app.ipgeolocation.io/login
-            invalidApiKey:
-              summary: Invalid API key
-              value:
-                message: Provided API key is not valid. Contact technical support for assistance at support@ipgeolocation.io
-            databaseSubscriptionKey:
-              summary: Database subscription API key used
-              value:
-                message: You cannot query IPGeolocation API on a database plan subscription.
-            lockedAccount:
-              summary: Account locked or disabled
-              value:
-                message: Your account has been locked to use IPGeolocation API. Contact technical support for assistance at support@ipgeolocation.io
-            expiredTrial:
-              summary: Subscription trial expired
-              value:
-                message: Your subscription has expired. Please subscribe to a paid plan to continue using IPGeolocation API.
-            inactiveSubscription:
-              summary: Subscription inactive or paused
-              value:
-                message: Your subscription is not active.
-            expiredAccount:
-              summary: Account active-until date passed
-              value:
-                message: Your subscription has been paused. Please resume your subscription to use IPGeolocation API.
-            freePlanPaidFeature:
-              summary: Paid feature accessed on free plan
-              value:
-                message: Custom User-Agent lookup is not supported on your current subscription. This feature is available to all paid subscriptions only.
-            bulkOnFreePlan:
-              summary: Bulk endpoint called with free subscription key
-              value:
-                message: Bulk User-Agent lookup is not supported on your current subscription. This feature is available to all paid subscriptions only.
-    HttpVersionNotSupported:
-      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
-
-        version used in the request.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: HTTP version not supported.
-    MethodNotAllowed:
-      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used.
-
-
-        - `/v3/user-agent` supports GET and POST.
-
-        - `/v3/user-agent-bulk` supports POST only.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            getNotAllowedForBulk:
-              summary: GET used on bulk endpoint
-              value:
-                message: Request method 'GET' is not supported
-    ClientClosedRequest:
-      description: 'Client Closed Request. Returned when the client sets a very short timeout,
-
-        causing the connection to close before the server responds.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Client closed the request before the server could respond.
-    BadGateway:
-      description: 'Bad Gateway. The API server received an invalid response from an upstream
-
-        server while processing the request. This is usually temporary.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Upstream service error. Please try again later.
-    TooManyRequests:
-      description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a free subscription.\n- The API usage limit has been reached for a paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached.\n"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            usageLimitReached:
-              summary: API usage limit reached
-              value:
-                message: You have exceeded the limit of PLAN_USAGE_LIMIT requests per PLAN_INERVAL for your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-            surchargeLimitReached:
-              summary: Surcharge usage limit reached
-              value:
-                message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
+          description: Build identifier of the operating system. May be `"??"` if unknown.
+          example: ??
   parameters:
     ApiKey:
       name: apiKey
