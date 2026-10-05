@@ -1,0 +1,12 @@
+{
+ "url": "https://raw.githubusercontent.com/IPGeolocation/openapi/HEAD/timezone-api/openapi.json",
+ "requested_url": "https://raw.githubusercontent.com/IPGeolocation/openapi/HEAD/timezone-api/openapi.json",
+ "status": 200,
+ "content_type": "text/plain; charset=utf-8",
+ "bytes": 77855,
+ "sha256": "4c175f200ee57e04345bf9e690119e6a80675f266fea861eb6d363b0a5e2e85a",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}

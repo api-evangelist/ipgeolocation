@@ -1,0 +1,12 @@
+{
+ "url": "https://raw.githubusercontent.com/IPGeolocation/openapi/HEAD/astronomy-api/openapi.json",
+ "requested_url": "https://raw.githubusercontent.com/IPGeolocation/openapi/HEAD/astronomy-api/openapi.json",
+ "status": 200,
+ "content_type": "text/plain; charset=utf-8",
+ "bytes": 72211,
+ "sha256": "fffff2ed92c37cae775bda1105c236dacfce4778ed69e5998f0a1403708e7b7a",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
