@@ -401,6 +401,21 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    ApiKey:
+      name: apiKey
+      in: query
+      required: false
+      description: 'Your IPGeolocation API key. Required unless Request Origin (CORS) authentication
+
+        is configured for your domain on a paid plan. Get your key from the
+
+        [IPGeolocation dashboard](https://app.ipgeolocation.io/).
+
+        '
+      schema:
+        type: string
+      example: YOUR_API_KEY
   schemas:
     Device:
       type: object
@@ -424,32 +439,28 @@ components:
           type: string
           description: CPU architecture or model of the device. May be `"Unknown"`.
           example: Intel
-    OperatingSystem:
+    Engine:
       type: object
-      description: Operating system information extracted from the user agent string.
+      description: Layout engine information extracted from the user agent string.
       properties:
         name:
           type: string
-          description: Name of the operating system.
-          example: Mac OS
+          description: Name of the layout engine (e.g. `"AppleWebKit"`, `"Blink"`, `"Gecko"`).
+          example: AppleWebKit
         type:
           type: string
-          description: 'Type of the operating system. See possible values in the documentation.
+          description: 'Type of the layout engine. See possible values in the documentation.
 
             '
-          example: Desktop
+          example: Browser
         version:
           type: string
-          description: Full version string of the operating system. May be `"??"` if unknown.
-          example: 10.11.2
+          description: Full version string of the layout engine. May be `"??"` if unknown.
+          example: 601.3.9
         version_major:
           type: string
-          description: Major version of the operating system. May be `"??"` if unknown.
-          example: '10.11'
-        build:
-          type: string
-          description: Build identifier of the operating system. May be `"??"` if unknown.
-          example: ??
+          description: Major version of the layout engine. May be `"??"` if unknown.
+          example: '601'
     ErrorResponse:
       type: object
       description: 'Returned for any non-200 response. Contains only a human-readable `message`.
@@ -508,29 +519,57 @@ components:
           $ref: '#/components/schemas/Engine'
         operating_system:
           $ref: '#/components/schemas/OperatingSystem'
-    Engine:
+    OperatingSystem:
       type: object
-      description: Layout engine information extracted from the user agent string.
+      description: Operating system information extracted from the user agent string.
       properties:
         name:
           type: string
-          description: Name of the layout engine (e.g. `"AppleWebKit"`, `"Blink"`, `"Gecko"`).
-          example: AppleWebKit
+          description: Name of the operating system.
+          example: Mac OS
         type:
           type: string
-          description: 'Type of the layout engine. See possible values in the documentation.
+          description: 'Type of the operating system. See possible values in the documentation.
 
             '
-          example: Browser
+          example: Desktop
         version:
           type: string
-          description: Full version string of the layout engine. May be `"??"` if unknown.
-          example: 601.3.9
+          description: Full version string of the operating system. May be `"??"` if unknown.
+          example: 10.11.2
         version_major:
           type: string
-          description: Major version of the layout engine. May be `"??"` if unknown.
-          example: '601'
+          description: Major version of the operating system. May be `"??"` if unknown.
+          example: '10.11'
+        build:
+          type: string
+          description: Build identifier of the operating system. May be `"??"` if unknown.
+          example: ??
   responses:
+    ServiceUnavailable:
+      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+
+        or overload. Please try again later.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Service temporarily unavailable. Please try again later.
+    BadGateway:
+      description: 'Bad Gateway. The API server received an invalid response from an upstream
+
+        server while processing the request. This is usually temporary.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: Upstream service error. Please try again later.
     Unauthorized:
       description: 'Unauthorized. Returned for one of the following reasons:
 
@@ -606,6 +645,18 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
           example:
             message: Client closed the request before the server could respond.
+    HttpVersionNotSupported:
+      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+
+        version used in the request.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            message: HTTP version not supported.
     TooManyRequests:
       description: "Too Many Requests. Returned for one of the following reasons:\n- The API usage limit has been reached for a free subscription.\n- The API usage limit has been reached for a paid subscription with\n  status 'past due', 'deleted', or 'trial expired'.\n- The surcharge API usage limit has been reached.\n"
       content:
@@ -621,24 +672,6 @@ components:
               summary: Surcharge usage limit reached
               value:
                 message: You have reached the surcharge amount limit of PLAN_USAGE_LIMIT_AND_SURCHARGE_LIMIT on your subscribed PLAN plan. Please throttle your requests or upgrade your plan to continue using IPGeolocation API without interruption.
-    MethodNotAllowed:
-      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used.
-
-
-        - `/v3/user-agent` supports GET and POST.
-
-        - `/v3/user-agent-bulk` supports POST only.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            getNotAllowedForBulk:
-              summary: GET used on bulk endpoint
-              value:
-                message: Request method 'GET' is not supported
     BadRequest:
       description: "Bad Request. Returned for one of the following reasons:\n- Special characters ( ) [ ] { } | ^ ` are passed in the API URL (either in parameters or values), especially in the API key.\n- The `uaString` is empty or null when calling `/v3/user-agent`(POST).\n- The `uaStrings` array is empty, or the JSON body does not contain a `uaStrings`\n  field when calling `/v3/user-agent-bulk`.\n- More than 50,000 user agent strings are provided in a single bulk request.\n"
       content:
@@ -676,18 +709,6 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
           example:
             message: Something went wrong on the server side.
-    BadGateway:
-      description: 'Bad Gateway. The API server received an invalid response from an upstream
-
-        server while processing the request. This is usually temporary.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Upstream service error. Please try again later.
     GatewayTimeout:
       description: 'Gateway Timeout. The API server did not receive a timely response from
 
@@ -700,45 +721,24 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
           example:
             message: The server timed out while processing the request.
-    ServiceUnavailable:
-      description: 'Service Unavailable. The API is temporarily unavailable due to maintenance
+    MethodNotAllowed:
+      description: 'Method Not Allowed. Returned when an unsupported HTTP method is used.
 
-        or overload. Please try again later.
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: Service temporarily unavailable. Please try again later.
-    HttpVersionNotSupported:
-      description: 'HTTP Version Not Supported. The server does not support the HTTP protocol
+        - `/v3/user-agent` supports GET and POST.
 
-        version used in the request.
+        - `/v3/user-agent-bulk` supports POST only.
 
         '
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-          example:
-            message: HTTP version not supported.
-  parameters:
-    ApiKey:
-      name: apiKey
-      in: query
-      required: false
-      description: 'Your IPGeolocation API key. Required unless Request Origin (CORS) authentication
-
-        is configured for your domain on a paid plan. Get your key from the
-
-        [IPGeolocation dashboard](https://app.ipgeolocation.io/).
-
-        '
-      schema:
-        type: string
-      example: YOUR_API_KEY
+          examples:
+            getNotAllowedForBulk:
+              summary: GET used on bulk endpoint
+              value:
+                message: Request method 'GET' is not supported
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
