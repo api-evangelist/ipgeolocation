@@ -943,3 +943,9 @@ components:
 externalDocs:
   description: IPGeolocation IP Security API documentation
   url: https://ipgeolocation.io/documentation/ip-security-api.html
+x-provenance:
+  method: harvested
+  publisher: IPGeolocation.io
+  source: https://raw.githubusercontent.com/IPGeolocation/openapi/HEAD/ip-security-api/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

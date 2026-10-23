@@ -1527,3 +1527,9 @@ components:
 externalDocs:
   description: IPGeolocation Date, Time & Timezone API documentation
   url: https://ipgeolocation.io/documentation/timezone-api.html
+x-provenance:
+  method: harvested
+  publisher: IPGeolocation.io
+  source: https://raw.githubusercontent.com/IPGeolocation/openapi/HEAD/timezone-api/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

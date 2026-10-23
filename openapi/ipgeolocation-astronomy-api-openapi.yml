@@ -1534,3 +1534,9 @@ components:
 externalDocs:
   description: IPGeolocation Astronomy API documentation
   url: https://ipgeolocation.io/documentation/astronomy-api.html
+x-provenance:
+  method: harvested
+  publisher: IPGeolocation.io
+  source: https://raw.githubusercontent.com/IPGeolocation/openapi/HEAD/astronomy-api/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

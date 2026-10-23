@@ -787,3 +787,9 @@ components:
 externalDocs:
   description: IPGeolocation ASN Lookup API documentation
   url: https://ipgeolocation.io/documentation/asn-api.html
+x-provenance:
+  method: harvested
+  publisher: IPGeolocation.io
+  source: https://raw.githubusercontent.com/IPGeolocation/openapi/HEAD/asn-api/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
