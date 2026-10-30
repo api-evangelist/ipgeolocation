@@ -1,4 +1,4 @@
-# IPGeolocation.io (ipgeolocation)
+# IPGeolocation.io
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,209 +66,256 @@
 
 IPGeolocation.io is a multi-product IP intelligence platform offering IP geolocation, IP security/threat intelligence, ASN lookup, abuse contact, timezone, astronomy (sunrise, sunset, moon phase, celestial position), and user-agent parsing APIs. All endpoints are served under https://api.ipgeolocation.io with API-key authentication. The free plan offers 1,000 credits/day; paid plans (Starter through Premium) scale from 150K to 5M requests/month, with custom Enterprise pricing on top.
 
-**APIs.json:** [https://ipgeolocation.io/](https://ipgeolocation.io/)
+**Areas:** Geocoding · IP Geolocation · IP Intelligence · IP Security · ASN Lookup · Abuse Contact · Timezone · Astronomy · User Agent · Threat Intelligence · Public APIs
 
-## Tags
+## IPGeolocation.io on APIs.io
 
-- Geocoding
-- IP Geolocation
-- IP Intelligence
-- IP Security
-- ASN Lookup
-- Abuse Contact
-- Timezone
-- Astronomy
-- User Agent
-- Threat Intelligence
-- Public APIs
+Everything profiled for IPGeolocation.io is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/ipgeolocation/](https://apis.io/providers/ipgeolocation/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (7)
 
-- **Created:** 2026-05-28
-- **Modified:** 2026-05-29
+- [IPGeolocation.io ASN Lookup API](https://apis.io/apis/ipgeolocation/ipgeolocation-asn-lookup-api/) — API endpoint for retrieving Autonomous System Number (ASN) information associated with IPv4 addresses, IPv6 addresses, or specific ASN numbers. The response…
+- [IPGeolocation.io Astronomy API](https://apis.io/apis/ipgeolocation/ipgeolocation-astronomy-api/) — API endpoints for retrieving astronomical information for a given location, including sunrise and sunset times, moonrise and moonset times, twilight phases,…
+- [IPGeolocation.io IP Abuse Contact API](https://apis.io/apis/ipgeolocation/ipgeolocation-ip-abuse-contact-api/) — API endpoint for retrieving abuse contact information associated with IPv4 and IPv6 addresses. The response contains registry-based contact details for…
+- [IPGeolocation.io IP Geolocation API](https://apis.io/apis/ipgeolocation/ipgeolocation-ip-geolocation-api/) — IP geolocation API endpoints for looking up geographic location, network routing, ASN ownership, company attribution, timezone, currency, security threat…
+- [IPGeolocation.io IP Security API](https://apis.io/apis/ipgeolocation/ipgeolocation-ip-security-api/) — IP security intelligence endpoints used to detect VPNs, proxies, Tor exit nodes, relay networks, bot activity, spam activity, cloud providers, and other…
+- [IPGeolocation.io Timezone API](https://apis.io/apis/ipgeolocation/ipgeolocation-timezone-api/) — API endpoints for retrieving current date, time, and timezone information for a given input such as an IANA timezone identifier, geographic coordinates,…
+- [IPGeolocation.io User Agent API](https://apis.io/apis/ipgeolocation/ipgeolocation-user-agent-api/) — API endpoints for parsing user agent strings into browser, device, layout engine, and operating system details. Supports single lookups via request header,…
 
-## APIs
+### Published properties
 
-### IP Geolocation
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Resolve any IPv4 / IPv6 address or domain name to a rich geolocation payload — country, region, city, lat/long, postal, currency, ASN, company, timezone, security signals, abuse contact, and user-agent enrichment. Includes single lookup (GET /v3/ipgeo) and bulk lookup (POST /v3/ipgeo-bulk, up to 50,000 entries per request, paid plans).
+#### Agentic access (1)
 
-- **Human URL:** [https://ipgeolocation.io/ip-location-api.html](https://ipgeolocation.io/ip-location-api.html)
-- **Base URL:** `https://api.ipgeolocation.io`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Ipgeolocation Agentic Access](https://apis.io/agentic-access/ipgeolocation/ipgeolocation-agentic-access/)
 
-- IP Geolocation
-- Geocoding
-- IP Intelligence
+#### JSON Schema (47)
 
-#### Properties
+The data models the API reads and writes.
 
-- [Documentation](https://ipgeolocation.io/documentation/ip-geolocation-api.html)
-- [OpenAPI](openapi/ipgeolocation-ip-location-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/ipgeolocation-ip-location.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ipgeolocation-ip-location.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-php)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-python-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-java-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-javascript-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-typescript-sdk)
-- [SDK](https://www.npmjs.com/package/ip-geolocation-api-javascript-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-ruby-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-go-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-dotnet-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-kotlin-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-swift-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-rust-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-cpp-sdk)
-- [SDK](https://github.com/IPGeolocation/ip-geolocation-api-jquery-sdk)
+- [Abuse](https://apis.io/schemas/ipgeolocation/abuse-abuse/)
+- [AbuseLookupResponse](https://apis.io/schemas/ipgeolocation/abuse-abuse-lookup-response/)
+- [ASN](https://apis.io/schemas/ipgeolocation/asn-asn/)
+- [ASNConnection](https://apis.io/schemas/ipgeolocation/asn-asnconnection/)
+- [ASNLookupResponse](https://apis.io/schemas/ipgeolocation/asn-asnlookup-response/)
+- [AstronomyData](https://apis.io/schemas/ipgeolocation/astronomy-astronomy-data/)
+- [AstronomyLookupResponse](https://apis.io/schemas/ipgeolocation/astronomy-astronomy-lookup-response/)
+- [AstronomyTimeSeriesEntry](https://apis.io/schemas/ipgeolocation/astronomy-astronomy-time-series-entry/)
+- [AstronomyTimeSeriesResponse](https://apis.io/schemas/ipgeolocation/astronomy-astronomy-time-series-response/)
+- [Location](https://apis.io/schemas/ipgeolocation/astronomy-location/)
+- [TwilightPhase](https://apis.io/schemas/ipgeolocation/astronomy-twilight-phase/)
+- [Abuse](https://apis.io/schemas/ipgeolocation/ip-location-abuse/)
+- [Asn](https://apis.io/schemas/ipgeolocation/ip-location-asn/)
+- [BulkGeolocationErrorItem](https://apis.io/schemas/ipgeolocation/ip-location-bulk-geolocation-error-item/)
+- [BulkGeolocationRequest](https://apis.io/schemas/ipgeolocation/ip-location-bulk-geolocation-request/)
+- [BulkGeolocationResponseItem](https://apis.io/schemas/ipgeolocation/ip-location-bulk-geolocation-response-item/)
+- [BulkGeolocationSuccessItem](https://apis.io/schemas/ipgeolocation/ip-location-bulk-geolocation-success-item/)
+- [Company](https://apis.io/schemas/ipgeolocation/ip-location-company/)
+- [CountryMetadata](https://apis.io/schemas/ipgeolocation/ip-location-country-metadata/)
+- [Currency](https://apis.io/schemas/ipgeolocation/ip-location-currency/)
+- [DstTransition](https://apis.io/schemas/ipgeolocation/ip-location-dst-transition/)
+- [IpGeolocationResponse](https://apis.io/schemas/ipgeolocation/ip-location-ip-geolocation-response/)
+- [Location](https://apis.io/schemas/ipgeolocation/ip-location-location/)
+- [Network](https://apis.io/schemas/ipgeolocation/ip-location-network/)
+- [Security](https://apis.io/schemas/ipgeolocation/ip-location-security/)
+- …and 22 more published on APIs.io
 
-### IP Security
+#### JSON Structure (47)
 
-Threat-intelligence API that detects VPNs, proxies, Tor exit nodes, relay networks, bot activity, spam sources, residential proxies, cloud and data-center IPs, and assigns a threat score. Single lookup (GET /v3/security) and bulk lookup (POST /v3/security-bulk).
+Data models expressed in JSON Structure.
 
-- **Human URL:** [https://ipgeolocation.io/ip-security-api.html](https://ipgeolocation.io/ip-security-api.html)
-- **Base URL:** `https://api.ipgeolocation.io`
+- [Abuse Abuse Lookup Response Structure](https://apis.io/json-structure/ipgeolocation/abuse-abuse-lookup-response-structure/)
+- [Abuse Abuse Structure](https://apis.io/json-structure/ipgeolocation/abuse-abuse-structure/)
+- [Asn Asn Structure](https://apis.io/json-structure/ipgeolocation/asn-asn-structure/)
+- [Asn Asnconnection Structure](https://apis.io/json-structure/ipgeolocation/asn-asnconnection-structure/)
+- [Asn Asnlookup Response Structure](https://apis.io/json-structure/ipgeolocation/asn-asnlookup-response-structure/)
+- [Astronomy Astronomy Data Structure](https://apis.io/json-structure/ipgeolocation/astronomy-astronomy-data-structure/)
+- [Astronomy Astronomy Lookup Response Structure](https://apis.io/json-structure/ipgeolocation/astronomy-astronomy-lookup-response-structure/)
+- [Astronomy Astronomy Time Series Entry Structure](https://apis.io/json-structure/ipgeolocation/astronomy-astronomy-time-series-entry-structure/)
+- [Astronomy Astronomy Time Series Response Structure](https://apis.io/json-structure/ipgeolocation/astronomy-astronomy-time-series-response-structure/)
+- [Astronomy Location Structure](https://apis.io/json-structure/ipgeolocation/astronomy-location-structure/)
+- [Astronomy Twilight Phase Structure](https://apis.io/json-structure/ipgeolocation/astronomy-twilight-phase-structure/)
+- [Ip Location Abuse Structure](https://apis.io/json-structure/ipgeolocation/ip-location-abuse-structure/)
+- [Ip Location Asn Structure](https://apis.io/json-structure/ipgeolocation/ip-location-asn-structure/)
+- [Ip Location Bulk Geolocation Error Item Structure](https://apis.io/json-structure/ipgeolocation/ip-location-bulk-geolocation-error-item-structure/)
+- [Ip Location Bulk Geolocation Request Structure](https://apis.io/json-structure/ipgeolocation/ip-location-bulk-geolocation-request-structure/)
+- [Ip Location Bulk Geolocation Response Item Structure](https://apis.io/json-structure/ipgeolocation/ip-location-bulk-geolocation-response-item-structure/)
+- [Ip Location Bulk Geolocation Success Item Structure](https://apis.io/json-structure/ipgeolocation/ip-location-bulk-geolocation-success-item-structure/)
+- [Ip Location Company Structure](https://apis.io/json-structure/ipgeolocation/ip-location-company-structure/)
+- [Ip Location Country Metadata Structure](https://apis.io/json-structure/ipgeolocation/ip-location-country-metadata-structure/)
+- [Ip Location Currency Structure](https://apis.io/json-structure/ipgeolocation/ip-location-currency-structure/)
+- [Ip Location Dst Transition Structure](https://apis.io/json-structure/ipgeolocation/ip-location-dst-transition-structure/)
+- [Ip Location Ip Geolocation Response Structure](https://apis.io/json-structure/ipgeolocation/ip-location-ip-geolocation-response-structure/)
+- [Ip Location Location Structure](https://apis.io/json-structure/ipgeolocation/ip-location-location-structure/)
+- [Ip Location Network Structure](https://apis.io/json-structure/ipgeolocation/ip-location-network-structure/)
+- [Ip Location Security Structure](https://apis.io/json-structure/ipgeolocation/ip-location-security-structure/)
+- …and 22 more published on APIs.io
 
-#### Tags
+#### JSON-LD (8)
 
-- IP Security
-- Threat Intelligence
-- VPN Detection
-- Proxy Detection
+Linked-data contexts for the provider's vocabulary.
 
-#### Properties
+- [Ipgeolocation Abuse Context](https://apis.io/jsonld/ipgeolocation/ipgeolocation-abuse-context/)
+- [Ipgeolocation Asn Context](https://apis.io/jsonld/ipgeolocation/ipgeolocation-asn-context/)
+- [Ipgeolocation Astronomy Context](https://apis.io/jsonld/ipgeolocation/ipgeolocation-astronomy-context/)
+- [Ipgeolocation Context](https://apis.io/jsonld/ipgeolocation/ipgeolocation-context/)
+- [Ipgeolocation Ip Location Context](https://apis.io/jsonld/ipgeolocation/ipgeolocation-ip-location-context/)
+- [Ipgeolocation Security Context](https://apis.io/jsonld/ipgeolocation/ipgeolocation-security-context/)
+- [Ipgeolocation Timezone Context](https://apis.io/jsonld/ipgeolocation/ipgeolocation-timezone-context/)
+- [Ipgeolocation User Agent Context](https://apis.io/jsonld/ipgeolocation/ipgeolocation-user-agent-context/)
 
-- [Documentation](https://ipgeolocation.io/documentation/ip-security-api.html)
-- [OpenAPI](openapi/ipgeolocation-security-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/ipgeolocation-security.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ipgeolocation-security.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Vocabulary (1)
 
-### ASN Lookup
+The provider's domain terms, defined.
 
-Resolve an IP or ASN to Autonomous System metadata — owning organization, country, type (ISP, hosting, education, government), IP ranges, peers, and upstream/downstream relationships.
+- [Ipgeolocation Vocabulary](https://apis.io/vocabularies/ipgeolocation/ipgeolocation-vocabulary/)
 
-- **Human URL:** [https://ipgeolocation.io/asn-api.html](https://ipgeolocation.io/asn-api.html)
-- **Base URL:** `https://api.ipgeolocation.io`
+#### Examples (45)
 
-#### Tags
+Example requests and responses.
 
-- ASN Lookup
-- Network Intelligence
+- [Abuse Abuse Example](https://apis.io/examples/ipgeolocation/abuse-abuse-example/)
+- [Abuse Abuse Lookup Response Example](https://apis.io/examples/ipgeolocation/abuse-abuse-lookup-response-example/)
+- [Asn Asn Example](https://apis.io/examples/ipgeolocation/asn-asn-example/)
+- [Asn Asnconnection Example](https://apis.io/examples/ipgeolocation/asn-asnconnection-example/)
+- [Asn Asnlookup Response Example](https://apis.io/examples/ipgeolocation/asn-asnlookup-response-example/)
+- [Astronomy Astronomy Data Example](https://apis.io/examples/ipgeolocation/astronomy-astronomy-data-example/)
+- [Astronomy Astronomy Lookup Response Example](https://apis.io/examples/ipgeolocation/astronomy-astronomy-lookup-response-example/)
+- [Astronomy Astronomy Time Series Entry Example](https://apis.io/examples/ipgeolocation/astronomy-astronomy-time-series-entry-example/)
+- [Astronomy Astronomy Time Series Response Example](https://apis.io/examples/ipgeolocation/astronomy-astronomy-time-series-response-example/)
+- [Astronomy Location Example](https://apis.io/examples/ipgeolocation/astronomy-location-example/)
+- [Astronomy Twilight Phase Example](https://apis.io/examples/ipgeolocation/astronomy-twilight-phase-example/)
+- [Ip Location Abuse Example](https://apis.io/examples/ipgeolocation/ip-location-abuse-example/)
+- [Ip Location Asn Example](https://apis.io/examples/ipgeolocation/ip-location-asn-example/)
+- [Ip Location Bulk Geolocation Error Item Example](https://apis.io/examples/ipgeolocation/ip-location-bulk-geolocation-error-item-example/)
+- [Ip Location Bulk Geolocation Request Example](https://apis.io/examples/ipgeolocation/ip-location-bulk-geolocation-request-example/)
+- [Ip Location Bulk Geolocation Success Item Example](https://apis.io/examples/ipgeolocation/ip-location-bulk-geolocation-success-item-example/)
+- [Ip Location Company Example](https://apis.io/examples/ipgeolocation/ip-location-company-example/)
+- [Ip Location Country Metadata Example](https://apis.io/examples/ipgeolocation/ip-location-country-metadata-example/)
+- [Ip Location Currency Example](https://apis.io/examples/ipgeolocation/ip-location-currency-example/)
+- [Ip Location Dst Transition Example](https://apis.io/examples/ipgeolocation/ip-location-dst-transition-example/)
+- [Ip Location Ip Geolocation Response Example](https://apis.io/examples/ipgeolocation/ip-location-ip-geolocation-response-example/)
+- [Ip Location Location Example](https://apis.io/examples/ipgeolocation/ip-location-location-example/)
+- [Ip Location Network Example](https://apis.io/examples/ipgeolocation/ip-location-network-example/)
+- [Ip Location Security Example](https://apis.io/examples/ipgeolocation/ip-location-security-example/)
+- [Ip Location Time Zone Example](https://apis.io/examples/ipgeolocation/ip-location-time-zone-example/)
+- …and 20 more published on APIs.io
 
-#### Properties
+#### Collections (14)
 
-- [Documentation](https://ipgeolocation.io/documentation/asn-api.html)
-- [OpenAPI](openapi/ipgeolocation-asn-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/ipgeolocation-asn.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ipgeolocation-asn.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Postman and Open Collection request collections.
 
-### IP Abuse Contact
+- [IPGeolocation.io: Abuse Contact API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-abuse/)
+- [IPGeolocation.io: ASN Lookup API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-asn/)
+- [IPGeolocation.io: Abuse Contact ASN Lookup API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-asn-lookup-api/)
+- [IPGeolocation.io: Astronomy API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-astronomy/)
+- [IPGeolocation.io: Abuse Contact ASN Lookup Astronomy API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-astronomy-api/)
+- [IPGeolocation.io: Abuse Contact ASN Lookup IP Abuse Contact API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-ip-abuse-contact-api/)
+- [IPGeolocation.io: Abuse Contact ASN Lookup IP Geolocation API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-ip-geolocation-api/)
+- [IPGeolocation.io: IPGeolocation API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-ip-location/)
+- [IPGeolocation.io: Abuse Contact ASN Lookup IP Security API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-ip-security-api/)
+- [IPGeolocation.io: IP Security API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-security/)
+- [IPGeolocation.io: Date, Time & Timezone API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-timezone/)
+- [IPGeolocation.io: Abuse Contact ASN Lookup Timezone API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-timezone-api/)
+- [IPGeolocation.io: User Agent API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-user-agent/)
+- [IPGeolocation.io: Abuse Contact ASN Lookup User Agent API](https://apis.io/collections/ipgeolocation/open-ipgeolocation-user-agent-api/)
 
-Registry-sourced abuse contact information for any IPv4/IPv6 address — RIR, abuse email, network/route, country, and registry metadata. Useful for security operations, takedown workflows, and compliance.
+#### Governance rules (2)
 
-- **Human URL:** [https://ipgeolocation.io/abuse-contact-api.html](https://ipgeolocation.io/abuse-contact-api.html)
-- **Base URL:** `https://api.ipgeolocation.io`
+Spectral rulesets for the provider's contracts.
 
-#### Tags
+- [IPGeolocation.io — jsonschema rules](https://apis.io/rules/ipgeolocation/ipgeolocation-jsonschema-spectral-rules/)
+- [IPGeolocation.io API Rules](https://apis.io/rules/ipgeolocation/ipgeolocation-rules/)
 
-- Abuse Contact
-- Security Operations
+#### Security (2)
 
-#### Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [Documentation](https://ipgeolocation.io/documentation/abuse-contact-api.html)
-- [OpenAPI](openapi/ipgeolocation-abuse-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/ipgeolocation-abuse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ipgeolocation-abuse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Ipgeolocation Authentication](https://apis.io/security/ipgeolocation/ipgeolocation-authentication/)
+- [Ipgeolocation Domain Security](https://apis.io/security/ipgeolocation/ipgeolocation-domain-security/)
 
-### Timezone
+#### Plans and pricing (1)
 
-Resolve a timezone from name (e.g. America/New_York), IP address, or lat/long coordinates. Returns current date/time, UTC offset, DST status, DST transition windows, airport/locode metadata, and a convert endpoint to translate a timestamp between two zones.
+Published plans, tiers and prices.
 
-- **Human URL:** [https://ipgeolocation.io/timezone-api.html](https://ipgeolocation.io/timezone-api.html)
-- **Base URL:** `https://api.ipgeolocation.io`
+- [Ipgeolocation Plans Pricing](https://apis.io/plans/ipgeolocation/ipgeolocation-plans-pricing/)
 
-#### Tags
+#### Rate limits (1)
 
-- Timezone
-- Date and Time
+Published request limits.
 
-#### Properties
+- [Ipgeolocation Rate Limits](https://apis.io/rate-limits/ipgeolocation/ipgeolocation-rate-limits/)
 
-- [Documentation](https://ipgeolocation.io/documentation/timezone-api.html)
-- [OpenAPI](openapi/ipgeolocation-timezone-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/ipgeolocation-timezone.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ipgeolocation-timezone.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### FinOps (1)
 
-### Astronomy
+What the API costs to run, by operation.
 
-Astronomy data for any date and location — sunrise, sunset, solar noon, civil/nautical/astronomical twilight phases, moonrise, moonset, moon phase, illumination percentage, and altitude/azimuth for the sun and moon. Includes a /astronomy/timeSeries endpoint for date ranges.
+- [Ipgeolocation Finops](https://apis.io/finops/ipgeolocation/ipgeolocation-finops/)
 
-- **Human URL:** [https://ipgeolocation.io/astronomy-api.html](https://ipgeolocation.io/astronomy-api.html)
-- **Base URL:** `https://api.ipgeolocation.io`
+## Where to find this API
 
-#### Tags
-
-- Astronomy
-- Sunrise Sunset
-- Moon Phase
-
-#### Properties
-
-- [Documentation](https://ipgeolocation.io/documentation/astronomy-api.html)
-- [OpenAPI](openapi/ipgeolocation-astronomy-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/ipgeolocation-astronomy.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ipgeolocation-astronomy.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### User Agent
-
-Parse a User-Agent string into browser, engine, device, and operating system attributes. Supports single (GET /v3/user-agent — header-based, or POST /v3/user-agent — body-based) and bulk lookup (POST /v3/user-agent-bulk).
-
-- **Human URL:** [https://ipgeolocation.io/user-agent-api.html](https://ipgeolocation.io/user-agent-api.html)
-- **Base URL:** `https://api.ipgeolocation.io`
-
-#### Tags
-
-- User Agent
-- Device Detection
-- Browser Detection
-
-#### Properties
-
-- [Documentation](https://ipgeolocation.io/documentation/user-agent-api.html)
-- [OpenAPI](openapi/ipgeolocation-user-agent-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/ipgeolocation-user-agent.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ipgeolocation-user-agent.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://ipgeolocation.io/)
 - [Documentation](https://ipgeolocation.io/documentation)
 - [Pricing](https://ipgeolocation.io/pricing.html)
-- [Sign Up](https://app.ipgeolocation.io/signup)
-- [Dashboard](https://app.ipgeolocation.io/)
-- [GitHub Organization](https://github.com/IPGeolocation)
-- [OpenAPI](https://github.com/IPGeolocation/openapi) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [C L I](https://github.com/IPGeolocation/cli)
-- [Tools](https://github.com/IPGeolocation/ipgeolocation-io-mcp)
-- [Tools](https://github.com/IPGeolocation/steampipe-plugin-ipgeolocation)
-- [Tools](https://github.com/IPGeolocation/vercel-middleware)
-- [Tools](https://github.com/IPGeolocation/n8n-nodes-ipgeolocation)
-- [Tools](https://github.com/IPGeolocation/google-sheets)
-- [Tools](https://github.com/IPGeolocation/es-ipgeo-ingest-processor)
-- [Tools](https://github.com/IPGeolocation/mmdbio)
-- [Tools](https://github.com/IPGeolocation/ipgeolocation-database-reader)
-- [Integrations](https://github.com/IPGeolocation/splunk-docs)
-- [Public APIs Listing](https://github.com/public-apis/public-apis)
-- [Plans](plans/ipgeolocation-plans-pricing.yml)
-- [Rate Limits](rate-limits/ipgeolocation-rate-limits.yml)
-- [Fin Ops](finops/ipgeolocation-finops.yml)
-- [Vocabulary](vocabulary/ipgeolocation-vocabulary.yml)
-- [Rules](rules/ipgeolocation-rules.yml)
-- [JSON-LD](json-ld/ipgeolocation-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+- [Blog](https://ipgeolocation.io/blog)
+- [GitHub](https://github.com/IPGeolocation)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 43.0** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 59.6 |
+| Contract governance | 27.3 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 48.8 |
+| Access clarity | 31.6 |
+
+**Agent readiness 30.2** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/ipgeolocation/](https://apis.io/providers/ipgeolocation/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for IPGeolocation.io: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/ipgeolocation/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
